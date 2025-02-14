@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Headers" %>
+
+<h1>Headers</h1>
+
+<div id="headers">
+  <% @headers.each do |header| %>
+    <%= render header %>
+    <p>
+      <%= link_to "Show this header", header %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New header", new_header_path %>

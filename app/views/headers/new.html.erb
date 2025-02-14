@@ -1,0 +1,11 @@
+<% content_for :title, "New header" %>
+
+<h1>New header</h1>
+
+<%= render "form", header: @header %>
+
+<br>
+
+<div>
+  <%= link_to "Back to headers", headers_path %>
+</div>

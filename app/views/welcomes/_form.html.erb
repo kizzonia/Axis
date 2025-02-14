@@ -1,0 +1,92 @@
+<%= form_with(model: welcome) do |form| %>
+  <% if welcome.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(welcome.errors.count, "error") %> prohibited this welcome from being saved:</h2>
+
+      <ul>
+        <% welcome.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :logoimg, style: "display: block" %>
+    <%= form.text_field :logoimg %>
+  </div>
+
+  <div>
+    <%= form.label :desc, style: "display: block" %>
+    <%= form.text_field :desc %>
+  </div>
+
+  <div>
+    <%= form.label :whatsapp, style: "display: block" %>
+    <%= form.text_field :whatsapp %>
+  </div>
+
+  <div>
+    <%= form.label :ig, style: "display: block" %>
+    <%= form.text_field :ig %>
+  </div>
+
+  <div>
+    <%= form.label :ln, style: "display: block" %>
+    <%= form.text_field :ln %>
+  </div>
+
+  <div>
+    <%= form.label :section, style: "display: block" %>
+    <%= form.text_field :section %>
+  </div>
+
+  <div>
+    <%= form.label :link, style: "display: block" %>
+    <%= form.text_field :link %>
+  </div>
+
+  <div>
+    <%= form.label :footer, style: "display: block" %>
+    <%= form.text_field :footer %>
+  </div>
+
+  <div>
+    <%= form.label :phone, style: "display: block" %>
+    <%= form.text_field :phone %>
+  </div>
+
+  <div>
+    <%= form.label :address, style: "display: block" %>
+    <%= form.text_field :address %>
+  </div>
+
+  <div>
+    <%= form.label :twitter, style: "display: block" %>
+    <%= form.text_field :twitter %>
+  </div>
+
+  <div>
+    <%= form.label :email, style: "display: block" %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div>
+    <%= form.label :youtube, style: "display: block" %>
+    <%= form.text_field :youtube %>
+  </div>
+
+  <div>
+    <%= form.label :telegram, style: "display: block" %>
+    <%= form.text_field :telegram %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
