@@ -26,7 +26,7 @@ gem "sassc-rails"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 gem 'seed_dump'
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 6.0'
 gem 'postmark-rails'
 gem 'simple_form_fancy_uploads'
 # Use Active Storage variant
