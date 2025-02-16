@@ -1,4 +1,4 @@
-// Sass variable overrides must be declared before loading up Active Admin's styles.
+// SASS variable overrides must be declared before loading up Active Admin's styles.
 //
 // To view the variables that Active Admin provides, take a look at
 // `app/assets/stylesheets/active_admin/mixins/_variables.scss` in the
@@ -9,9 +9,31 @@
 
 // Active Admin's got SASS!
 @import "active_admin/mixins";
-@import "active_admin/base";
-
-// Overriding any non-variable Sass must be done after the fact.
+//@import "active_admin/base";
+@import "arctic_admin/base";
+//@import "active_admin_flat_skin";
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css');
+// Overriding any non-variable SASS must be done after the fact.
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+
+
+@import 'activeadmin/quill_editor/quill.snow';
+@import 'activeadmin/quill_editor_input';
+.quill_editor {
+  width: 70% !important;
+  overflow: hidden;
+  margin-left: 20%;
+}
+@media (max-width: 480px) {
+  .quill_editor  {
+    width: 80% !important;
+    overflow: hidden;
+  }
+
+}

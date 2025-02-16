@@ -1,0 +1,45 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+
+ */
+
+@import "bootstrap";
+@import "jquery-ui.min";
+// @import "fontawesome";
+@import "bootstrap-select.min";
+@import "menu";
+@import "ace-responsive-menu";
+@import "megadropdown";
+@import "simplebar.min";
+@import "progressbar";
+@import "flaticon";
+// @import "animate";
+@import "slider";
+@import "magnific-popup";
+@import "timecounter";
+@import "googlemap";
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500&amp;family=Poppins:wght@700&amp;display=swap');
+@import "style";
+
+@import "responsive";
+@font-face {
+	font-family: 'Flaticon';
+	src:url('<%= asset_path ('fonts/flaticon60b2.eot') %>');
+	src:url('<%= asset_path ('fonts/flaticon60b2.eot') %>') format('embedded-opentype'),
+		url(' <%= asset_path ('fonts/flaticon60b2.woff2') %>') format('woff2'),
+		url(' <%= asset_path ('fonts/flaticon60b2.woff') %>') format('woff'),
+		url(' <%= asset_path ('fonts/flaticon60b2.ttf') %>') format('truetype'),
+		url('<%= asset_path ('fonts/flaticon60b2.svg') %>') format('svg');
+	font-weight: normal;
+	font-style: normal;
+};

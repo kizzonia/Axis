@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_14_183536) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_16_115646) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,6 +23,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_14_183536) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_abouts_on_slug"
+  end
+
+  create_table "accounts", force: :cascade do |t|
+    t.string "balance"
+    t.string "slug"
+    t.string "revenue"
+    t.boolean "status"
+    t.boolean "verify"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_accounts_on_slug"
+    t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
   create_table "active_admin_comments", force: :cascade do |t|
@@ -116,6 +129,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_14_183536) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "helps", force: :cascade do |t|
+    t.string "title"
+    t.string "sub_title"
+    t.string "body"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_helps_on_slug"
+  end
+
   create_table "services", force: :cascade do |t|
     t.string "title"
     t.string "slug"
@@ -159,4 +182,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_14_183536) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "accounts", "users"
 end

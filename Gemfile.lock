@@ -483,7 +483,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  activeadmin
+  activeadmin (= 3.2.5)
   activeadmin_quill_editor
   arctic_admin
   bootsnap

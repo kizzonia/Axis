@@ -46,7 +46,7 @@ gem "simple_form"
 gem 'friendly_id'
 # gem 'jquery-rails'
 gem 'sitemap_generator'
-gem 'activeadmin'
+gem 'activeadmin', '3.2.5'
 gem 'toastr-rails'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]

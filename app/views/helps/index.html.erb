@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Helps" %>
+
+<h1>Helps</h1>
+
+<div id="helps">
+  <% @helps.each do |help| %>
+    <%= render help %>
+    <p>
+      <%= link_to "Show this help", help %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New help", new_help_path %>

@@ -14,10 +14,24 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://atugatran.github.io/FontAwesome6Pro/css/all.min.css" >
+
   </head>
 
   <body>
+    <div class="wrapper ovh">
+      <div class="preloader"></div>
+   <%= render "shared/header" %>
+
+   <%= render "shared/headermobile" %>
+
     <%= yield %>
+  <%= render "shared/footer" %>
+    </div>
+
+
+    <%= javascript_include_tag 'script' %>
+
   </body>
 </html>

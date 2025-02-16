@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
+  resources :helps
+  resources :accounts
+  devise_for :users
+  # devise_for :admin_users, ActiveAdmin::Devise.config
+  # ActiveAdmin.routes(self)
   resources :faqs
   resources :feedbacks
   resources :blogs
@@ -11,6 +15,11 @@ Rails.application.routes.draw do
   resources :headers
   resources :welcomes
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  authenticated :user do
+    root 'accounts#index', as: "authenticated_root"
+  end
+    root "welcomes#index"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
