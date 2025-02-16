@@ -81,6 +81,6 @@ test:
 production:
   <<: *default
   database: axis_production
-    url: <%= ENV['DATABASE_URL'] %>
+  url: <%= ENV['DATABASE_URL'] %>
   username: axis
   password: <%= ENV["AXIS_DATABASE_PASSWORD"] %>
