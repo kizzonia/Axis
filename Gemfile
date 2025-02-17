@@ -32,7 +32,7 @@ gem 'simple_form_fancy_uploads'
 # Use Active Storage variant
 gem 'image_processing', '~> 1.2'
 gem 'dotenv-rails'
-gem 'carrierwave', '~> 2.1'
+gem 'carrierwave', '~> 2.2.3'
 gem "mini_magick"
 gem "fog-aws"
 gem 'arctic_admin'
