@@ -15,5 +15,11 @@ ActiveAdmin.register Faq do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-
+  form(:html => { :multipart => true }) do |f|
+    f.inputs do
+      f.input :title
+      f.input :body,  as: :quill_editor
+    end
+    f.actions
+  end
 end

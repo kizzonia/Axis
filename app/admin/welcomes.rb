@@ -6,7 +6,8 @@ ActiveAdmin.register Welcome do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :title, :logoimg, :desc, :whatsapp, :ig, :ln, :section, :link, :footer, :phone, :address, :twitter, :email, :youtube, :telegram
+  permit_params :title, :logoimg, :desc, :whatsapp, :ig, :ln, :section, :link, :footer, :phone, :address,
+   :twitter, :email, :youtube, :telegram
   #
   # or
   #
@@ -15,5 +16,30 @@ ActiveAdmin.register Welcome do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+  form(:html => { :multipart => true }) do |f|
+     f.inputs do
+      f.input :address, placeholder: "address"
+      f.input :logoimg, as: :file
+      f.input :footer, label: "email", placeholder: "footer description email"
+      f.input :phone, placeholder: "phone"
+      f.input :title, placeholder: "Seo tilte"
+      f.input :desc, placeholder: "Google Description"
 
+      f.input :section, placeholder: "Quick Summary & SEO"
+
+      para "Social Handles"
+
+      f.input :whatsapp
+      f.input :ig, placeholder: "Instagram"
+      f.input :ln, placeholder: "LinkedIn"
+      f.input :twitter
+      f.input :youtube
+      f.input :telegram
+
+
+
+
+    end
+    f.actions
+  end
 end
