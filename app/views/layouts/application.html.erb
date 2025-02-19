@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Axis" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%  @welcomes = Welcome.all  %>
+    <% @welcomes.take(1).each do |w| %>
+    <title><%=w.title %> || <%= w.desc %> </title>
+    <meta name="description" content="<%= w.desc %>">
+    <meta name="keywords" content="<%= w.section %>">
+
+    <% end %>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>

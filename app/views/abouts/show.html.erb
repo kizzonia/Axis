@@ -1,10 +1,16 @@
-<p style="color: green"><%= notice %></p>
+<section class="inner_page_breadcrumb">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-6">
+        <div class="breadcrumb_content">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><%= link_to root_path do %>Home<% end %></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="#">About Us</a></li>
+            <li class="breadcrumb-item"><%= @about.title %></li>
 
-<%= render @about %>
-
-<div>
-  <%= link_to "Edit this about", edit_about_path(@about) %> |
-  <%= link_to "Back to abouts", abouts_path %>
-
-  <%= button_to "Destroy this about", @about, method: :delete %>
-</div>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
