@@ -1,32 +1,38 @@
-<div id="<%= dom_id service %>">
-  <p>
-    <strong>Title:</strong>
-    <%= service.title %>
-  </p>
+  <!-- About Us & Team -->
+  <section class="our-team pt0 pb40">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-lg-3">
+          <div class="aboutus_thumb">
+            <img class="img-fluid w100" src="<%= asset_path "about/1.jpg" %>" alt="About1 Image">
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="aboutus_thumb">
+            <img class="img-fluid w100" src="<%= asset_path "about/2.jpg" %>" alt="About2 Image">
+          </div>
+          <div class="aboutus_thumb">
+            <img class="img-fluid w100" src="<%= asset_path "about/3.jpg" %>" alt="About3 Image">
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="aboutus_thumb">
+            <img class="img-fluid w100" src="<%= asset_path "about/4.jpg "%>" alt="About4 Image">
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="aboutus_thumb">
+            <img class="img-fluid w100" src="<%= asset_path "about/5.jpg"%>" alt="About5 Image">
+          </div>
+          <div class="aboutus_thumb">
+            <img class="img-fluid w100" src="<%= asset_path "about/6.jpg "%>" alt="About6 Image">
+          </div>
+        </div>
+      </div>
 
-  <p>
-    <strong>Slug:</strong>
-    <%= service.slug %>
-  </p>
+  <%= render "shared/services" %>
 
-  <p>
-    <strong>Icon:</strong>
-    <%= service.icon %>
-  </p>
 
-  <p>
-    <strong>Sub title:</strong>
-    <%= service.sub_title %>
-  </p>
 
-  <p>
-    <strong>Body:</strong>
-    <%= service.body %>
-  </p>
-
-  <p>
-    <strong>Serviceimg:</strong>
-    <%= service.serviceimg %>
-  </p>
-
-</div>
+      </div>
+      </section>

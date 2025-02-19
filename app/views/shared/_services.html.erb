@@ -1,4 +1,57 @@
 <!-- Headphones  -->
+<% if Service.exists? %>
+<section class="electornics-product pt-0 pb60">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="main-title text-center text-sm-start mb10">
+          <h2>What We Offer</h2>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="main-title text-center text-sm-end mb-5">
+          <%= link_to services_path, class: "title_more_btn mt10" do %>
+          See All<% end %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-5">
+        <div class="banner_home6_style large_style p-4 mb30">
+          <div class="thumb"><img class="img-fluid float-end dn-500" src="<%= asset_path "banner/headphone-buds-large.png"%>" alt="smartwatch"></div>
+        <% @headers.each do |a| %>
+          <div class="details col p-4">
+            <h3 class="title"><%= a.services_title %></h3>
+
+            <p class="para heading-color"><strong><%= a.services_sub_title %></strong></p>
+            <a href="" class="shop_btn">Shop Now</a>
+          </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-xl-7">
+        <div class="row">
+          <% @services.take(6).each do |a| %>
+          <div class="col-sm-6 col-lg-4">
+            <div class="banner_home6_style p-4 mb30">
+              <div class="thumb">
+                <!-- <img class="img-fluid float-end mt-3" src="images/shop-items/home6-hp1.png" alt="EarPhone"> -->
+              </div>
+              <div class=" ">
+                <h5 class="title"><%= link_to a.title, a %></h5>
+                <p class="para"><%= a.sub_title %></p>
+              </div>
+            </div>
+
+          </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<% else %>
 <section class="electornics-product pt-0 pb60">
   <div class="container">
     <div class="row">
@@ -22,7 +75,7 @@
 
             <p class="para heading-color"><strong>Sell Smarter, Grow Faster with Axis Marketplace
 
-Expand your business and reach millions of potential buyers on one of the fastest-growing e-commerce platforms.</strong></p>
+          Expand your business and reach millions of potential buyers on one of the fastest-growing e-commerce platforms.</strong></p>
             <a href="page-shop-list-v1.html" class="shop_btn">Shop Now</a>
           </div>
         </div>
@@ -94,3 +147,4 @@ Expand your business and reach millions of potential buyers on one of the fastes
     </div>
   </div>
 </section>
+<% end %>
