@@ -197,7 +197,9 @@
       <% end %>
       <a href="#" class="header_iconbox_home3_style cart-filter-btn">
         <div class="d-block d-flex align-items-center">
-          <div class="icon me-2"><img src="<%= asset_path "icons/flaticon-shopping-cart.svg"%>" alt=""><span class="badge bgc-thm rounded-circle">2</span></div>
+          <div class="icon me-2">
+            <img src="<%= asset_path "icons/flaticon-shopping-cart.svg" %>" alt="">
+            <span class="badge bgc-thm rounded-circle">2</span></div>
           <div class="details ms-2">
             <h5 class="title">Cart</h5>
           </div>
@@ -211,7 +213,7 @@
 </div>
 
 <!-- Color Ful Line -->
-<div class="h2 bgszc bgrn bgpc dn-992" style="background-image: url('<%=asset_path "background/home3-line.png"%>');"></div>
+<div class="h2 bgszc bgrn bgpc dn-992" style="background-image: url('<%= asset_path "background/home3-line.png"%>');"></div>
 
 <!-- Main Header Nav -->
 <header class="header-nav menu_style_home_one menu_home5_style athome3 main-menu bb1">
@@ -959,62 +961,75 @@
       <!-- Responsive Menu Structure-->
       <ul id="respMenu" class="ace-responsive-menu menu_list_custom_code wa pl200" data-menu-style="horizontal">
 
-        <li> <a href="#"><span class="title">Home</span></a>
+        <li> <%= link_to root_path do %>><span class="title">Home</span> <% end %>
 
         </li>
         <li class="megamenu_style"> <a href="#"><span class="title">Shop</span></a>
           <ul class="row dropdown-megamenu">
 
-
+            <% if user_signed_in? %>
             <li class="col mega_menu_list">
               <h4 class="title">User Dashboard</h4>
               <ul>
-                <li><a href="page-dashboard.html">Dashboard</a></li>
-                <li><a href="page-dashboard-order.html">Orders</a></li>
-                <li><a href="page-dashboard-address.html">Addresses</a></li>
-                <li><a href="page-dashboard-account-details.html">Account Details</a></li>
-                <li><a href="page-dashboard-wish-list.html">Wishlist</a></li>
+                <li> <%= link_to accounts_path do %>Dashboard<% end %>> </li>
+                <li><a href="#">Orders</a></li>
+                <li><a href="#">Addresses</a></li>
+                <li><%= link_to edit_user_registration_path do %>Account Details<%end %></li>
               </ul>
             </li>
+            <% end %>
+
+
             <li class="col mega_menu_list">
               <h4 class="title">Shop</h4>
               <ul>
-                <li><a href="page-shop-cart.html">Cart</a></li>
-                <li><a href="page-shop-checkout.html">Checkout</a></li>
-                <li><a href="page-shop-order-received.html">Wishlist</a></li>
-                <li><a href="page-account-details.html">My account</a></li>
+                <li><a href="#">Cart</a></li>
+                <li><a href="#">Checkout</a></li>
+                <li><a href="#">Wishlist</a></li>
               </ul>
             </li>
             <li class="col mega_menu_list">
               <h4 class="title">Knowledge Base</h4>
               <ul>
-                <li><a href="page-shop-single-v1.html">About Us</a></li>
-                <li><a href="page-shop-single-v2.html">Services</a></li>
-                <li><a href="page-shop-single-v3.html">Deals</a></li>
-                <li><a href="page-shop-single-v4.html">Terms & Conditions</a></li>
-                <li><a href="page-shop-single-v5.html">Privacy Policy</a></li>
+                <% @abouts.each do |a| %>
+                <li><%= link_to a.title, a %></li>
+                <% end %>
+
+              </ul>
+            </li>
+            <li class="col mega_menu_list">
+              <h4 class="title">Services & Features</h4>
+              <ul>
+                <% @services.each do |a| %>
+                <li><%= link_to a.title, a %></li>
+                <% end %>
+                <% @features.each do |a| %>
+                <li><%= link_to a.title, a %></li>
+                <% end %>
+
               </ul>
             </li>
           </ul>
         </li>
         <li> <a href="#"><span class="title">Help & Contact</span></a>
           <ul>
-            <li><a href="page-about.html">Help Center</a></li>
-            <li><a href="page-about.html">Contact Us</a></li>
+            <li><%= link_to "Help Center", helps_path %></li>
 
-
-            <li><a href="page-become-vendor.html">Tickets</a></li>
-            <li><a href="page-faq.html">Faq</a></li>
-            <li><a href="page-terms.html">Terms and Conditions</a></li>
+            <li><%= link_to "Faq", faqs_path %></li>
           </ul>
         </li>
-        <li> <a href="#"><span class="title">Blog & Community</span></a>
+        <li> <%= link_to blogs_path do %><span class="title">Blog & Community</span><% end %>
 
         </li>
       </ul>
       <ul id="respMenu2" class="ace-responsive-menu widget_menu_home2 wa" data-menu-style="horizontal">
-        <li class="list-inline-item list_c"><a href="#">Become a Vendor</a></li>
+        <% if user_signed_in? %>
+        <li class="list-inline-item list_c"><%= link_to accounts_path do %>Goto Dashboard<% end %></li>
+        <li class="list-inline-item list_c"><a href="#">Add New Products</a></li>
+        <% else %>
+        <li class="list-inline-item list_c"><%= link_to new_user_registration_path do %>Become a Vendor<% end %></li>
         <li class="list-inline-item list_c"><a href="#">Merchant Pro</a></li>
+        <% end %>
       </ul>
     </div>
   </nav>
@@ -1023,7 +1038,7 @@
 <!-- Body Ovelay Behind Sidebar -->
 <div class="hiddenbar-body-ovelay"></div>
 <!-- Sign In Hiddn SideBar -->
-<div class="signin-hidden-sbar">
+<!-- <div class="signin-hidden-sbar">
   <div class="hsidebar-header">
     <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
     <h4 class="title">Sign-In</h4>
@@ -1061,7 +1076,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!--End Sign In Hiddn SideBar -->
 <!-- Your Cart Hiddn SideBar -->
 <div class="cart-hidden-sbar">
