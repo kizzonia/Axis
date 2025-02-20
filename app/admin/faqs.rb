@@ -1,5 +1,5 @@
 ActiveAdmin.register Faq do
-  menu label: "Faq's", parent: "Pages"
+  menu label: "Faq's", parent: "Support Admin"
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

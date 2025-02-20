@@ -1,4 +1,5 @@
 class BannersController < InheritedResources::Base
+  before_action :authenticate_adminuser!, except: [:index, :show]
 
   private
 

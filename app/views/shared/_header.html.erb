@@ -11,9 +11,9 @@
       <div class="col-xl-6">
         <div class="header_top_widget">
           <ul class="delivery_widget mt-1 mb-0 d-flex justify-content-center justify-content-xl-start">
-            <!-- <li class="me-4"><a href="#"><span class="flaticon-delivery-truck pe-2 mt-1"></span>Free Delivery</a></li>
-            <li class="me-4"><a href="#">Returns Policy</a></li>
-          </ul> -->
+            <li class="me-4">                <div id="google_translate_element"></div>
+</li>
+          </ul>
         </div>
       </div>
       <div class="col-xl-6">
@@ -28,7 +28,6 @@
                   <option>Turkey / Lira</option>
                   <option>England / Pound</option>
                 </select> -->
-                <div id="google_translate_element"></div>
               </div>
             </li>
             <li class="me-2">
@@ -56,9 +55,9 @@
               <li class="me-2"><a href="#">Follow Us</a></li>
               <% @welcomes.each do |a| %>
               <li class="me-2"><a href="<%= a.ig %>"><i class="fab fa-instagram"></i></a></li>
-              <li class="me-2"><a href="<%= a.twitter %>"><i class="fab fa-twitter"></i></a></li>
+              <li class="me-2"><a href="<%= a.twitter %>"><i class="fab fa-snapchat"></i></a></li>
               <li class="me-2"><a href="<%= a.telegram %>"><i class="fab fa-telegram"></i></a></li>
-              <li class="me-0"><a href="<%= a.ln %>"><i class="fab fa-linkedin-in"></i></a></li>
+              <li class="me-0"><a href="<%= a.ln %>"><i class="fab fa-facebook"></i></a></li>
               <% end %>
             </ul>
           </div>

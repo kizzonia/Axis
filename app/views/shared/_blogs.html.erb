@@ -1,19 +1,3 @@
-<section class="inner_page_breadcrumb">
-  <div class="container">
-    <div class="row">
-      <div class="col-xl-6">
-        <div class="breadcrumb_content">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><%= link_to root_path do %>Home<% end %></li>
-            <li class="breadcrumb-item"><%= link_to "Blogs", blogs_path %></li>
-
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <% if Blog.exists? %>
 <section class="our-blog pt20 pb70">
   <div class="container">
@@ -34,7 +18,7 @@
     </div>
     <div class="row">
 
-      <% @blogs.each do |a| %>
+      <% @blogs.take(3).each do |a| %>
       <div class="col-md-6 col-xl-4">
         <div class="for_blog">
           <div class="thumb">

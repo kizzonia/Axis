@@ -31,8 +31,8 @@ ActiveAdmin.register Welcome do
 
       f.input :whatsapp
       f.input :ig, placeholder: "Instagram"
-      f.input :ln, placeholder: "LinkedIn"
-      f.input :twitter
+      f.input :ln, placeholder: "facebook", label: "facebook"
+      f.input :twitter, label: "Snapchat"
       f.input :youtube
       f.input :telegram
 
