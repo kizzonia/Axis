@@ -4,7 +4,7 @@
           <div class="col-xl-6">
             <div class="breadcrumb_content">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><%= link_to root_path do %>Home<% end %></li>
+                <li class="breadcrumb-item"><%= link_to root_path do %> Home <% end %></li>
                 <li class="breadcrumb-item active" aria-current="page"><a href="#">About Us</a></li>
                 <li class="breadcrumb-item"><%= @about.title %></li>
 
@@ -39,7 +39,7 @@
               <div class="widget_list">
                 <ul class="list_details">
                   <% @abouts.each do |a| %>
-                  <li><%= a.title, a %></li>
+                  <li> <%= link_to a.title, a %> </li>
                   <% end %>
 
                 </ul>
@@ -50,7 +50,7 @@
               <div class="widget_list">
                 <ul class="list_details">
                   <% @services.each do |a| %>
-                  <li><%= a.title, a %></li>
+                  <li> <%= link_to a.title, a %> </li>
                   <% end %>
 
                 </ul>

@@ -46,8 +46,8 @@
   </head>
 
   <body>
-    <% @abouts = About.all.order('created_at DESC') %>
-    <% @services = Service.all.order('created_at DESC') %>
+    <% @abouts = About.all.order('created_at ASC') %>
+    <% @services = Service.all.order('created_at ASC') %>
     <% @welcomes = Welcome.all %>
     <% @headers = Header.all %>
     <% @blogs = Blog.all %>
