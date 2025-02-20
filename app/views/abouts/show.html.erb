@@ -56,22 +56,7 @@
                 </ul>
               </div>
             </div>
-            <div class="sidebar_feature_listing">
-              <h4 class="title">Recent Posts</h4>
-    `
-              `<% @blogs.take(5).each do |a| %>
-              <div class="d-flex">
-                <div class="flex-shrink-0">
-                  <img class="align-self-start mr-3" src="<%= asset_path "blog/s1.jpg" %>" alt="s1.jpg">
-                </div>
-                <div class="flex-grow-1 ms-3">
-                  <h5 class="post_title"><%= link_to a.title, a %></h5>
-                  <a href="#"><%= a.created_at %>
-                  </a>
-                </div>
-              </div>
-              <% end %>
-            </div>
+
 
           </div>
           <div class="col-lg-8 col-xl-9">

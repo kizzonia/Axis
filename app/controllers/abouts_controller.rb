@@ -9,6 +9,9 @@ class AboutsController < InheritedResources::Base
   end
 
   def show
+    @abouts = About.all
+    @services = Service.all
+
       @headers = Header.all
       @blogs = Blog.all.order('created_at DESC')
       @feedbacks = Feedback.all.order('created_at DESC')
