@@ -1,10 +1,78 @@
-<p style="color: green"><%= notice %></p>
+<section class="inner_page_breadcrumb">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-6">
+        <div class="breadcrumb_content">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><%= link_to root_path do %> Home <% end %></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="#">Services</a></li>
+            <li class="breadcrumb-item"><%= @service.title %></li>
 
-<%= render @service %>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<div>
-  <%= link_to "Edit this service", edit_service_path(@service) %> |
-  <%= link_to "Back to services", services_path %>
+<!-- Our Terms & Conditions -->
+<section class="blog_post_container pt30 pb80">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 m-auto">
+        <div class="main-title text-center">
+          <h2 class="title"><%= @service.title %></h2>
+        </div>
+      </div>
+    </div>
+    <div class="row mt50">
+      <div class="col-lg-4 col-xl-3">
+        <div class="sidebar_search_widget mb30">
+          <div class="blog_search_widget">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username">
+            </div>
+          </div>
+        </div>
+        <div class="terms_condition_widget">
+          <h4 class="title">More Links</h4>
+          <div class="widget_list">
+            <ul class="list_details">
+              <% @abouts.each do |a| %>
+              <li> <%= link_to a.title, a %> </li>
+              <% end %>
 
-  <%= button_to "Destroy this service", @service, method: :delete %>
-</div>
+            </ul>
+          </div>
+        </div>
+        <div class="terms_condition_widget">
+          <h4 class="title">Services</h4>
+          <div class="widget_list">
+            <ul class="list_details">
+              <% @services.each do |a| %>
+              <li> <%= link_to a.title, a %> </li>
+              <% end %>
+
+            </ul>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="col-lg-8 col-xl-9">
+        <div class="row">
+          <div class="col-xl-10 m-auto pt30">
+            <div class="main-title">
+              <h2><%= @service.title %></h2>
+            </div>
+            <div class="about_us_content mb30 mt15">
+              <h4 class="title"><%= @service.sub_title %>.</h4>
+              <p><%= raw(@service.body) %></p>
+            </div>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

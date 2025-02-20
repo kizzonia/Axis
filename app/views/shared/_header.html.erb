@@ -991,7 +991,7 @@
             <li class="col mega_menu_list">
               <h4 class="title">Knowledge Base</h4>
               <ul>
-                <% @abouts.each do |a| %>
+                <% @abouts.take(4).each do |a| %>
                 <li><%= link_to a.title, a %></li>
                 <% end %>
 
