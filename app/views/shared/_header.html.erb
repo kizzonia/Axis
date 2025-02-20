@@ -56,7 +56,6 @@
               <% @welcomes.each do |a| %>
               <li class="me-2"><a href="<%= a.ig %>"><i class="fab fa-instagram"></i></a></li>
               <li class="me-2"><a href="<%= a.twitter %>"><i class="fab fa-snapchat"></i></a></li>
-              <li class="me-2"><a href="<%= a.telegram %>"><i class="fab fa-telegram"></i></a></li>
               <li class="me-0"><a href="<%= a.ln %>"><i class="fab fa-facebook"></i></a></li>
               <% end %>
             </ul>
@@ -74,7 +73,9 @@
       <div class="col-lg-2 col-xl-2 col-xxl-2">
         <div class="header_top_logo_home3">
           <div class="logo" >
+            <%= link_to root_path do %>
             <img src="<%= asset_path "logo2.svg" %>" style="width:94px;" alt=""><span class="text-thm">.</span></div>
+            <% end %>
           </div>
         </div>
         <div class="col-lg-5 col-xl-6 col-xxl-7">
@@ -960,7 +961,7 @@
       <!-- Responsive Menu Structure-->
       <ul id="respMenu" class="ace-responsive-menu menu_list_custom_code wa pl200" data-menu-style="horizontal">
 
-        <li> <%= link_to root_path do %>><span class="title">Home</span> <% end %>
+        <li> <%= link_to root_path do %><span class="title">Home</span> <% end %>
 
         </li>
         <li class="megamenu_style"> <a href="#"><span class="title">Shop</span></a>
