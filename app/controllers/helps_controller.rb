@@ -5,6 +5,12 @@ class HelpsController < InheritedResources::Base
   def index
     @helps = Help.all
     @headers = Header.all
+    @abouts = About.all
+    @services = Service.all
+
+      @faqs = Faq.all
+      @blogs = Blog.all.order('created_at DESC')
+      @feedbacks = Feedback.all.order('created_at DESC')
 
   end
   def show
