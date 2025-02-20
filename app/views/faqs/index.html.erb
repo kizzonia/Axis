@@ -33,7 +33,7 @@
             <div class="accordion" id="accordionExample">
             <% @faqs.each do |a| %>
               <div class="card">
-                <div class="card-header " id="headingOne">
+                <div class="card-header active " id="headingOne">
                   <h2 class="mb-0">
                     <button class="btn btn-link text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<%=a.id%>" aria-expanded="true" aria-controls="collapseOne"><span><%=a.id%></span> <%= a.title %>?</button>
                   </h2>
