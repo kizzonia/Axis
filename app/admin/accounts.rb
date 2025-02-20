@@ -6,7 +6,7 @@ ActiveAdmin.register Account do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :balance, :slug, :revenue, :status, :verify, :user_id
+   permit_params :balance, :slug, :revenue, :status, :verify, :user_id
   #
   # or
   #
