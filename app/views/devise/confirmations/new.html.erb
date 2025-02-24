@@ -1,5 +1,6 @@
-<h2>Resend confirmation instructions</h2>
-
+<div class="log_reg_form mt70-992">
+  <h2 class="title">Resend confirmation instructions</h2>
+  <div class="sign_up_form">
 <%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
   <%= f.error_notification %>
   <%= f.full_error :confirmation_token %>
@@ -18,3 +19,5 @@
 <% end %>
 
 <%= render "devise/shared/links" %>
+</div>
+</div>
