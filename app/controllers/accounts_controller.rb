@@ -1,7 +1,7 @@
 class AccountsController < InheritedResources::Base
 
 
-      layout "accounts"
+  layout :resolve_layout
       add_flash_types :success, :danger, :info, :notice
 
       before_action :find_account, only: [ :show, :edit, :update, :destroy]
@@ -45,6 +45,17 @@ class AccountsController < InheritedResources::Base
         end
       end
         private
+        def resolve_layout
+          case action_name
+          when "new", "create", "edit"
+            "devise"
+          when "index", "show"
+            "accounts"
+          else
+            "application"
+          end
+        end
+
         def find_account
           @account = Account.friendly.find(params[:id])
         end
