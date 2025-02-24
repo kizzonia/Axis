@@ -8,19 +8,14 @@ class AccountsController < InheritedResources::Base
       before_action :authenticate_user!
       def index
         @users = User.where(user_id: current_user)
-        @plans = Plan.all
-        @transactions = Transaction.where(user_id: current_user).order('created_at DESC')
-        @transfers = Transfer.where(user_id: current_user).order('created_at DESC')
-        @accounts = Account.where(user_id: current_user).order('created_at ASC')
+          @accounts = Account.where(user_id: current_user).order('created_at ASC')
       end
 
       def show
-        @transfer = @account.transfers.build
 
       end
 
       def new
-        @plans = Plan.all
         @account = current_user.accounts.build
 
       end
@@ -30,20 +25,18 @@ class AccountsController < InheritedResources::Base
         if @account.save
           user = User.find_by_id(@account.user_id)
           account = @account
-          AccountMailer.account_email(user, account).deliver
+          AccountMailer.account_email(user, account).deliver_later
           redirect_to root_path, notice: "Account Successfully Created"
         else
           render 'new'
         end
       end
       def edit
-        @plans = Plan.all
 
 
       end
 
       def update
-        @plans = Plan.all
 
         if @account.update(account_params)
           redirect_to root_path
