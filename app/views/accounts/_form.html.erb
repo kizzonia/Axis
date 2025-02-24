@@ -1,18 +1,42 @@
+  <div class="log_reg_form mt70-992">
+    <h2 class="title">Account Registration</h2>
+    <div class="sign_up_form">
+  <%= simple_form_for(@account) do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-<%= simple_form_for(@account) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="form-inputs">
-    <%= f.input :balance %>
-    <%= f.input :slug %>
-    <%= f.input :revenue %>
-    <%= f.input :status %>
-    <%= f.input :verify %>
-    <%= f.association :user %>
+    <div class="form-group">
+      <%= f.input :username, placeholder: "Unique Username", class:"form-control",  required: true" %>
+
+    </div>
+    <div class="form-group">
+    <%= f.input :address, class: "form-control", required: true, placeholder: "Billing Address" %>
+    </div>
+     <div class=" row ">
+
+      <div class="col-md-4 form-group">
+        <%= f.input :city, class: "form-control", required: true, placeholder: "City" %>
+
+      </div>
+      <div class="col-md-4 form-group">
+        <%= f.input :state, class: "form-control", required: true, placeholder: "State" %>
+
+      </div>
+      <div class="col-md-4 form-group">
+        <%= f.input :zipcode, class: "form-control", required: true, placeholder: "zip-code" %>
+
+      </div>
+
+      <div class="form-group">
+        <%= f.input :phone, class: "form-control", placeholder: "Contact Information" %>
+      </div>
+     </div>
+
+    <div class="form-actions">
+      <%= f.button :submit, "Save Details", class: "btn btn-signup btn-thm"%>
+    </div>
+  <% end %>
+
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
   </div>
-<% end %>

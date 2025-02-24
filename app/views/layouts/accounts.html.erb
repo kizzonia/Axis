@@ -55,15 +55,97 @@
 
     <% @faqs = Faq.all.order('created_at ASC') %>
 
-    <div class="wrapper ovh">
+    <div class="wrapper ">
       <div class="preloader"></div>
 
+      <% if Account.where(user_id: current_user.id).exists?%>
 
-    <%= yield %>
+      <%= render "shared/menu" %>
+      <div class="dashboard_content_wrapper">
+        <div class="dashboard dashboard_wrapper pr30 pr0-md">
+        <%= render "shared/sidebar" %>
+        <%= yield %>
+
+        </div>
+        </div>
+      <% else %>
+      <div class="row">
+        <div class="col-lg-6 col-xl-5 offset-xl-1">
+          <div class="main-title">
+            <h2 class="mtitle">Become A Seller <br class="d-none d-md-block"> & Gain benefits</h2>
+            <p>Sell Smarter, Grow Faster with Axis Marketplace Expand your business and reach
+               millions of potential
+              <br class="d-none d-xxl-block"> buyers on one of the fastest-growing e-commerce platforms.
+               <br class="d-none d-xxl-block">
+              <%= link_to new_account_path, class: "btn btn-thm signup-filter-btn" do %>
+              Create Accounts
+              <% end %>
+               .</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-xl-5 offset-xl-1">
+          <div class="vendor_iconbox style2 d-block d-sm-flex">
+            <span class="icon mt10 me-3"><img src="<%= asset_path "icons/step-1.svg" %>" ></span>
+            <div class="details ms-0 ms-sm-4 mt-2 mt-sm-0">
+              <h3 class="title">Step 1</h3>
+              <p>Create an account on our website. It is fast and free.</p>
+            </div>
+          </div>
+          <div class="vendor_iconbox style2 d-block d-sm-flex">
+            <span class="icon mt10 me-3"><img src="<%= asset_path "icons/step-2.svg" %>" ></span>
+            <div class="details ms-0 ms-sm-4 mt-2 mt-sm-0">
+              <h3 class="title">Step 2</h3>
+              <p>Upload your products.</p>
+            </div>
+          </div>
+          <div class="vendor_iconbox style2 d-block d-sm-flex">
+            <span class="icon mt10 me-3"><img src="<%= asset_path "icons/step-3.svg" %> " ></span>
+            <div class="details ms-0 ms-sm-4 mt-2 mt-sm-0">
+              <h3 class="title">Step 3</h3>
+              <p>We’ll verify your account and then you can start <br class="d-none d-md-block"> selling!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <% end %>
     </div>
 
+    <%= javascript_include_tag 'dashboard-script' %>
 
     <%= javascript_include_tag 'script' %>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+          // Pie chart
+          new Chart(document.getElementById("chartjs-dashboard-pie"), {
+            type: "pie",
+            data: {
+              labels: ["Direct", "Affiliate", "E-mail", "Other"],
+              datasets: [{
+                data: [2602, 1253, 541, 1465],
+                backgroundColor: [
+                  window.theme.primary,
+                  window.theme.warning,
+                  window.theme.danger,
+                  "#E8EAED"
+                ],
+                borderWidth: 5,
+                borderColor: window.theme.white
+              }]
+            },
+            options: {
+              responsive: !window.MSInputMethodContext,
+              maintainAspectRatio: false,
+              cutoutPercentage: 70,
+              legend: {
+                display: false
+              }
+            }
+          });
+        });
+    </script>
 
   </body>
 </html>
