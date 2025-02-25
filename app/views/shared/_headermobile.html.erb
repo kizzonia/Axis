@@ -10,10 +10,11 @@
         <div class="mobile_menu_widget_icons">
           <ul class="cart mt15">
             <li class="list-inline-item">
-              <a class="cart_btn signin-filter-btn" href="#"><span class="icon flaticon-profile"></span></a>
+              <%= link_to new_user_registration_path, class: "cart_btn signin-filter-btn" do %>
+        <span class="icon flaticon-profile"></span><% end %>
             </li>
             <li class="list-inline-item">
-              <a class="cart_btn cart-filter-btn" href="#"><span class="icon"><img src="images/icons/flaticon-shopping-cart.svg" alt=""></span><span class="badge bgc-thm">2</span></a>
+              <a class="cart_btn cart-filter-btn" href="#"><span class="icon"><img src="<%= asset_path "icons/flaticon-shopping-cart.svg"%>" alt=""></span><span class="badge bgc-thm">2</span></a>
             </li>
           </ul>
         </div>
@@ -97,7 +98,7 @@
   <!-- /.mobile-menu -->
   <nav id="menu" class="stylehome1">
     <ul>
-      <li><%= link_to root_path do %>><span>Home</span> <% end %>
+      <li><%= link_to root_path do %><span>Home</span> <% end %>
 
       </li>
       <li><span>Shop</span>

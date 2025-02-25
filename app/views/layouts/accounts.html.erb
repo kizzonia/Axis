@@ -68,7 +68,6 @@
     <div class="wrapper ">
       <div class="preloader"></div>
 
-      <% if Account.where(user_id: current_user.id).exists? %>
 
       <%= render "shared/menu" %>
       <div class="dashboard_content_wrapper">
@@ -77,10 +76,7 @@
           <%= yield %>
         </div>
         </div>
-      <% else %>
-      <%= yield %>
-
-      <% end %>
+    
 
 
     </div>
