@@ -31,7 +31,7 @@ ActiveAdmin.register Product do
       f.input :name, label: "Product Name"
       f.input :title, label: "Product Title"
       f.input :price, label: "Product Price"
-      f.input :description, :as: :quill_editor
+      f.input :description, as: :quill_editor
       f.input :status
 
     end
