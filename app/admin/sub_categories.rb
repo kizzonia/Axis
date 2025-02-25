@@ -23,4 +23,10 @@ permit_params :name, :category_id, :title, :slug
       f.input :title
     end
   end
+
+  controller do
+         def find_resource
+           scoped_collection.friendly.find(params[:id])
+         end
+       end
 end
