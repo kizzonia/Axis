@@ -5,7 +5,7 @@ menu label: "Categories", parent: "Store", priority: 1
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :title, :cateimg, :slug, :name, :sub_title, :icon
+  permit_params :title, :cateimg, :slug, :name, :sub_title, :icon, :iconimg
   #
   # or
   #
@@ -19,7 +19,8 @@ menu label: "Categories", parent: "Store", priority: 1
       f.input :title
         f.input :name
         f.input :icon
-      f.input :cateimg, as: :file
+      f.input :iconimg, as: :file
+      f.input :cateimg, as: :file, label: "Main Img"
       f.input :sub_title, placeholder: "description"
 
     end

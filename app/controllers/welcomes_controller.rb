@@ -11,6 +11,13 @@ class WelcomesController < InheritedResources::Base
     @features = Feature.all.order('created_at ASC')
     @banners = Banner.all.order('created_at ASC')
 
+    @categories = Category.includes(:sub_categories).all
+
+    if params[:search].present?
+      @products = Product.where('name LIKE ? OR description LIKE ?', "%#{params[:search]}%", "%#{params[:search]}%")
+    else
+      @products = []
+    end
 
   end
 
