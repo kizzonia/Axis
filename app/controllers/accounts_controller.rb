@@ -9,6 +9,7 @@ class AccountsController < InheritedResources::Base
       def index
         @users = User.where(user_id: current_user)
           @accounts = Account.where(user_id: current_user).order('created_at ASC')
+          @products = Product.where(user_id: current_user).order('created_at ASC')
       end
 
       def show

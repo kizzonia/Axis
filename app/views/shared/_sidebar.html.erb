@@ -1,28 +1,32 @@
 <div class="dashboard__sidebar">
   <div class="dashboard_sidebar_list">
     <div class="sidebar_list_item">
-      <a href="page-dashboard.html" class="items-center -is-active"><i class="flaticon-house mr15"></i>Dashboard</a>
+      <%= link_to accounts_path, class: "items-center -is-active" do %>
+      <i class="flaticon-house mr15"></i>Dashboard<% end %>
     </div>
     <div class="sidebar_list_item ">
-      <a href="page-dashboard-product.html" class="items-center"><i class="flaticon-cash-on-delivery mr15"></i>Products</a>
+      <%= link_to products_path, class: "items-center" do %> <i class="flaticon-cash-on-delivery mr15"></i>Products <% end %>
     </div>
     <div class="sidebar_list_item ">
-      <a href="page-dashboard-order.html" class="items-center"><i class="flaticon-checked-box mr15"></i>Order</a>
+      <a href="#" class="items-center"><i class="flaticon-checked-box mr15"></i>Orders</a>
     </div>
     <div class="sidebar_list_item ">
-      <a href="page-dashboard-customer.html" class="items-center"><i class="flaticon-growth mr15"></i>Customer</a>
+      <a href="#" class="items-center"><i class="flaticon-growth mr15"></i>Wallet</a>
     </div>
-    <div class="sidebar_list_item ">
+    <!-- <div class="sidebar_list_item ">
       <a href="page-dashboard-categories.html" class="items-center"><i class="flaticon-folder mr15"></i>Categories</a>
+    </div> -->
+    <div class="sidebar_list_item ">
+      <a href="#" class="items-center"><i class="flaticon-mail-inbox-app mr15"></i>Message</a>
     </div>
     <div class="sidebar_list_item ">
-      <a href="page-dashboard-message.html" class="items-center"><i class="flaticon-mail-inbox-app mr15"></i>Message</a>
+      <%= link_to edit_user_registration_path, class: "items-center" do %>
+  <i class="flaticon-settings mr15"></i>Settings<% end %>
     </div>
     <div class="sidebar_list_item ">
-      <a href="page-dashboard-setting.html" class="items-center"><i class="flaticon-settings mr15"></i>Settings</a>
-    </div>
-    <div class="sidebar_list_item ">
-      <a href="page-login.html" class="items-center"><i class="flaticon-exit mr15"></i>Logout</a>
+      <%= link_to  destroy_user_session_path, class: "items-center", method: :delete, class: "nav-link" do %>
+
+      <i class="flaticon-exit mr15"></i>Logout<% end %>
     </div>
   </div>
 </div>

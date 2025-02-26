@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
         if devise_controller? && resource_name == :user && action_name == 'new'
           "devise"
       elsif devise_controller? && resource_name == :user && action_name == 'edit'
-        'devise'
+        'accounts'
       elsif devise_controller? && resource_name == :user
         'devise'
       else
