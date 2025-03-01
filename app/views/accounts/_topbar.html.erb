@@ -4,8 +4,7 @@
       <div class="details">
         <div class="subtitle1">My Products</div>
         <div class="title"><%= Product.where(user_id: current_user.id).count %>
-        <%= link_to new_product_path do %>  <span class="badge style1 text-center">
-          New Product</span><% end %></div>
+      </div>
         <div class="subtitle2"><%= link_to products_path do %><span>View Products</span> <% end %></div>
       </div>
       <div class="icon text-center mt-4"><i class="flaticon-money-bag"></i></div>
