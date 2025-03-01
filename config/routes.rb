@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :products
-  resources :categories
+  resources :categories do
+    resources :sub_categories
+  end
   resources :supports
   resources :features
   devise_for :admin_users, ActiveAdmin::Devise.config
