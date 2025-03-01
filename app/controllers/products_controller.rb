@@ -1,5 +1,5 @@
 class ProductsController < InheritedResources::Base
-  layout :accounts
+  layout "accounts"
   before_action :authenticate_user!
   add_flash_types :success, :danger, :info, :notice
 
