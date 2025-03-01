@@ -2,6 +2,13 @@ Rails.application.routes.draw do
   resources :products
   resources :categories do
     resources :sub_categories
+    resources :products
+
+  end
+
+  resources :sub_categories do
+    resources :products
+
   end
   resources :supports
   resources :features

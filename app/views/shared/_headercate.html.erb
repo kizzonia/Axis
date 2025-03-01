@@ -9,7 +9,7 @@
 
 
     <div class="one-third">
-      <div class="cat-title"><%= category.title %></div>
+      <!-- <div class="cat-title"><%= category.title %></div> -->
       <!-- <ul class="mb20">
         <li><a href="#">Shop All</a></li>
       </ul> -->
@@ -22,14 +22,13 @@
       </ul>
     </div>
 
-    <div class="one-third">
+    <div class="row">
       <div class="banner_one megamenu_style home1_style color1 mb30">
         <div class="thumb style1">
           <img class="float-end" src="<%= category.cateimg_url.to_s%>" alt="smartwatch">
         </div>
         <div class="details">
-          <p class="para color-light-blue">Starting from <span class="fw500">$899.</span></p>
-          <h3 class="title"><%= category.title %>r</h3>
+          <h3 class="title"><%= category.title %></h3>
           <%= link_to products_path, class: "shop_btn" do %>
         Shop Now<% end %>
         </div>
