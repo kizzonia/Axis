@@ -1,7 +1,7 @@
 class AboutsController < InheritedResources::Base
 
   before_action :find_abouts, only: [ :show, :edit, :update, :destroy]
-  before_action :authenticate_adminuser!, except: [:index, :show]
+  # before_action :authenticate_adminuser!, except: [:index, :show]
   def index
     @abouts = About.all
     @headers = Header.all

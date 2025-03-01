@@ -1,7 +1,7 @@
 class FaqsController < InheritedResources::Base
 
   before_action :find_faqs, only: [ :show, :edit, :update, :destroy]
-  before_action :authenticate_adminuser!, except: [:index, :show]
+  # before_action :authenticate_adminuser!, except: [:index, :show]
   def index
     @faqs = Faq.all.order('created_at ASC')
     @headers = Header.all
