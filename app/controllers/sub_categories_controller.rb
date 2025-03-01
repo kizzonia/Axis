@@ -1,6 +1,8 @@
-class SubCategoriesControllerr < InheritedResources::Base
+class SubCategoriesController < ApplicationController
+
   before_action :find_SubCategory, only: [ :show, :edit, :update, :destroy]
   before_action :authenticate_adminuser!, except: [:index, :show]
+
   def index
     @abouts = About.all
     @headers = Header.all
@@ -32,8 +34,5 @@ class SubCategoriesControllerr < InheritedResources::Base
   def find_SubCategory
     @sub_category = SubCategory.friendly.find(params[:id])
   end
-    def category_params
-      params.require(:category).permit(:title, :cateimg, :iconimage, :icon, :slug, :name, :sub_title)
-    end
-
+  
 end
