@@ -49,7 +49,7 @@
               </li>
               <li class="me-2">
                 <%= link_to new_user_registration_path do %>
-                Register<% end %>
+                Sign Up<% end %>
 
               </li>
               <li class="me-2"><a href="#">Follow Us</a></li>
@@ -320,7 +320,9 @@
         <li class="list-inline-item list_c"><%= link_to accounts_path do %>Goto Dashboard<% end %></li>
         <li class="list-inline-item list_c"><a href="#">Add New Products</a></li>
         <% else %>
-        <li class="list-inline-item list_c"><%= link_to new_user_registration_path do %>Sign Up/Log In<% end %></li>
+        <li class="list-inline-item list_c"><%= link_to new_user_registration_path do %>Sign Up<% end %></li>
+        <li class="list-inline-item list_c"><%= link_to new_user_session_path do %>Sign In<% end %></li>
+
         <!-- <li class="list-inline-item list_c"><a href="#">Merchant Pro</a></li> -->
         <% end %>
       </ul>
