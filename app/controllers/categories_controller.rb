@@ -26,7 +26,7 @@ class CategoriesController < InheritedResources::Base
 
   private
   def find_categories
-    @category = Category.friendly.find(params[:id])
+    @category = Category.find(params[:id])
   end
     def category_params
       params.require(:category).permit(:title, :cateimg, :iconimage, :icon, :slug, :name, :sub_title)

@@ -14,7 +14,6 @@ class WelcomesController < InheritedResources::Base
     @banners = Banner.all.order('created_at ASC')
 
     @categories = Category.includes(:sub_categories).all
-
     if params[:search].present?
       @products = Product.where('name LIKE ? OR description LIKE ?', "%#{params[:search]}%", "%#{params[:search]}%")
     else
@@ -25,7 +24,7 @@ class WelcomesController < InheritedResources::Base
 
   private
   def find_categories
-    @category = Category.friendly.find(params[:id])
+    @category = Category.find(params[:id])
   end
 
     def welcome_params

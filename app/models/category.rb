@@ -1,6 +1,6 @@
 class Category < ApplicationRecord
-  extend FriendlyId
-  friendly_id :title, use: :slugged
+  # extend FriendlyId
+  # friendly_id :title, use: :slugged
 
   mount_uploader :cateimg, CateimgUploader
   mount_uploader :iconimg, IconimgUploader
