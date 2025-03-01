@@ -11,6 +11,7 @@
           <div class="row">
             <div class="col-xl-12">
               <div class="dashboard_product_list account_user_deails">
+
                 <div class="row d-block d-sm-flex justify-content-center justify-content-sm-between">
                   <div class="col-sm-6 col-lg-3">
                     <div class="dashboard_page header_search_widget mb30 mb15-520">
@@ -85,11 +86,11 @@
                         <td><%= product.name %>-<%= product.title %></td>
                         <td><%= product.sku %></td>
 
-                        <%= if product.status? %>
+                        <% if product.status? %>
                         <td class="status"><span class="style4">Stock</td>
                           <% else %>
                           <td class="status"><span class="style2">Out Stock</span></td>
-                          <% end %>
+                        <% end %>
 
                         <td><%= number_to_currency(product.price) %></td>
                         <td> <%= product.category.name %> / <%= product.sub_category.name %></td>
