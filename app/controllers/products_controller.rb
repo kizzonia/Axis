@@ -7,7 +7,6 @@ class ProductsController < InheritedResources::Base
 
 
 def index
-  @users = User.where(user_id: current_user)
     @accounts = Account.where(user_id: current_user).order('created_at ASC')
     @products = Product.where(user_id: current_user).order('created_at ASC')
     @products = current_user.products.includes(:category, :sub_category)
@@ -37,7 +36,7 @@ end
    def update
      @product = current_user.products.find(params[:id])
      if @product.update(product_params)
-       redirect_to user_dashboard_path, notice: 'Product was successfully updated.'
+       redirect_to products_path, notice: 'Product was successfully updated.'
      else
        render :edit
      end
@@ -46,7 +45,7 @@ end
    def destroy
      @product = current_user.products.find(params[:id])
      @product.destroy
-     redirect_to user_dashboard_path, notice: 'Product was successfully deleted.'
+     redirect_to products_path, notice: 'Product was successfully deleted.'
    end
 
   private
