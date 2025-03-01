@@ -18,6 +18,7 @@ class WelcomesController < InheritedResources::Base
     else
       @products = []
     end
+    @products = Product.includes(:category, :sub_category, :user).all
 
   end
 

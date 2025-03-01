@@ -1,21 +1,95 @@
 
 <%= simple_form_for(@product) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+<%= f.error_notification %>
+<%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :title %>
-    <%= f.input :description %>
-    <%= f.input :price %>
-    <%= f.input :prodimage %>
-    <%= f.input :status %>
-    <%= f.association :category %>
-    <%= f.association :sub_category %>
-    <%= f.association :user %>
+
+<div class="col-lg-12">
+  <div class="d-flex align-items-center bb1 mb30 pb30">
+    <div class="flex-shrink-0">
+      <% if @product.prodimage.attached? %>
+      <%= image_tag @product.prodimage_url.to_s, alt: "avatar", class: "img-fluid" %>
+      <% else %>
+      <img src="<%= asset_path "resource/avatar.png"%>" alt="avatar" class="img-fluid">
+      <% end %>      </div>
+      <div class="flex-grow-1 ms-4 editing_list">
+        <h5 class="mb0">Your avatar</h5>
+        <p class="fz14 heading-color">PNG or JPG no bigger than 800px wide and tall.</p>
+        <ul>
+          <li class="list-inline-item mb-1">
+            <%= f.input :prodimage, as: :file, label: false, wrapper: false, input_html: { class: "d-none", id: "image-upload" } %>
+            <%= link_to "#", class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "View" }, title: "Edit", aria: { label: "View" }, onclick: "document.getElementById('image-upload').click();" do %>
+            <span class="flaticon-cloud-computing"></span>
+            <% end %>
+          </li>
+          <li class="list-inline-item mb-1">
+            <%= link_to "#", class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "Edit" }, title: "Delete", aria: { label: "Edit" }, method: :delete, data: { confirm: "Are you sure?" } do %>
+            <span class="flaticon-delete"></span>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="col-md-6">
+    <div class="form-group mb-4">
+      <%= f.input :name, label: "Product Name" %>
+    </div>
   </div>
-<% end %>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.input :title, label: "Product Title " %>
+
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group mb-4">
+      <%= f.input :price, label: 'Price', input_html: { step: 0.01 } %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.input :sku, label: "Product SKU number"%>
+
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group mb-4">
+      <%= f.association :category,
+      collection: Category.all,
+      label_method: :name,
+      value_method: :id,
+      prompt: 'Select Category' %> </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.association :sub_category,
+        collection: SubCategory.all,
+        label_method: :name,
+        value_method: :id,
+        prompt: 'Select Subcategory',
+        grouped_by: :category %>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="form-group mb-4">
+ <%= f.input :status, as: :boolean, label: "Is this product in stock?", checked_value: true, unchecked_value: false %>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="form-group mb30">
+        <%= f.input :description, as: :quill_editor %>
+      </div>
+
+    </div>
+
+    <div class="form-actions">
+      <%= f.button :submit, "Create Product", class: "style2 btn btn-thm me-3 mb15-520" %>
+        <%= link_to "Back to products", class: "style2 btn btn-white", products_path %>
+    </div>
+    <% end %>

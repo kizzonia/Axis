@@ -7,9 +7,11 @@ class AccountsController < InheritedResources::Base
       before_action :find_account, only: [ :show, :edit, :update, :destroy]
       before_action :authenticate_user!
       def index
-        @users = User.where(user_id: current_user)
-          @accounts = Account.where(user_id: current_user).order('created_at ASC')
-          @products = Product.where(user_id: current_user).order('created_at ASC')
+          @users = User.where(user_id: current_user)
+            @accounts = Account.where(user_id: current_user).order('created_at ASC')
+            @products = Product.where(user_id: current_user).order('created_at ASC')
+            @products = current_user.products.includes(:category, :sub_category)
+
       end
 
       def show

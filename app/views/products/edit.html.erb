@@ -1,12 +1,33 @@
-<% content_for :title, "Editing product" %>
+<div class="dashboard__main pl0-md">
+  <div class="dashboard__content bgc-gmart-gray">
+    <div class="row pb50">
+      <div class="col-lg-12">
+        <div class="dashboard_title_area">
+          <h2>Edit Product</h2>
+          <p class="para">Make Changes To  Product</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="dashboard_product_list account_user_deails">
+          <div class="row">
 
-<h1>Editing product</h1>
-
-<%= render "form", product: @product %>
+  <%= render "form", product: @product %>
+  </div>
 
 <br>
 
 <div>
   <%= link_to "Show this product", @product %> |
   <%= link_to "Back to products", products_path %>
+</div>
+
+
+
+</div>
+</div>
+</div>
+
+</div>
 </div>

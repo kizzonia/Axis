@@ -20,3 +20,5 @@
 //= require timepicker
 //= require scrollbalance
 //= require toastr
+//= require activeadmin/quill_editor/quill
+//= require activeadmin/quill_editor_input
