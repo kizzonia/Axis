@@ -1,6 +1,6 @@
 <% @categories.each do |category| %>
 <li>
-  <%= link_to category.name, category, class: "dropdown" do %>
+  <%= link_to category.name, category_path(category), class: "dropdown" do %>
     <span class="menu-icn <%= category.icon %>"></span>
     <span class="menu-title"><%= category.name %></span>
   <% end %>
