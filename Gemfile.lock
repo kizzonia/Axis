@@ -449,6 +449,8 @@ GEM
     timeout (0.4.3)
     toastr-rails (1.0.3)
       railties (>= 3.1.0)
+    trix (0.10.1)
+      rails
     turbo-rails (2.0.11)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
@@ -522,6 +524,7 @@ DEPENDENCIES
   sprockets-rails
   stimulus-rails
   toastr-rails
+  trix
   turbo-rails
   tzinfo-data
   web-console
