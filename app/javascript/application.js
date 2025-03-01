@@ -20,3 +20,6 @@ import "front/slider"
 import "front/timepicker"
 import "front/scrollbalance"
 import "front/script"
+
+import "trix"
+import "@rails/actiontext"

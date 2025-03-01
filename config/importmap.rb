@@ -25,3 +25,5 @@ pin "bootstrap", to: 'bootstrap.min.js', preload: true
 # pin "front/slider"
 # pin "front/scrollbalance"
 # pin "front/script"
+pin "trix"
+pin "@rails/actiontext", to: "actiontext.esm.js"
