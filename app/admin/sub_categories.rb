@@ -19,9 +19,10 @@ permit_params :name, :category_id, :title, :slug
     f.inputs do
       f.input :category_id, :label => 'Category', :as => :select, :collection => Category.all.map{|u| ["#{u.name}", u.id]}
 
-      f.input :name
+      f.input :name, placeholder: "Name"
       f.input :title
     end
+    f.actions
   end
 
   controller do
