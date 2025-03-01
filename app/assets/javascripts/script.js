@@ -1625,7 +1625,7 @@
     if ($('.banner-style-one').length) {
         $('.banner-style-one').owlCarousel({
             loop: true,
-            items: 3,
+            items: 1,
             margin: 0,
             dots: true,
             nav: true,
