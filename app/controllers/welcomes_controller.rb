@@ -1,6 +1,5 @@
 class WelcomesController < InheritedResources::Base
   before_action :authenticate_adminuser!, except: [:index, :show]
-  before_action :find_categories, only: [ :index, :show, :edit, :update, :destroy]
 
   def index
     @welcomes = Welcome.all
@@ -23,9 +22,7 @@ class WelcomesController < InheritedResources::Base
   end
 
   private
-  def find_categories
-    @category = Category.find(params[:id])
-  end
+
 
     def welcome_params
       params.require(:welcome).permit(:title, :logoimg, :desc, :whatsapp, :ig, :ln, :section, :link, :footer, :phone, :address, :twitter, :email, :youtube, :telegram)
