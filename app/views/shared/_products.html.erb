@@ -25,9 +25,68 @@
         </div>
       </div>
     </div>
+
+
+
+
+
     <div class="row">
       <div class="col-lg-12">
         <div class="navi_pagi_bottom_center shop_item_5grid_slider dod_slider owl-carousel owl-theme">
+
+
+        <% if Product.exists? %>
+        <% @products.each do |a| %>
+        <div class="item">
+          <div class="shop_item bdrtrb1 px-2 px-sm-3">
+            <div class="thumb pb30">
+              <img src="<%= a.prodimage_url.to_s %>" alt="Deal Day1">
+              <div class="thumb_info">
+                <ul class="mb0">
+                  <li><a href="#"><span class="flaticon-heart"></span></a></li>
+                  <li><a href="#"><span class="flaticon-show"></span></a></li>
+                  <li><a href="#"><span class="flaticon-graph"></span></a></li>
+                </ul>
+              </div>
+              <div class="shop_item_cart_btn d-grid">
+                <a href="#" class="btn btn-thm">Add to Cart</a>
+              </div>
+            </div>
+            <div class="details">
+              <div class="sub_title"><%= a.category %></div>
+              <div class="title"><%= link_to a.name, a %>/<%= link_to a.title, a %></div>
+              <div class="review d-flex db-500">
+                <ul class="mb0 me-2">
+                  <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                </ul>
+                <!-- <div class="review_count"><a href="#">3,014 reviews</a></div> -->
+              </div>
+              <div class="si_footer">
+                <div class="price">$<%= a.price %>
+                  <!-- <small>
+                  <del>$45</del>
+                  <span class="off_tag text-thm1">20% Off</span></small> -->
+                </div>
+                <div class="line mt20"></div>
+                <div class="sell_stock mt10">
+                  <% if a.status?%>
+                  <div class="sell">In Stock</div>
+                  <% else %>
+                  <div class="sell">sold-out</div>
+                  <% end %>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %>
+        <% else %>
           <div class="item">
             <div class="shop_item bdrtrb1 px-2 px-sm-3">
               <div class="thumb pb30">
@@ -598,6 +657,8 @@
               </div>
             </div>
           </div>
+
+          <% end %>
         </div>
       </div>
     </div>
