@@ -1,9 +1,10 @@
 <% @categories.each do |category| %>
 <li>
-  <%= link_to category.name, category_path(category), class: "dropdown" do %>
+  <a class="dropdown" href="#">
+
     <span class="menu-icn <%= category.icon %>"></span>
     <span class="menu-title"><%= category.name %></span>
-  <% end %>
+  </a>
   <div class="drop-menu">
 
 
