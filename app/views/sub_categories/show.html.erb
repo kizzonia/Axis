@@ -1,0 +1,17 @@
+<!-- app/views/sub_categories/show.html.erb -->
+<h1><%= @sub_category.name %></h1>
+
+<h2>Products in this Subcategory</h2>
+<ul>
+  <% @products.each do |product| %>
+    <li>
+      <h3><%= product.name %></h3>
+      <p><%= product.description %></p>
+      <p><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
+      <p><strong>Status:</strong> <%= product.status %></p>
+      <p><strong>Uploaded by:</strong> <%= product.user.email %></p>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Back to Categories', categories_path %>
