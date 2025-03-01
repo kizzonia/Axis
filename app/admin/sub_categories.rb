@@ -17,7 +17,7 @@ permit_params :name, :category_id, :title, :slug
   # end
   form do |f|
     f.inputs do
-      f.input :category_id, :label => 'Category', :as => :select, :collection => User.all.map{|u| ["#{u.name}", u.id]}
+      f.input :category_id, :label => 'Category', :as => :select, :collection => Category.all.map{|u| ["#{u.name}", u.id]}
 
       f.input :name
       f.input :title
