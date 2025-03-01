@@ -18,6 +18,7 @@ class HelpsController < InheritedResources::Base
     @headers = Header.all
     @blogs = Blog.all.order('created_at DESC')
     @feedbacks = Feedback.all.order('created_at DESC')
+    @categories = Category.includes(:sub_categories).all
 
   end
     private

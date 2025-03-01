@@ -5,6 +5,7 @@ class AboutsController < InheritedResources::Base
   def index
     @abouts = About.all
     @headers = Header.all
+    @categories = Category.includes(:sub_categories).all
 
   end
 
@@ -15,6 +16,7 @@ class AboutsController < InheritedResources::Base
       @headers = Header.all
       @blogs = Blog.all.order('created_at DESC')
       @feedbacks = Feedback.all.order('created_at DESC')
+      @categories = Category.includes(:sub_categories).all
 
   end
 

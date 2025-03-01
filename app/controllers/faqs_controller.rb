@@ -9,6 +9,8 @@ class FaqsController < InheritedResources::Base
   end
 
   def show
+    @categories = Category.includes(:sub_categories).all
+
   end
 
   private
