@@ -24,6 +24,7 @@ class SubCategoriesController < ApplicationController
       @blogs = Blog.all.order('created_at DESC')
       @feedbacks = Feedback.all.order('created_at DESC')
 
+      @categories = Category.includes(:sub_categories).all
 
       @sub_category = SubCategory.find(params[:id])
       @products = @sub_category.products
@@ -34,5 +35,5 @@ class SubCategoriesController < ApplicationController
   def find_SubCategory
     @sub_category = SubCategory.friendly.find(params[:id])
   end
-  
+
 end

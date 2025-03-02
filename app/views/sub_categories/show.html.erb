@@ -7,18 +7,451 @@
 
 
 <h1><%= @sub_category.name %></h1>
+<section class="our-listing pt10">
+  <div class="container">
+    <div class="row">
 
-<h2>Products in this Subcategory</h2>
-<ul>
-  <% @products.each do |product| %>
-    <li>
-      <h3><%= product.name %></h3>
-      <p><%= product.description %></p>
-      <p><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
-      <p><strong>Status:</strong> <%= product.status %></p>
-      <p><strong>Uploaded by:</strong> <%= product.user.email %></p>
-    </li>
-  <% end %>
-</ul>
+      <%= render "sub_categories/subsidebar" %>
+
+
+      <div class="col-lg-9 col-xl-10 pl50 pl15-md">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="main-title bb1 pb10">
+              <h2 class="title"><%= @sub_category.name %></h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <!-- <div class="col-lg-7">
+            <div class="filter_components">
+              <ul class="mb0 align-items-center text-center text-lg-start">
+                <li class="list-inline-item me-2 mb-3"><p class="pagination_page_count">Showing 1–20 of 175 results</p></li>
+                <li class="list-inline-item me-2 list mb-3 pl10"><a href="#">20</a></li>
+                <li class="list-inline-item me-2 list mb-3 pl10"><a href="#">40</a></li>
+                <li class="list-inline-item me-2 list mb-3 pl10"><a href="#">60</a></li>
+                <li class="list-inline-item me-2 list mb-3 pl10"><a href="#">All</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="filter_components text-center text-lg-end">
+              <ul class="mb-2 mb-md-0">
+                <li class="list-inline-item d-lg-none me-2 mb-3"><a class="all-filter-btn flter_btn" href="#"><span class="flaticon-sort me-2"></span>All Filter</a></li>
+                <li class="list-inline-item me-0">
+                  <div class="page_control_shorting mb20 text-center text-md-end">
+                    <select class="selectpicker show-tick">
+                      <option>Default sorting</option>
+                      <option>Best Seller</option>
+                      <option>Best Match</option>
+                      <option>Price Low</option>
+                      <option>Price High</option>
+                    </select>
+                  </div>
+                </li>
+                <li class="d-none d-lg-inline-block list px-2"><a href="#">List</a></li>
+                <li class="d-none d-lg-inline-block gird ps-2"><a href="#">Grid</a></li>
+              </ul>
+            </div>
+          </div>
+           -->
+
+          <div class="row">
+
+            <% if @products.exists? %>
+            <% @products.each do |p| %>
+            <div class="col-md-6 col-lg-12">
+              <div class="shop_item list_style bdr1 my--1 align-items-center row">
+                <div class="thumb text-center text-md-start col-xl-4 col-xxl-3">
+                  <img src="<%= p.prodimage_url.to_s %>" alt="Shop Item1">
+                </div>
+                <div class="details ps-0 ps-lg-4 col-xl-8 col-xxl-6">
+                  <div class="sub_title"><%= p.name %></div>
+                  <div class="title"><%= link_to p do %><%= p.name %> - <%= p.title %><% end %></div>
+                  <div class="review d-block d-md-flex">
+                    <ul class="m-0 mb-md-3 me-2">
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                    </ul>
+                    <!-- <div class="review_count"><a href="#">3,014 reviews</a></div> -->
+                  </div>
+                  <div class="shop_item_list_features mb10-lg">
+                    <ul class="mb0 order_list list-style-type-bullet">
+
+                      <%= p.description %>
+                          </ul>
+                  </div>
+                </div>
+                <div class="si_right_content text-center col-xl-4 col-xxl-3">
+                  <div class="si_footer">
+                    <div class="price">$<%= p.price %></div>
+                  </div>
+                  <div class="sifoter_bottom">
+                    <div class="shop_item_cart_btn mb20">
+                      <a href="page-shop-cart.html" class="btn btn-thm w100">Add to Cart</a>
+                    </div>
+                    <div class="product_action_info">
+                      <ul class="mb0">
+                        <li class="list-inline-item"><a href="page-dashboard-wish-list.html"><span class="flaticon-heart"></span> Add to Wishlist</a></li>
+                        <li class="list-inline-item ps-2"><a href="page-shop-list-v6.html"><span class="flaticon-graph"></span> Compare</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% end %>
+            <% else %>
+
+            <div class="col-md-6 col-lg-12">
+              <div class="shop_item list_style bdr1 my--1 align-items-center row">
+                <div class="thumb text-center text-md-start col-xl-4 col-xxl-3">
+                  <img src="<%= asset_path "shop-items/shop-item3.png"%>" alt="Shop Item3">
+                </div>
+                <div class="details ps-0 ps-lg-4 col-xl-8 col-xxl-6">
+                  <div class="sub_title">lenovo</div>
+                  <div class="title"><a href="#">Lenovo IdeaPad 3 15.6" Laptop - Sand (Intel Core i7-1165G7/512GB SSD/12GB RAM/Windows 11)</a></div>
+                  <div class="review d-block d-md-flex">
+                    <ul class="m-0 mb-md-3 me-2">
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                    </ul>
+                    <div class="review_count"><a href="#">3,014 reviews</a></div>
+                  </div>
+                  <div class="shop_item_list_features mb10-lg">
+                    <ul class="mb0 order_list list-style-type-bullet">
+                      <li><a href="#">16-core Neural Engine for advanced machine learning</a></li>
+                      <li><a href="#">8GB of unified memory so everything you do is fast and fluid</a></li>
+                      <li><a href="#">256GB of super-fast SSD storage launches apps and opens files</a></li>
+                      <li><a href="#">7-core GPU with up to 5 times faster graphics for graphics-intensive</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="si_right_content text-center col-xl-4 col-xxl-3">
+                  <div class="si_footer">
+                    <div class="price">$899.99 <small><del>$45</del></small></div>
+                  </div>
+                  <div class="sifoter_bottom">
+                    <div class="shop_item_cart_btn mb20">
+                      <a href="page-shop-cart.html" class="btn btn-thm w100">Add to Cart</a>
+                    </div>
+                    <div class="product_action_info">
+                      <ul class="mb0">
+                        <li class="list-inline-item"><a href="page-dashboard-wish-list.html"><span class="flaticon-heart"></span> Add to Wishlist</a></li>
+                        <li class="list-inline-item ps-2"><a href="page-shop-list-v6.html"><span class="flaticon-graph"></span> Compare</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-12">
+              <div class="shop_item list_style bdr1 my--1 align-items-center row">
+                <div class="thumb text-center text-md-start col-xl-4 col-xxl-3">
+                  <img src="<%= asset_path "shop-items/shop-item9.png"%>" alt="Shop Item9">
+                </div>
+                <div class="details ps-0 ps-lg-4 col-xl-8 col-xxl-6">
+                  <div class="sub_title">lenovo</div>
+                  <div class="title"><a href="#">Lenovo IdeaPad 3 15.6" Laptop - Sand (Intel Core i7-1165G7/512GB SSD/12GB RAM/Windows 11)</a></div>
+                  <div class="review d-block d-md-flex">
+                    <ul class="m-0 mb-md-3 me-2">
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                    </ul>
+                    <div class="review_count"><a href="#">3,014 reviews</a></div>
+                  </div>
+                  <div class="shop_item_list_features mb10-lg">
+                    <ul class="mb0 order_list list-style-type-bullet">
+                      <li><a href="#">16-core Neural Engine for advanced machine learning</a></li>
+                      <li><a href="#">8GB of unified memory so everything you do is fast and fluid</a></li>
+                      <li><a href="#">256GB of super-fast SSD storage launches apps and opens files</a></li>
+                      <li><a href="#">7-core GPU with up to 5 times faster graphics for graphics-intensive</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="si_right_content text-center col-xl-4 col-xxl-3">
+                  <div class="si_footer">
+                    <div class="price">$899.99 <small><del>$45</del></small></div>
+                  </div>
+                  <div class="sifoter_bottom">
+                    <div class="shop_item_cart_btn mb20">
+                      <a href="page-shop-cart.html" class="btn btn-thm w100">Add to Cart</a>
+                    </div>
+                    <div class="product_action_info">
+                      <ul class="mb0">
+                        <li class="list-inline-item"><a href="page-dashboard-wish-list.html"><span class="flaticon-heart"></span> Add to Wishlist</a></li>
+                        <li class="list-inline-item ps-2"><a href="page-shop-list-v6.html"><span class="flaticon-graph"></span> Compare</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-12">
+              <div class="shop_item list_style bdr1 my--1 align-items-center row">
+                <div class="thumb text-center text-md-start col-xl-4 col-xxl-3">
+                  <img src="<%= asset_path "shop-items/shop-item14.png"%>" alt="Shop Item14">
+                </div>
+                <div class="details ps-0 ps-lg-4 col-xl-8 col-xxl-6">
+                  <div class="sub_title">lenovo</div>
+                  <div class="title"><a href="#">Lenovo IdeaPad 3 15.6" Laptop - Sand (Intel Core i7-1165G7/512GB SSD/12GB RAM/Windows 11)</a></div>
+                  <div class="review d-block d-md-flex">
+                    <ul class="m-0 mb-md-3 me-2">
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                    </ul>
+                    <div class="review_count"><a href="#">3,014 reviews</a></div>
+                  </div>
+                  <div class="shop_item_list_features mb10-lg">
+                    <ul class="mb0 order_list list-style-type-bullet">
+                      <li><a href="#">16-core Neural Engine for advanced machine learning</a></li>
+                      <li><a href="#">8GB of unified memory so everything you do is fast and fluid</a></li>
+                      <li><a href="#">256GB of super-fast SSD storage launches apps and opens files</a></li>
+                      <li><a href="#">7-core GPU with up to 5 times faster graphics for graphics-intensive</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="si_right_content text-center col-xl-4 col-xxl-3">
+                  <div class="si_footer">
+                    <div class="price">$899.99 <small><del>$45</del></small></div>
+                  </div>
+                  <div class="sifoter_bottom">
+                    <div class="shop_item_cart_btn mb20">
+                      <a href="page-shop-cart.html" class="btn btn-thm w100">Add to Cart</a>
+                    </div>
+                    <div class="product_action_info">
+                      <ul class="mb0">
+                        <li class="list-inline-item"><a href="page-dashboard-wish-list.html"><span class="flaticon-heart"></span> Add to Wishlist</a></li>
+                        <li class="list-inline-item ps-2"><a href="page-shop-list-v6.html"><span class="flaticon-graph"></span> Compare</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-12">
+              <div class="shop_item list_style bdr1 my--1 align-items-center row">
+                <div class="thumb text-center text-md-start col-xl-4 col-xxl-3">
+                  <img src="<%= asset_path "shop-items/shop-item16.png"%>" alt="Shop Item16">
+                </div>
+                <div class="details ps-0 ps-lg-4 col-xl-8 col-xxl-6">
+                  <div class="sub_title">lenovo</div>
+                  <div class="title"><a href="#">Lenovo IdeaPad 3 15.6" Laptop - Sand (Intel Core i7-1165G7/512GB SSD/12GB RAM/Windows 11)</a></div>
+                  <div class="review d-block d-md-flex">
+                    <ul class="m-0 mb-md-3 me-2">
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                    </ul>
+                    <div class="review_count"><a href="#">3,014 reviews</a></div>
+                  </div>
+                  <div class="shop_item_list_features mb10-lg">
+                    <ul class="mb0 order_list list-style-type-bullet">
+                      <li><a href="#">16-core Neural Engine for advanced machine learning</a></li>
+                      <li><a href="#">8GB of unified memory so everything you do is fast and fluid</a></li>
+                      <li><a href="#">256GB of super-fast SSD storage launches apps and opens files</a></li>
+                      <li><a href="#">7-core GPU with up to 5 times faster graphics for graphics-intensive</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="si_right_content text-center col-xl-4 col-xxl-3">
+                  <div class="si_footer">
+                    <div class="price">$899.99 <small><del>$45</del></small></div>
+                  </div>
+                  <div class="sifoter_bottom">
+                    <div class="shop_item_cart_btn mb20">
+                      <a href="page-shop-cart.html" class="btn btn-thm w100">Add to Cart</a>
+                    </div>
+                    <div class="product_action_info">
+                      <ul class="mb0">
+                        <li class="list-inline-item"><a href="page-dashboard-wish-list.html"><span class="flaticon-heart"></span> Add to Wishlist</a></li>
+                        <li class="list-inline-item ps-2"><a href="page-shop-list-v6.html"><span class="flaticon-graph"></span> Compare</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-12">
+              <div class="shop_item list_style bdr1 my--1 align-items-center row">
+                <div class="thumb text-center text-md-start col-xl-4 col-xxl-3">
+                  <img src="<%= asset_path "shop-items/shop-item12.png"%>" alt="Shop Item12">
+                </div>
+                <div class="details ps-0 ps-lg-4 col-xl-8 col-xxl-6">
+                  <div class="sub_title">lenovo</div>
+                  <div class="title"><a href="#">Lenovo IdeaPad 3 15.6" Laptop - Sand (Intel Core i7-1165G7/512GB SSD/12GB RAM/Windows 11)</a></div>
+                  <div class="review d-block d-md-flex">
+                    <ul class="m-0 mb-md-3 me-2">
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                    </ul>
+                    <div class="review_count"><a href="#">3,014 reviews</a></div>
+                  </div>
+                  <div class="shop_item_list_features mb10-lg">
+                    <ul class="mb0 order_list list-style-type-bullet">
+                      <li><a href="#">16-core Neural Engine for advanced machine learning</a></li>
+                      <li><a href="#">8GB of unified memory so everything you do is fast and fluid</a></li>
+                      <li><a href="#">256GB of super-fast SSD storage launches apps and opens files</a></li>
+                      <li><a href="#">7-core GPU with up to 5 times faster graphics for graphics-intensive</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="si_right_content text-center col-xl-4 col-xxl-3">
+                  <div class="si_footer">
+                    <div class="price">$899.99 <small><del>$45</del></small></div>
+                  </div>
+                  <div class="sifoter_bottom">
+                    <div class="shop_item_cart_btn mb20">
+                      <a href="page-shop-cart.html" class="btn btn-thm w100">Add to Cart</a>
+                    </div>
+                    <div class="product_action_info">
+                      <ul class="mb0">
+                        <li class="list-inline-item"><a href="page-dashboard-wish-list.html"><span class="flaticon-heart"></span> Add to Wishlist</a></li>
+                        <li class="list-inline-item ps-2"><a href="page-shop-list-v6.html"><span class="flaticon-graph"></span> Compare</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-12">
+              <div class="shop_item list_style bdr1 my--1 align-items-center row">
+                <div class="thumb text-center text-md-start col-xl-4 col-xxl-3">
+                  <img src="<%= asset_path "shop-items/shop-item11.png"%>" alt="Shop Item11">
+                </div>
+                <div class="details ps-0 ps-lg-4 col-xl-8 col-xxl-6">
+                  <div class="sub_title">lenovo</div>
+                  <div class="title"><a href="#">Lenovo IdeaPad 3 15.6" Laptop - Sand (Intel Core i7-1165G7/512GB SSD/12GB RAM/Windows 11)</a></div>
+                  <div class="review d-block d-md-flex">
+                    <ul class="m-0 mb-md-3 me-2">
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                    </ul>
+                    <div class="review_count"><a href="#">3,014 reviews</a></div>
+                  </div>
+                  <div class="shop_item_list_features mb10-lg">
+                    <ul class="mb0 order_list list-style-type-bullet">
+                      <li><a href="#">16-core Neural Engine for advanced machine learning</a></li>
+                      <li><a href="#">8GB of unified memory so everything you do is fast and fluid</a></li>
+                      <li><a href="#">256GB of super-fast SSD storage launches apps and opens files</a></li>
+                      <li><a href="#">7-core GPU with up to 5 times faster graphics for graphics-intensive</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="si_right_content text-center col-xl-4 col-xxl-3">
+                  <div class="si_footer">
+                    <div class="price">$899.99 <small><del>$45</del></small></div>
+                  </div>
+                  <div class="sifoter_bottom">
+                    <div class="shop_item_cart_btn mb20">
+                      <a href="page-shop-cart.html" class="btn btn-thm w100">Add to Cart</a>
+                    </div>
+                    <div class="product_action_info">
+                      <ul class="mb0">
+                        <li class="list-inline-item"><a href="page-dashboard-wish-list.html"><span class="flaticon-heart"></span> Add to Wishlist</a></li>
+                        <li class="list-inline-item ps-2"><a href="page-shop-list-v6.html"><span class="flaticon-graph"></span> Compare</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-12">
+              <div class="shop_item list_style bdr1 my--1 align-items-center row">
+                <div class="thumb text-center text-md-start col-xl-4 col-xxl-3">
+                  <img src="<%= asset_path "shop-items/shop-item5.png"%>" alt="Shop Item5">
+                </div>
+                <div class="details ps-0 ps-lg-4 col-xl-8 col-xxl-6">
+                  <div class="sub_title">lenovo</div>
+                  <div class="title"><a href="#">Lenovo IdeaPad 3 15.6" Laptop - Sand (Intel Core i7-1165G7/512GB SSD/12GB RAM/Windows 11)</a></div>
+                  <div class="review d-block d-md-flex">
+                    <ul class="m-0 mb-md-3 me-2">
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                      <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                    </ul>
+                    <div class="review_count"><a href="#">3,014 reviews</a></div>
+                  </div>
+                  <div class="shop_item_list_features mb10-lg">
+                    <ul class="mb0 order_list list-style-type-bullet">
+                      <li><a href="#">16-core Neural Engine for advanced machine learning</a></li>
+                      <li><a href="#">8GB of unified memory so everything you do is fast and fluid</a></li>
+                      <li><a href="#">256GB of super-fast SSD storage launches apps and opens files</a></li>
+                      <li><a href="#">7-core GPU with up to 5 times faster graphics for graphics-intensive</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="si_right_content text-center col-xl-4 col-xxl-3">
+                  <div class="si_footer">
+                    <div class="price">$899.99 <small><del>$45</del></small></div>
+                  </div>
+                  <div class="sifoter_bottom">
+                    <div class="shop_item_cart_btn mb20">
+                      <a href="page-shop-cart.html" class="btn btn-thm w100">Add to Cart</a>
+                    </div>
+                    <div class="product_action_info">
+                      <ul class="mb0">
+                        <li class="list-inline-item"><a href="page-dashboard-wish-list.html"><span class="flaticon-heart"></span> Add to Wishlist</a></li>
+                        <li class="list-inline-item ps-2"><a href="page-shop-list-v6.html"><span class="flaticon-graph"></span> Compare</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <% end %>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="mbp_pagination mt30 text-center">
+                <ul class="page_navigation">
+                  <li class="page-item">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true"> <span class="fas fa-angle-left"></span></a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">4</a></li>
+                  <li class="page-item"><a class="page-link" href="#">5</a></li>
+                  <li class="page-item"><a class="page-link" href="#">...</a></li>
+                  <li class="page-item"><a class="page-link" href="#">20</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#"><span class="fas fa-angle-right"></span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <%= link_to 'Back to Categories', categories_path %>
