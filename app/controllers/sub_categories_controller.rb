@@ -26,7 +26,6 @@ class SubCategoriesController < ApplicationController
 
       @categories = Category.includes(:sub_categories).all
 
-      @sub_category = SubCategory.find(params[:id])
       @products = @sub_category.products
 
   end
