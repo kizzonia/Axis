@@ -59,7 +59,7 @@ end
   private
   def resolve_layout
     case action_name
-    when "new", "create", "edit"
+    when "new", "create", "edit", "index"
       "accounts"
     when  "show"
       "application"
