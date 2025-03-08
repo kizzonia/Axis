@@ -1,54 +1,64 @@
-<header class="dashboard_header">
-  <div class="header__container pt20 pb20 pl30 pr30">
-    <div class="row justify-between items-center">
-      <div class="col-sm-4 col-xl-2">
-        <div class="text-center text-lg-start d-flex mb15-520">
-          <div class="fz20 me-4">
-            <a href="#" class="dashboard_sidebar_toggle_icon text-thm1 vam"><i class="fa-sharp fa-solid fa-bars-staggered"></i></a>
-          </div>
-          <div class="dashboard_header_logo">
-            <a href="index.html" class="logo">My Axis<span class="text-thm">.</span></a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3 col-xl-3 d-none d-md-block">
-        <div class="header_search_widget mb15-520">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username">
-            <div class="input-group-append">
-              <button class="btn" type="button"><span class="fa fa-search"></span></button>
+  <header class="dashboard_header">
+    <div class="header__container pt20 pb20 pl30 pr30">
+      <div class="row justify-between items-center">
+        <div class="col-sm-4 col-xl-2">
+          <div class="text-center text-lg-start d-flex mb15-520">
+            <div class="fz20 me-4">
+              <a href="#" class="dashboard_sidebar_toggle_icon text-thm1 vam"><i class="fa-sharp fa-solid fa-bars-staggered"></i></a>
+            </div>
+            <div class="dashboard_header_logo">
+              <a href="index.html" class="logo">My Axis<span class="text-thm">.</span></a>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-5 col-xl-6 offset-xl-1 d-none d-md-block">
-        <div class="text-center text-lg-end header_right_widgets">
-          <ul class="mb0 d-flex justify-content-center justify-content-sm-end">
-            <li class=""><a class="text-center" href="page-login.html"><span class="flaticon-exit"></span></a></li>
-            <li class=""><a class="text-center" href="#"><span class="flaticon-mail-inbox-app"></span></a></li>
-            <li class=""><a class="text-center" href="#"><span class="flaticon-notification"></span></a></li>
-            <li class=" user_setting">
-              <div class="dropdown">
-                <a class="btn dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                  <img src="images/resource/user.png" alt="user.png">
-                </a>
-                <div class="dropdown-menu">
-                  <div class="user_setting_content">
-                    <a class="dropdown-item active" href="page-dashboard.html"><i class="flaticon-house mr10"></i>Dashboard</a>
-                    <a class="dropdown-item" href="page-dashboard-product.html"><i class="flaticon-cash-on-delivery mr10"></i>Products</a>
-                    <a class="dropdown-item" href="page-dashboard-order.html"><i class="flaticon-checked-box mr10"></i>Order</a>
-                    <a class="dropdown-item" href="page-dashboard-customer.html"><i class="flaticon-growth mr10"></i>Customer</a>
-                    <a class="dropdown-item" href="page-dashboard-categories.html"><i class="flaticon-folder mr10"></i>Categories</a>
-                    <a class="dropdown-item" href="page-dashboard-message.html"><i class="flaticon-mail-inbox-app mr10"></i>Message</a>
-                    <a class="dropdown-item" href="page-dashboard-setting.html"><i class="flaticon-settings mr10"></i>Settings</a>
-                    <a class="dropdown-item" href="page-login.html"><i class="flaticon-exit mr10"></i>Logout</a>
+        <div class="col-sm-3 col-xl-3 d-none d-md-block">
+          <div class="header_search_widget mb15-520">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username">
+              <div class="input-group-append">
+                <button class="btn" type="button"><span class="fa fa-search"></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-5 col-xl-6 offset-xl-1 d-none d-md-block">
+          <div class="text-center text-lg-end header_right_widgets">
+            <ul class="mb0 d-flex justify-content-center justify-content-sm-end">
+
+              <li class=""><%= link_to welcomes_path, class: "text-center" do %>
+                <span class="flaticon-exit"></span>
+                <% end %></li>
+
+              <li class=""><a class="text-center" href="#"><span class="flaticon-mail-inbox-app"></span></a></li>
+              <li class=""><a class="text-center" href="#"><span class="flaticon-notification"></span></a></li>
+              <li class=" user_setting">
+                <div class="dropdown">
+                  <a class="btn dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    <img src="<%= asset_path "resource/user.png" %>" alt="user.png">
+                  </a>
+                  <div class="dropdown-menu">
+                    <div class="user_setting_content">
+                      <%= link_to welcomes_path, class: "dropdown-item" do %>
+                    <i class="flaticon-house mr10"></i>Store Home
+                    <% end %>
+                    <%= link_to products_path, class: "dropdown-item" do %>
+                          <i class="flaticon-cash-on-delivery mr10"></i>Products
+                          <% end %>
+                      <a class="dropdown-item" href="page-dashboard-order.html"><i class="flaticon-checked-box mr10"></i>Order</a>
+                      <%= link_to root_path, class: "dropdown-item" do %>
+                          <i class="flaticon-growth mr10"></i>store
+                          <% end %>
+                      <a class="dropdown-item" href="page-dashboard-categories.html"><i class="flaticon-folder mr10"></i>Categories</a>
+                      <a class="dropdown-item" href="page-dashboard-message.html"><i class="flaticon-mail-inbox-app mr10"></i>Message</a>
+                      <a class="dropdown-item" href="page-dashboard-setting.html"><i class="flaticon-settings mr10"></i>Settings</a>
+                    <%= link_to destroy_user_session_path, class: "dropdown-item", method: :delete  do %><i class="flaticon-exit mr10"></i>Logout<%end %>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</header>
+  </header>

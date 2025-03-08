@@ -1,6 +1,6 @@
 class ProductsController < InheritedResources::Base
-  layout "accounts"
-  before_action :authenticate_user!
+  layout :resolve_layout
+  before_action :authenticate_user!, except: [:show]
   add_flash_types :success, :danger, :info, :notice
 
   before_action :find_product, only: [ :show, :edit, :update, :destroy]
@@ -10,6 +10,15 @@ def index
     @accounts = Account.where(user_id: current_user).order('created_at ASC')
     @products = Product.where(user_id: current_user).order('created_at ASC')
     @products = current_user.products.includes(:category, :sub_category)
+
+end
+
+def show
+  @headers = Header.all
+  @blogs = Blog.all.order('created_at DESC')
+  @feedbacks = Feedback.all.order('created_at DESC')
+  @categories = Category.includes(:sub_categories).all
+  @sub_categories = @category.sub_categories
 
 end
    def new
@@ -49,6 +58,17 @@ end
    end
 
   private
+  def resolve_layout
+    case action_name
+    when "new", "create", "edit"
+      "accounts"
+    when  "show"
+      "application"
+    else
+      "application"
+    end
+  end
+
   def find_product
     @product = Product.find(params[:id])
   end

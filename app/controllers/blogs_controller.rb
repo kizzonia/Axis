@@ -8,7 +8,6 @@ def index
 
 end
 def show
-  @sections = Section.all
   @headers = Header.all
   @blogs = Blog.all.order('created_at DESC')
   @feedbacks = Feedback.all.order('created_at DESC')

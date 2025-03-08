@@ -25,7 +25,8 @@ class SubCategoriesController < ApplicationController
       @feedbacks = Feedback.all.order('created_at DESC')
 
       @categories = Category.includes(:sub_categories).all
-
+      @category = @sub_category.category
+      @sub_categories = @category.sub_categories
       @products = @sub_category.products
 
   end
