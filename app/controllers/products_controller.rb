@@ -18,7 +18,6 @@ def show
   @blogs = Blog.all.order('created_at DESC')
   @feedbacks = Feedback.all.order('created_at DESC')
   @categories = Category.includes(:sub_categories).all
-  @sub_categories = @category.sub_categories
 
 end
    def new
