@@ -7,5 +7,7 @@ class User < ApplicationRecord
 
   has_many :accounts
   has_many :products, dependent: :destroy
+  has_one :cart
+ has_many :orders
 
 end

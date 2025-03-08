@@ -69,11 +69,11 @@ end
   end
 
   def find_product
-    @product = Product.find(params[:id])
+    @product = Product.friendly.find(params[:id])
   end
 
     def product_params
-      params.require(:product).permit(:name, :title, :description, :sku, :state, :feature, :discounttype, :price, :prodimage, :status, :category_id, :sub_category_id, :user_id)
+      params.require(:product).permit(:name, :title, :description, :sku, :slug, :overview, :verified, :state, :feature, :discounttype, :price, :prodimage, :status, :category_id, :sub_category_id, :user_id)
     end
 
 end
