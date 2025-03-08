@@ -9,8 +9,77 @@
         </li>
       <% end %>
     </ul>
-    <p><strong>Total:</strong> <%= number_to_currency(current_user.cart.total_price) %></p>
+    <p><strong>Total:</strong>
+      <%= number_to_currency(current_user.cart.total_price) %></p>
     <%= link_to 'Checkout', new_order_path, class: 'btn btn-success' %>
+  <% else %>
+    <p>Your cart is empty.</p>
+  <% end %>
+</div>
+
+
+<div class="cart-hidden-sbar">
+  <div class="hsidebar-header">
+    <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
+    <h4 class="title">Your Cart</h4>
+  </div>
+  <% if current_user && current_user.cart.present? %>
+
+  <div class="hsidebar-content">
+    <div class="log_fav_cart_widget hsidebar_home_page">
+
+      <div class="wrapper">
+        <ul class="cart">
+          <li class="list-inline-item">
+
+            <ul class="dropdown_content">
+
+              <% current_user.cart.cart_items.each do |cart_item| %>
+
+              <li class="list_content">
+                <div>
+                  <img class="float-start mt10" src="<%= cart_item.product.prodimage_url.to_s %>" alt="75x75">
+                  <p><%= cart_item.product.name %></p>
+                  <div class="cart_btn home_page_sidebar mt10">
+                    <div class="quantity-block home_page_sidebar">
+                      <%= link_to cart_item_path(cart_item), class: "quantity-arrow-minus home_page_sidebar", method: :delete, data: { confirm: 'Are you sure?' } do %>
+
+                        <img src="<%= asset_path "icons/minus.svg"%>" alt="">
+                        <% end %>
+
+
+                    </div>
+                    <span class="home_page_sidebar price">$<%= number_to_currency(cart_item.product.price) %></span>
+                  </div>
+                  <span class="close_icon"><i class="flaticon-close"></i></span>
+                </div>
+              </li>
+            <% end %>
+
+
+
+              <li class="list_content_total_price">
+                <h5>Total: <span class="total_price float-end">$  <%= number_to_currency(current_user.cart.total_price) %></span></h5>
+              </li>
+
+
+            </ul>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="hsidebar_footer_content">
+    <div class="list_last_content">
+      <div class="lc">
+      
+        <a href="#" class="cart_btns btn btn-white">View Cart</a>
+        <%= link_to 'Checkout', new_order_path, class: 'checkout_btns btn btn-thm' %>
+
+      </div>
+    </div>
+  </div>
   <% else %>
     <p>Your cart is empty.</p>
   <% end %>
