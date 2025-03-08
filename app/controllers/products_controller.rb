@@ -28,7 +28,7 @@ end
    def create
      @product = current_user.products.new(product_params)
      if @product.save
-       user = User.find_by_id(@account.user_id)
+       user = User.find_by_id(@product.user_id)
       product = @product
        ProductMailer.product_email(user, product).deliver_later
 
