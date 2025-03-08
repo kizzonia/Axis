@@ -47,6 +47,8 @@
                         <img src="<%= asset_path "icons/minus.svg"%>" alt="">
                         <% end %>
 
+                      <input class="quantity-num home_page_sidebar" type="number" value="<%= cart_item.quantity %>">
+                      <button class="quantity-arrow-plus home_page_sidebar"> <span class="flaticon-close"></span> </button>
 
                     </div>
                     <span class="home_page_sidebar price">$<%= number_to_currency(cart_item.product.price) %></span>
