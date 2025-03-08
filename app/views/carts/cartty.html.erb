@@ -1,0 +1,22 @@
+<!-- app/views/carts/show.html.erb -->
+<h1>Your Cart</h1>
+
+<% if @cart.cart_items.any? %>
+  <ul>
+    <% @cart.cart_items.each do |cart_item| %>
+      <li>
+        <h3><%= cart_item.product.name %></h3>
+        <p><%= cart_item.quantity %> x <%= number_to_currency(cart_item.product.price) %></p>
+        <p><strong>Subtotal:</strong> <%= number_to_currency(cart_item.quantity * cart_item.product.price) %></p>
+        <%= link_to 'Remove', cart_item_path(cart_item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+      </li>
+    <% end %>
+  </ul>
+
+  <p><strong>Total:</strong> <%= number_to_currency(@cart.total_price) %></p>
+  <%= link_to 'Checkout', new_order_path, class: 'btn btn-success' %>
+<% else %>
+  <p>Your cart is empty.</p>
+<% end %>
+
+<%= link_to 'Continue Shopping', root_path, class: 'btn btn-primary' %>

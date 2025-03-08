@@ -1,0 +1,109 @@
+<!-- app/views/carts/show.html.erb -->
+<section class="shop-cart pt30">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-lg-4 m-auto">
+        <div class="main-title text-center mb50">
+          <h2 class="title">Shopping Cart</h2>
+        </div>
+        <div class="text-center">
+          <div class="list_last_content">
+            <div class="lc">
+              <p class="para">Buy $98.00 more to enjoy FREE Shipping</p>
+              <div class="uilayout_range home1_style">
+                <div class="sidebar_range_slider mb30 mt25">
+                  <input class="range-example-km" value="80" type="text">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt15">
+      <div class="col-lg-8 col-xl-9">
+        <div class="shopping_cart_table table-responsive">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th scope="col">PRODUCT</th>
+                <th scope="col">PRICE</th>
+                <th scope="col">QUANTITY</th>
+                <th scope="col">TOTAL</th>
+                <th scope="col">REMOVE</th>
+              </tr>
+            </thead>
+            <tbody class="table_body">
+              <% if current_user.cart.cart_items.any? %>
+                <% current_user.cart.cart_items.each do |cart_item| %>
+                  <tr>
+                    <th scope="row">
+                      <ul class="cart_list d-block d-xl-flex">
+                        <li class="ps-1 ps-sm-4 pe-1 pe-sm-4">
+                          <%= image_tag cart_item.product.prodimage_url.to_s, alt: cart_item.product.name %>
+                        </li>
+                        <li class="ms-2 ms-md-3">
+                          <a class="cart_title" href="#">
+                            <span class="fz16"><%= cart_item.product.name %></span> <br>
+                            <span class="fz14"><span class="fw500">Price:</span> <%= number_to_currency(cart_item.product.price) %></span>
+                          </a>
+                        </li>
+                      </ul>
+                    </th>
+                    <td><%= number_to_currency(cart_item.product.price) %></td>
+                    <td>
+                      <div class="cart_btn">
+                        <div class="quantity-block">
+                          <%= form_with url: cart_item_path(cart_item), method: :patch, local: true do |form| %>
+                            <%= form.hidden_field :quantity, value: cart_item.quantity - 1 %>
+                            <%= form.button type: 'submit', class: 'quantity-arrow-minus inner_page' do %>
+                              <span class="fa fa-minus"></span>
+                            <% end %>
+                          <% end %>
+                          <input class="quantity-num inner_page" type="number" value="<%= cart_item.quantity %>" disabled>
+                          <%= form_with url: cart_item_path(cart_item), method: :patch, local: true do |form| %>
+                            <%= form.hidden_field :quantity, value: cart_item.quantity + 1 %>
+                            <%= form.button type: 'submit', class: 'quantity-arrow-plus inner_page' do %>
+                              <span class="fas fa-plus"></span>
+                            <% end %>
+                          <% end %>
+                        </div>
+                      </div>
+                    </td>
+                    <td class=""><%= number_to_currency(cart_item.quantity * cart_item.product.price) %></td>
+                    <td class="">
+                      <%= link_to cart_item_path(cart_item), method: :delete, data: { confirm: 'Are you sure?' } do %>
+                        <span class="flaticon-close"></span>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              <% else %>
+                <tr>
+                  <td colspan="5" class="text-center">Your cart is empty.</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+      
+        </div>
+      </div>
+      <div class="col-lg-4 col-xl-3">
+        <div class="order_sidebar_widget style2">
+          <h4 class="title">Cart Totals</h4>
+          <ul>
+            <li class="subtitle"><p>Product Subtotal <span class="float-end"><%= number_to_currency(current_user.cart.total_price) %></span></p></li>
+            <li class="subtitle"><p>Order Discounts <span class="float-end">-<%= number_to_currency(0) %></span></p></li>
+            <li class="subtitle"><p>Estimated Shipping <span class="float-end">Free</span></p></li>
+            <li class="subtitle"><p>Estimated Taxes <span class="float-end"><%= number_to_currency(0) %></span></p></li>
+            <li class="subtitle"><hr></li>
+            <li class="subtitle totals"><p>Total <span class="float-end"><%= number_to_currency(current_user.cart.total_price) %></span></p></li>
+          </ul>
+          <div class="ui_kit_button payment_widget_btn">
+            <%= link_to 'Proceed to checkout', new_order_path, class: 'btn btn-thm btn-block' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
