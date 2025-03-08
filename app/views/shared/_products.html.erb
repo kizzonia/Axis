@@ -49,7 +49,7 @@
                 </ul>
               </div>
               <div class="shop_item_cart_btn d-grid">
-                <a href="#" class="btn btn-thm">Add to Cart</a>
+                <%= button_to 'Add to Cart', cart_items_path(product_id: product.id), method: :post, class: 'btn btn-thm' %>
               </div>
             </div>
             <div class="details">

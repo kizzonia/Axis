@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  resources :cart_items, only: [:create, :destroy]
+
   resources :products
   resources :categories do
     resources :sub_categories
