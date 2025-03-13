@@ -3,6 +3,7 @@
 //= require popper.min
 //= require bootstrap
 //= require rails-ujs
+//= require ckeditor-jquery
 //= require bootstrap-select.min
 //= require jquery.mmenu.all
 //= require ace-responsive-menu
@@ -21,3 +22,8 @@
 //= require scrollbalance
 //= require toastr
 //= require "trix"
+
+
+$('.ckeditor').ckeditor({
+  // optional config
+});
