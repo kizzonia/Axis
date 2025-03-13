@@ -28,6 +28,7 @@ class SubCategoriesController < ApplicationController
       @categories = Category.includes(:sub_categories).all
       @category = @sub_category.category
       @sub_categories = @category.sub_categories
+      @products = @sub_category.products
 
   end
 
