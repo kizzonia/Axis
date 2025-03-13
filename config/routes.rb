@@ -14,6 +14,7 @@ resources :sub_categories do
   resources :products
 
 end
+
   resources :supports
   resources :features
   devise_for :admin_users, ActiveAdmin::Devise.config

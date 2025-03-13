@@ -146,7 +146,7 @@
     <div class="col-md-6">
       <div class="form-group mb-4">
         <%= f.input :category_id,
-                    collection: Category.all,
+                    collection: Category.includes(:sub_categories).all,
                     label_method: :name,
                     value_method: :id,
                     prompt: 'Select Category',
@@ -157,7 +157,7 @@
     <div class="col-md-6">
       <div class="form-group mb-4">
         <%= f.input :sub_category_id,
-                    collection: [],
+                    collection: Category.includes(:sub_categories).all,
                     label_method: :name,
                     value_method: :id,
                     prompt: 'Select Subcategory',
@@ -201,7 +201,7 @@
   });
 </script> -->
 
-
+<!--
 <script type="text/javascript">
   document.addEventListener('turbo:load', function() {
     const categorySelector = document.getElementById('category-selector');
@@ -228,5 +228,5 @@
         }
       });
     }
-  }); 
-</script>
+  });
+</script> -->
