@@ -6,7 +6,7 @@
           <div class="mailchimp_widget mb30-md text-center">
             <div class="icon float-start"><span class="flaticon-email-1"></span></div>
             <div class="details">
-              <h3 class="title">Subscribe and get 20% discount.</h3>
+              <h3 class="title">Subscribe and get 5% discount.</h3>
             </div>
           </div>
           <div class="footer_social_widget">
@@ -50,11 +50,10 @@
           <div class="footer_qlink_widget">
             <h4>Shop</h4>
             <ul class="list-unstyled">
-              <li><a href="#">Track Your Order</a></li>
-              <li><a href="#">Product Guides</a></li>
-              <li><a href="#">Wishlists</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Store Locator</a></li>
+              <li><%= link_to products_path do %>View Products <% end %>></li>
+              <% @services.each do |a| %>
+            <li><%= link_to a.title, a %></li>
+            <% end %>
             </ul>
           </div>
         </div>
@@ -149,4 +148,3 @@
       </div>
     </div>
   </section>
-  <a class="scrollToHome" href="#"><i class="fas fa-angle-up"></i></a>

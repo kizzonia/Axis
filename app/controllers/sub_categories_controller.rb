@@ -19,6 +19,7 @@ class SubCategoriesController < ApplicationController
   def show
     @abouts = About.all
     @services = Service.all
+    @products = Product.includes(:category, :sub_category, :user).all
 
       @headers = Header.all
       @blogs = Blog.all.order('created_at DESC')
@@ -27,7 +28,6 @@ class SubCategoriesController < ApplicationController
       @categories = Category.includes(:sub_categories).all
       @category = @sub_category.category
       @sub_categories = @category.sub_categories
-      @products = @sub_category.products
 
   end
 
