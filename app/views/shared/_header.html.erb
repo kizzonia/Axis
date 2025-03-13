@@ -1,81 +1,493 @@
-  <!-- header Top -->
+    <!-- header Top -->
 
 
-  <% if Welcome.exists? %>
+    <% if Welcome.exists? %>
 
+    <div class="header_top pt5 dn-992">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-6">
+            <div class="header_top_widget">
+              <ul class="delivery_widget mt-1 mb-0 d-flex justify-content-center justify-content-xl-start">
+                <li class="me-4">       <div id="google_translate_element"></div>
+    </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <div class="header_top_widget footer_bottom_right_widgets">
+              <div class="social_and_help_widgets social_icon_list">
+                <ul class="mb-0 d-flex align-items-center justify-content-center justify-content-xl-end">
+                  <li class="me-0">
+                    <div class="footer_bottom_right_widgets">
+                      <!-- <select class="selectpicker show-tick">
+                      <option>English / USD</option>
+                      <option>Spanish / Euro</option>
+                      <option>Turkey / Lira</option>
+                      <option>England / Pound</option>
+                    </select> -->
+                  </div>
+                </li>
+                <li class="me-2">
+                  <div class="footer_bottom_right_widgets helpful_link_lsit">
+                    <div class="dropdown">
+                      <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                        Help Center
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <%= link_to "Help Center", helps_path %>
+                          <%= link_to "Faq's", faqs_path %>
+                          <li><%= link_to "About Us", abouts_path %></li>
+                          <li><a class="dropdown-item" href="#">Support</a></li>
 
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="me-2">
+                    <%= link_to new_user_registration_path do %>
+                    Sign Up<% end %>
 
-  <div class="header_top pt5 dn-992">
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-6">
-          <div class="header_top_widget">
-            <ul class="delivery_widget mt-1 mb-0 d-flex justify-content-center justify-content-xl-start">
-              <li class="me-4">                <div id="google_translate_element"></div>
-  </li>
-            </ul>
+                  </li>
+                  <li class="me-2"><a href="#">Follow Us</a></li>
+                  <% @welcomes.each do |a| %>
+                  <li class="me-2"><a href="<%= a.ig %>"><i class="fab fa-instagram"></i></a></li>
+                  <li class="me-2"><a href="<%= a.twitter %>"><i class="fab fa-snapchat"></i></a></li>
+                  <li class="me-0"><a href="<%= a.ln %>"><i class="fab fa-facebook"></i></a></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-xl-6">
-          <div class="header_top_widget footer_bottom_right_widgets">
-            <div class="social_and_help_widgets social_icon_list">
-              <ul class="mb-0 d-flex align-items-center justify-content-center justify-content-xl-end">
-                <li class="me-0">
-                  <div class="footer_bottom_right_widgets">
-                    <!-- <select class="selectpicker show-tick">
-                    <option>English / USD</option>
-                    <option>Spanish / Euro</option>
-                    <option>Turkey / Lira</option>
-                    <option>England / Pound</option>
-                  </select> -->
-                </div>
-              </li>
-              <li class="me-2">
-                <div class="footer_bottom_right_widgets helpful_link_lsit">
-                  <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                      Help Center
-                    </button>
-                    <ul class="dropdown-menu">
+      </div>
+    </div>
+
+    <!-- header middle -->
+    <div class="header_middle home3_style pt20 pb20 dn-992">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2 col-xl-2 col-xxl-2">
+            <div class="header_top_logo_home3">
+              <div class="logo" >
+                <%= link_to root_path do %>
+                <img src="<%= asset_path "logo2.svg" %>" style="width:94px;" alt=""><span class="text-thm">.</span></div>
+                <% end %>
+              </div>
+            </div>
+            <div class="col-lg-5 col-xl-6 col-xxl-7">
+              <div class="header_middle_advnc_search home2_style">
+                <div class="search_form_wrapper">
+                  <div class="row">
+                    <div class="col-auto pe-0">
+                      <div class="top-search home2_style athome3">
+                        <form action="#" method="get" class="form-search" accept-charset="utf-8">
+                          <div class="box-search pre_line">
+                            <input class="form_control bgc-gmart-gray" type="text" name="search" placeholder="Search products…">
+
+                            <!-- <div class="search-suggestions">
+                            <div class="box-suggestions">
+                            <ul>
+                            <li>
+                            <div class="thumb">
+                            <img src="images/listing/sf1.png" alt="sf1.png">
+                          </div>
+                          <div class="info-product">
+                          <div class="item_title">Sony DJ Headphones 4334205465, Black, Standard</div>
+                          <div class="price"><span class="sale">$32.50</span></div>
+                        </div>
+                      </li>
                       <li>
-                        <%= link_to "Help Center", helps_path %>
-                        <%= link_to "Faq's", faqs_path %>
-                        <li><%= link_to "About Us", abouts_path %></li>
+                      <div class="thumb">
+                      <img src="images/listing/sf2.png" alt="sf2.png">
+                    </div>
+                    <div class="info-product">
+                    <div class="item_title">Sony E-Mount Full Frame FE 24-70mm f/2.8 GM II G Master</div>
+                    <div class="price"><span class="sale">$32.50</span></div>
+                  </div>
+                </li>
+                <li>
+                <div class="thumb">
+                <img src="images/listing/sf3.png" alt="sf3.png">
+              </div>
+              <div class="info-product">
+              <div class="item_title">TV 55" 4-Series 4K UHD smart TV</div>
+              <div class="price"><span class="sale">$32.50</span></div>
+            </div>
+          </li>
+          <li>
+          <div class="thumb">
+          <img src="images/listing/sf4.png" alt="sf4.png">
+        </div>
+        <div class="info-product">
+        <div class="item_title">Hugolog Baby Monitor, 2K Security Camera, PT Cameras for</div>
+        <div class="price"><span class="sale">$32.50</span></div>
+      </div>
+    </li>
+    <li>
+    <div class="thumb">
+    <img src="images/listing/sf5.png" alt="sf5.png">
+    </div>
+    <div class="info-product">
+    <div class="item_title">Apple iPhone Retina 6s Plus 64GB</div>
+    <div class="price"><span class="sale">$32.50</span></div>
+    </div>
+    </li>
+    </ul>
+    </div>
+    </div> -->
+    <!-- /.search-suggestions -->
+    </div><!-- /.box-search -->
+    </form><!-- /.form-search -->
+    </div><!-- /.top-search -->
+    </div>
+    <!-- <div class="col-auto bgc-gmart-gray p-0">
+    <div class="actegory home2_style">
+    <select class="selectpicker" id="selectbox_alCategory">
+    <option value="AllCategory">All Category</option>
+    <option value="Today’sHotDeals">Today’s Hot Deals</option>
+    <option value="Babies&Moms">Babies & Moms</option>
+    <option value="Clothing&Accessories">Clothing & Accessories</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Grocery&Market">Grocery & Market</option>
+    <option value="Health&Beauty">Health & Beauty</option>
+    <option value="Home&Kitchen">Home & Kitchen</option>
+    <option value="Home&Furniture">Home & Furniture</option>
+    <option value="Health&Beauty">Health & Beauty</option>
+    <option value="Sport&Outdoor">Sport & Outdoor</option>
+    <option value="Toy&VideoGames">Toy & Video Games</option>
+    </select>
+    </div>
+    </div> -->
+    <div class="col-auto p-0">
+      <div class="advscrh_frm_btn home3_style">
+        <button type="submit" class="btn search-btn"><span class="flaticon-search"></span></button>
+      </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="col-lg-5 col-xl-4 col-xxl-3 align-self-center">
+      <div class="text-center text-lg-end">
+        <div class="wrapper d-flex">
+          <a href="page-account-wishlist.html" class="header_iconbox_home3_style me-4">
+            <div class="d-block d-flex align-items-center">
+              <div class="icon me-2"><span class="flaticon-heart"></span></div>
+              <div class="details">
+                <h5 class="title">Wishlist</h5>
+              </div>
+            </div>
+          </a>
+
+          <%= link_to accounts_path, class: "header_iconbox_home3_style me-4" do %>
+            <div class="d-block d-flex align-items-center">
+              <div class="icon me-2"><span class="flaticon-profile"></span></div>
+              <div class="details">
+                <h5 class="title">My Account</h5>
+              </div>
+            </div>
+
+          <% end %>
+          <a href="#" class="header_iconbox_home3_style cart-filter-btn">
+            <div class="d-block d-flex align-items-center">
+              <div class="icon me-2">
+                <img src="<%= asset_path "icons/flaticon-shopping-cart.svg" %>" alt="">
+                <span class="badge bgc-thm rounded-circle">2</span></div>
+              <div class="details ms-2">
+                <h5 class="title">Cart</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Color Ful Line -->
+    <div class="h2 bgszc bgrn bgpc dn-992" style="background-image: url('<%= asset_path "background/home3-line.png"%>');"></div>
+
+    <!-- Main Header Nav -->
+    <header class="header-nav menu_style_home_one menu_home5_style athome3 main-menu bb1">
+      <!-- Ace Responsive Menu -->
+      <nav class="posr">
+        <div class="container posr menu_bdrt1">
+          <!-- Menu Toggle btn-->
+          <div class="menu-toggle">
+            <button type="button" id="menu-btn">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <div class="posr logo1 home4_style">
+            <div id="mega-menu">
+              <a class="btn-mega" href="#">
+                <img class="me-2" src=" <%= asset_path "desktop-nav-menu-dark.svg" %>"  alt="Desktop Menu Icon">
+                <span class="fw500 fz16 heading-color vam">Browse Categories</span>
+              </a>
+              <ul class="menu">
+                <%= render "shared/headercate" %>
+              </ul>
+            </div>
+          </div>
+          <!-- Responsive Menu Structure-->
+          <ul id="respMenu" class="ace-responsive-menu menu_list_custom_code wa pl200" data-menu-style="horizontal">
+
+            <li> <%= link_to root_path do %><span class="title">Home</span> <% end %>
+
+            </li>
+            <li class="megamenu_style"> <a href="#"><span class="title">Shop</span></a>
+              <ul class="row dropdown-megamenu">
+
+                <% if user_signed_in? %>
+                <li class="col mega_menu_list">
+                  <h4 class="title">My Axis </h4>
+                  <ul>
+                    <li> <%= link_to accounts_path do %> Dashboard <% end %> </li>
+                    <li><a href="#">Orders</a></li>
+                    <li><a href="#">messages</a></li>
+                    <li><%= link_to edit_user_registration_path do %> Account Details <% end %></li>
+                  </ul>
+                </li>
+
+                <% else %>
+
+                              <li class="col mega_menu_list">
+                                <h4 class="title">Shop</h4>
+                                <ul>
+                                  <li><a href="#">Cart</a></li>
+                                  <li><a href="#">Checkout</a></li>
+                                  <li><a href="#">Wishlist</a></li>
+                                </ul>
+                              </li>
+                <% end %>
+
+
+                <li class="col mega_menu_list">
+                  <h4 class="title">Knowledge Base</h4>
+                  <ul>
+                    <% @abouts.take(7).each do |a| %>
+                    <li><%= link_to a.title, a %></li>
+                    <% end %>
+
+                  </ul>
+                </li>
+                <li class="col mega_menu_list">
+                  <h4 class="title">Services & Features</h4>
+                  <ul>
+                    <% @services.each do |a| %>
+                    <li><%= link_to a.title, a %></li>
+                    <% end %>
+                    <% @features.each do |a| %>
+                    <li><%= link_to a.title, a %></li>
+                    <% end %>
+
+                  </ul>
+                </li>
+                <li class="col mega_menu_list">
+                  <div class="banner_one megamenu_style home1_style color1 mb30">
+                    <div class="thumb style1">
+                      <img class="float-end" src="<%= asset_path "banner/smartwatch.png" %>" alt="smartwatch">
+                    </div>
+                    <div class="details">
+                      <p class="para color-light-blue">Starting from <span class="fw500">$899.</span></p>
+                      <h3 class="title">Health Care Monitor</h3>
+                      <%= link_to products_path, class: "shop_btn" do %> Shop Now <% end %>
+                    </div>
+                  </div>
+                  </li>
+              </ul>
+            </li>
+            <li> <a href="#"><span class="title">Help & Contact</span></a>
+              <ul>
+                <li><%= link_to "Help Center", helps_path %></li>
+
+                <li><%= link_to "Faq", faqs_path %></li>
+              </ul>
+            </li>
+            <li> <%= link_to blogs_path do %><span class="title">Blog & Community</span><% end %>
+
+            </li>
+          </ul>
+          <ul id="respMenu2" class="ace-responsive-menu widget_menu_home2 wa" data-menu-style="horizontal">
+            <% if user_signed_in? %>
+            <li class="list-inline-item list_c"><%= link_to accounts_path do %>Goto Dashboard<% end %></li>
+            <li class="list-inline-item list_c"><%= link_to new_product_path do %>Add New Products<% end %></li>
+            <% else %>
+            <li class="list-inline-item list_c"><%= link_to new_user_registration_path do %>Sign Up<% end %></li>
+            <li class="list-inline-item list_c"><%= link_to new_user_session_path do %>Sign In<% end %></li>
+
+            <!-- <li class="list-inline-item list_c"><a href="#">Merchant Pro</a></li> -->
+            <% end %>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Body Ovelay Behind Sidebar -->
+    <!-- <div class="hiddenbar-body-ovelay"></div> -->
+    <!-- Sign In Hiddn SideBar -->
+    <!-- <div class="signin-hidden-sbar">
+      <div class="hsidebar-header">
+        <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
+        <h4 class="title">Sign-In</h4>
+      </div>
+      <div class="hsidebar-content">
+        <div class="log_reg_form sidebar_area">
+          <div class="login_form">
+            <form action="#">
+              <div class="mb-2 mr-sm-2">
+                <label class="form-label">Username or email address</label>
+                <input type="text" class="form-control" placeholder="Ali Tufan">
+              </div>
+              <div class="form-group mb5">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" placeholder="Password">
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="exampleCheck3">
+                <label class="custom-control-label" for="exampleCheck3">Remember me</label>
+                <a class="btn-fpswd float-end" href="#">Lost your password?</a>
+              </div>
+              <button type="submit" class="btn btn-log btn-thm mt20">Login</button>
+              <p class="text-center mb25 mt10">Don't have an account? <a class="signup-filter-btn" href="#">Create account</a></p>
+              <div class="hr_content">
+                <hr>
+                <span class="hr_top_text">or</span>
+              </div>
+              <ul class="login_with_social text-center mt30 mb0">
+                <li class="list-inline-item"><a href="#"><i class="fab fa-facebook"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-google"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-apple"></i></a></li>
+              </ul>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!--End Sign In Hiddn SideBar -->
+    <!-- Your Cart Hiddn SideBar -->
+
+
+    <%= render "carts/cart" %>
+    <!--End Your Cart Hiddn SideBar -->
+    <!-- Sign Up Hiddn SideBar -->
+    <div class="signup-hidden-sbar">
+      <div class="hsidebar-header">
+        <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
+        <h4 class="title">Create Your Account</h4>
+      </div>
+      <div class="hsidebar-content">
+        <div class="log_reg_form sidebar_area">
+          <div class="sign_up_form">
+            <form action="#">
+              <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <input type="text" class="form-control" placeholder="Ali Tufan">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" placeholder="alitfn">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Your Email</label>
+                <input type="email" class="form-control" placeholder="creativelayers088@gmail.com">
+              </div>
+              <div class="form-group mb20">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" placeholder="******************">
+              </div>
+              <button type="submit" class="btn btn-signup btn-thm">Create Account</button>
+              <p class="text-center mb25 mt10">Already have an account? <a href="page-login.html">Sign in</a></p>
+              <div class="hr_content">
+                <hr>
+                <span class="hr_top_text">or</span>
+              </div>
+              <ul class="login_with_social text-center mt30 mb0">
+                <li class="list-inline-item"><a href="#"><i class="fab fa-facebook"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-google"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-apple"></i></a></li>
+              </ul>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--End Sign Up Hiddn SideBar -->
+
+
+    <% else %>
+
+
+    <div class="header_top pt5 dn-992">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-6">
+            <div class="header_top_widget">
+              <ul class="delivery_widget mt-1 mb-0 d-flex justify-content-center justify-content-xl-start">
+                <!-- <li class="me-4"><a href="#"><span class="flaticon-delivery-truck pe-2 mt-1"></span>Free Delivery</a></li>
+                <li class="me-4"><a href="#">Returns Policy</a></li>
+              </ul> -->
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <div class="header_top_widget footer_bottom_right_widgets">
+              <div class="social_and_help_widgets social_icon_list">
+                <ul class="mb-0 d-flex align-items-center justify-content-center justify-content-xl-end">
+                  <li class="me-0">
+                    <div class="footer_bottom_right_widgets">
+                      <!-- <select class="selectpicker show-tick">
+                      <option>English / USD</option>
+                      <option>Spanish / Euro</option>
+                      <option>Turkey / Lira</option>
+                      <option>England / Pound</option>
+                    </select> -->
+                    <div id="google_translate_element"></div>
+                  </div>
+                </li>
+                <li class="me-2">
+                  <div class="footer_bottom_right_widgets helpful_link_lsit">
+                    <div class="dropdown">
+                      <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                        Help Center
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="page-help.html">Help Center</a></li>
+                        <li><a class="dropdown-item" href="#">Terms</a></li>
+                        <li><a class="dropdown-item" href="#">Faq's</a></li>
                         <li><a class="dropdown-item" href="#">Support</a></li>
 
                       </ul>
                     </div>
                   </div>
                 </li>
-                <li class="me-2">
-                  <%= link_to new_user_registration_path do %>
-                  Sign Up<% end %>
-
-                </li>
+                <li class="me-2"><a href="#">Become a vendor</a></li>
                 <li class="me-2"><a href="#">Follow Us</a></li>
-                <% @welcomes.each do |a| %>
-                <li class="me-2"><a href="<%= a.ig %>"><i class="fab fa-instagram"></i></a></li>
-                <li class="me-2"><a href="<%= a.twitter %>"><i class="fab fa-snapchat"></i></a></li>
-                <li class="me-0"><a href="<%= a.ln %>"><i class="fab fa-facebook"></i></a></li>
-                <% end %>
+                <li class="me-2"><a href="#"><i class="fab fa-facebook"></i></a></li>
+                <li class="me-2"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li class="me-2"><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li class="me-0"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
               </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    </div>
 
-  <!-- header middle -->
-  <div class="header_middle home3_style pt20 pb20 dn-992">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-2 col-xl-2 col-xxl-2">
-          <div class="header_top_logo_home3">
-            <div class="logo" >
-              <%= link_to root_path do %>
-              <img src="<%= asset_path "logo2.svg" %>" style="width:94px;" alt=""><span class="text-thm">.</span></div>
-              <% end %>
+    <!-- header middle -->
+    <div class="header_middle home3_style pt20 pb20 dn-992">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2 col-xl-2 col-xxl-2">
+            <div class="header_top_logo_home3">
+              <div class="logo" ><img src="<%= asset_path "logo2.svg" %>" style="width:94px;" alt=""><span class="text-thm">.</span></div>
             </div>
           </div>
           <div class="col-lg-5 col-xl-6 col-xxl-7">
@@ -126,1470 +538,1056 @@
       <div class="item_title">Hugolog Baby Monitor, 2K Security Camera, PT Cameras for</div>
       <div class="price"><span class="sale">$32.50</span></div>
     </div>
-  </li>
-  <li>
-  <div class="thumb">
-  <img src="images/listing/sf5.png" alt="sf5.png">
-  </div>
-  <div class="info-product">
-  <div class="item_title">Apple iPhone Retina 6s Plus 64GB</div>
-  <div class="price"><span class="sale">$32.50</span></div>
-  </div>
-  </li>
-  </ul>
-  </div>
-  </div> -->
-  <!-- /.search-suggestions -->
-  </div><!-- /.box-search -->
-  </form><!-- /.form-search -->
-  </div><!-- /.top-search -->
-  </div>
-  <!-- <div class="col-auto bgc-gmart-gray p-0">
-  <div class="actegory home2_style">
-  <select class="selectpicker" id="selectbox_alCategory">
-  <option value="AllCategory">All Category</option>
-  <option value="Today’sHotDeals">Today’s Hot Deals</option>
-  <option value="Babies&Moms">Babies & Moms</option>
-  <option value="Clothing&Accessories">Clothing & Accessories</option>
-  <option value="Electronics">Electronics</option>
-  <option value="Grocery&Market">Grocery & Market</option>
-  <option value="Health&Beauty">Health & Beauty</option>
-  <option value="Home&Kitchen">Home & Kitchen</option>
-  <option value="Home&Furniture">Home & Furniture</option>
-  <option value="Health&Beauty">Health & Beauty</option>
-  <option value="Sport&Outdoor">Sport & Outdoor</option>
-  <option value="Toy&VideoGames">Toy & Video Games</option>
-  </select>
-  </div>
-  </div> -->
-  <div class="col-auto p-0">
-    <div class="advscrh_frm_btn home3_style">
-      <button type="submit" class="btn search-btn"><span class="flaticon-search"></span></button>
-    </div>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-  <div class="col-lg-5 col-xl-4 col-xxl-3 align-self-center">
-    <div class="text-center text-lg-end">
-      <div class="wrapper d-flex">
-        <a href="page-account-wishlist.html" class="header_iconbox_home3_style me-4">
-          <div class="d-block d-flex align-items-center">
-            <div class="icon me-2"><span class="flaticon-heart"></span></div>
-            <div class="details">
-              <h5 class="title">Wishlist</h5>
-            </div>
-          </div>
-        </a>
-
-        <%= link_to accounts_path, class: "header_iconbox_home3_style me-4" do %>
-          <div class="d-block d-flex align-items-center">
-            <div class="icon me-2"><span class="flaticon-profile"></span></div>
-            <div class="details">
-              <h5 class="title">My Account</h5>
-            </div>
-          </div>
-
-        <% end %>
-        <a href="#" class="header_iconbox_home3_style cart-filter-btn">
-          <div class="d-block d-flex align-items-center">
-            <div class="icon me-2">
-              <img src="<%= asset_path "icons/flaticon-shopping-cart.svg" %>" alt="">
-              <span class="badge bgc-thm rounded-circle">2</span></div>
-            <div class="details ms-2">
-              <h5 class="title">Cart</h5>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-  </div>
-  </div>
-  </div>
-
-  <!-- Color Ful Line -->
-  <div class="h2 bgszc bgrn bgpc dn-992" style="background-image: url('<%= asset_path "background/home3-line.png"%>');"></div>
-
-  <!-- Main Header Nav -->
-  <header class="header-nav menu_style_home_one menu_home5_style athome3 main-menu bb1">
-    <!-- Ace Responsive Menu -->
-    <nav class="posr">
-      <div class="container posr menu_bdrt1">
-        <!-- Menu Toggle btn-->
-        <div class="menu-toggle">
-          <button type="button" id="menu-btn">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div class="posr logo1 home4_style">
-          <div id="mega-menu">
-            <a class="btn-mega" href="#">
-              <img class="me-2" src=" <%= asset_path "desktop-nav-menu-dark.svg" %>"  alt="Desktop Menu Icon">
-              <span class="fw500 fz16 heading-color vam">Browse Categories</span>
-            </a>
-            <ul class="menu">
-              <%= render "shared/headercate" %>
-            </ul>
-          </div>
-        </div>
-        <!-- Responsive Menu Structure-->
-        <ul id="respMenu" class="ace-responsive-menu menu_list_custom_code wa pl200" data-menu-style="horizontal">
-
-          <li> <%= link_to root_path do %><span class="title">Home</span> <% end %>
-
-          </li>
-          <li class="megamenu_style"> <a href="#"><span class="title">Shop</span></a>
-            <ul class="row dropdown-megamenu">
-
-              <% if user_signed_in? %>
-              <li class="col mega_menu_list">
-                <h4 class="title">My Axis </h4>
-                <ul>
-                  <li> <%= link_to accounts_path do %> Dashboard <% end %> </li>
-                  <li><a href="#">Orders</a></li>
-                  <li><a href="#">messages</a></li>
-                  <li><%= link_to edit_user_registration_path do %> Account Details <% end %></li>
-                </ul>
-              </li>
-
-              <% else %>
-
-                            <li class="col mega_menu_list">
-                              <h4 class="title">Shop</h4>
-                              <ul>
-                                <li><a href="#">Cart</a></li>
-                                <li><a href="#">Checkout</a></li>
-                                <li><a href="#">Wishlist</a></li>
-                              </ul>
-                            </li>
-              <% end %>
-
-
-              <li class="col mega_menu_list">
-                <h4 class="title">Knowledge Base</h4>
-                <ul>
-                  <% @abouts.take(7).each do |a| %>
-                  <li><%= link_to a.title, a %></li>
-                  <% end %>
-
-                </ul>
-              </li>
-              <li class="col mega_menu_list">
-                <h4 class="title">Services & Features</h4>
-                <ul>
-                  <% @services.each do |a| %>
-                  <li><%= link_to a.title, a %></li>
-                  <% end %>
-                  <% @features.each do |a| %>
-                  <li><%= link_to a.title, a %></li>
-                  <% end %>
-
-                </ul>
-              </li>
-              <li class="col mega_menu_list">
-                <div class="banner_one megamenu_style home1_style color1 mb30">
-                  <div class="thumb style1">
-                    <img class="float-end" src="<%= asset_path "banner/smartwatch.png" %>" alt="smartwatch">
-                  </div>
-                  <div class="details">
-                    <p class="para color-light-blue">Starting from <span class="fw500">$899.</span></p>
-                    <h3 class="title">Health Care Monitor</h3>
-                    <%= link_to products_path, class: "shop_btn" do %> Shop Now <% end %>
-                  </div>
-                </div>
-                </li>
-            </ul>
-          </li>
-          <li> <a href="#"><span class="title">Help & Contact</span></a>
-            <ul>
-              <li><%= link_to "Help Center", helps_path %></li>
-
-              <li><%= link_to "Faq", faqs_path %></li>
-            </ul>
-          </li>
-          <li> <%= link_to blogs_path do %><span class="title">Blog & Community</span><% end %>
-
-          </li>
-        </ul>
-        <ul id="respMenu2" class="ace-responsive-menu widget_menu_home2 wa" data-menu-style="horizontal">
-          <% if user_signed_in? %>
-          <li class="list-inline-item list_c"><%= link_to accounts_path do %>Goto Dashboard<% end %></li>
-          <li class="list-inline-item list_c"><%= link_to new_product_path %>Add New Products<% end %></li>
-          <% else %>
-          <li class="list-inline-item list_c"><%= link_to new_user_registration_path do %>Sign Up<% end %></li>
-          <li class="list-inline-item list_c"><%= link_to new_user_session_path do %>Sign In<% end %></li>
-
-          <!-- <li class="list-inline-item list_c"><a href="#">Merchant Pro</a></li> -->
-          <% end %>
-        </ul>
-      </div>
-    </nav>
-  </header>
-
-  <!-- Body Ovelay Behind Sidebar -->
-  <!-- <div class="hiddenbar-body-ovelay"></div> -->
-  <!-- Sign In Hiddn SideBar -->
-  <!-- <div class="signin-hidden-sbar">
-    <div class="hsidebar-header">
-      <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
-      <h4 class="title">Sign-In</h4>
-    </div>
-    <div class="hsidebar-content">
-      <div class="log_reg_form sidebar_area">
-        <div class="login_form">
-          <form action="#">
-            <div class="mb-2 mr-sm-2">
-              <label class="form-label">Username or email address</label>
-              <input type="text" class="form-control" placeholder="Ali Tufan">
-            </div>
-            <div class="form-group mb5">
-              <label class="form-label">Password</label>
-              <input type="password" class="form-control" placeholder="Password">
-            </div>
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="exampleCheck3">
-              <label class="custom-control-label" for="exampleCheck3">Remember me</label>
-              <a class="btn-fpswd float-end" href="#">Lost your password?</a>
-            </div>
-            <button type="submit" class="btn btn-log btn-thm mt20">Login</button>
-            <p class="text-center mb25 mt10">Don't have an account? <a class="signup-filter-btn" href="#">Create account</a></p>
-            <div class="hr_content">
-              <hr>
-              <span class="hr_top_text">or</span>
-            </div>
-            <ul class="login_with_social text-center mt30 mb0">
-              <li class="list-inline-item"><a href="#"><i class="fab fa-facebook"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-google"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-apple"></i></a></li>
-            </ul>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <!--End Sign In Hiddn SideBar -->
-  <!-- Your Cart Hiddn SideBar -->
-
-
-  <%= render "carts/cart" %>
-  <!--End Your Cart Hiddn SideBar -->
-  <!-- Sign Up Hiddn SideBar -->
-  <div class="signup-hidden-sbar">
-    <div class="hsidebar-header">
-      <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
-      <h4 class="title">Create Your Account</h4>
-    </div>
-    <div class="hsidebar-content">
-      <div class="log_reg_form sidebar_area">
-        <div class="sign_up_form">
-          <form action="#">
-            <div class="form-group">
-              <label class="form-label">Your Name</label>
-              <input type="text" class="form-control" placeholder="Ali Tufan">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Username</label>
-              <input type="text" class="form-control" placeholder="alitfn">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Your Email</label>
-              <input type="email" class="form-control" placeholder="creativelayers088@gmail.com">
-            </div>
-            <div class="form-group mb20">
-              <label class="form-label">Password</label>
-              <input type="password" class="form-control" placeholder="******************">
-            </div>
-            <button type="submit" class="btn btn-signup btn-thm">Create Account</button>
-            <p class="text-center mb25 mt10">Already have an account? <a href="page-login.html">Sign in</a></p>
-            <div class="hr_content">
-              <hr>
-              <span class="hr_top_text">or</span>
-            </div>
-            <ul class="login_with_social text-center mt30 mb0">
-              <li class="list-inline-item"><a href="#"><i class="fab fa-facebook"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-google"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-apple"></i></a></li>
-            </ul>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--End Sign Up Hiddn SideBar -->
-
-
-  <% else %>
-
-
-  <div class="header_top pt5 dn-992">
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-6">
-          <div class="header_top_widget">
-            <ul class="delivery_widget mt-1 mb-0 d-flex justify-content-center justify-content-xl-start">
-              <!-- <li class="me-4"><a href="#"><span class="flaticon-delivery-truck pe-2 mt-1"></span>Free Delivery</a></li>
-              <li class="me-4"><a href="#">Returns Policy</a></li>
-            </ul> -->
-          </div>
-        </div>
-        <div class="col-xl-6">
-          <div class="header_top_widget footer_bottom_right_widgets">
-            <div class="social_and_help_widgets social_icon_list">
-              <ul class="mb-0 d-flex align-items-center justify-content-center justify-content-xl-end">
-                <li class="me-0">
-                  <div class="footer_bottom_right_widgets">
-                    <!-- <select class="selectpicker show-tick">
-                    <option>English / USD</option>
-                    <option>Spanish / Euro</option>
-                    <option>Turkey / Lira</option>
-                    <option>England / Pound</option>
-                  </select> -->
-                  <div id="google_translate_element"></div>
-                </div>
-              </li>
-              <li class="me-2">
-                <div class="footer_bottom_right_widgets helpful_link_lsit">
-                  <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                      Help Center
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="page-help.html">Help Center</a></li>
-                      <li><a class="dropdown-item" href="#">Terms</a></li>
-                      <li><a class="dropdown-item" href="#">Faq's</a></li>
-                      <li><a class="dropdown-item" href="#">Support</a></li>
-
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li class="me-2"><a href="#">Become a vendor</a></li>
-              <li class="me-2"><a href="#">Follow Us</a></li>
-              <li class="me-2"><a href="#"><i class="fab fa-facebook"></i></a></li>
-              <li class="me-2"><a href="#"><i class="fab fa-twitter"></i></a></li>
-              <li class="me-2"><a href="#"><i class="fab fa-instagram"></i></a></li>
-              <li class="me-0"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-
-  <!-- header middle -->
-  <div class="header_middle home3_style pt20 pb20 dn-992">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-2 col-xl-2 col-xxl-2">
-          <div class="header_top_logo_home3">
-            <div class="logo" ><img src="<%= asset_path "logo2.svg" %>" style="width:94px;" alt=""><span class="text-thm">.</span></div>
-          </div>
-        </div>
-        <div class="col-lg-5 col-xl-6 col-xxl-7">
-          <div class="header_middle_advnc_search home2_style">
-            <div class="search_form_wrapper">
-              <div class="row">
-                <div class="col-auto pe-0">
-                  <div class="top-search home2_style athome3">
-                    <form action="#" method="get" class="form-search" accept-charset="utf-8">
-                      <div class="box-search pre_line">
-                        <input class="form_control bgc-gmart-gray" type="text" name="search" placeholder="Search products…">
-
-                        <!-- <div class="search-suggestions">
-                        <div class="box-suggestions">
-                        <ul>
-                        <li>
-                        <div class="thumb">
-                        <img src="images/listing/sf1.png" alt="sf1.png">
-                      </div>
-                      <div class="info-product">
-                      <div class="item_title">Sony DJ Headphones 4334205465, Black, Standard</div>
-                      <div class="price"><span class="sale">$32.50</span></div>
-                    </div>
-                  </li>
-                  <li>
-                  <div class="thumb">
-                  <img src="images/listing/sf2.png" alt="sf2.png">
-                </div>
-                <div class="info-product">
-                <div class="item_title">Sony E-Mount Full Frame FE 24-70mm f/2.8 GM II G Master</div>
-                <div class="price"><span class="sale">$32.50</span></div>
-              </div>
-            </li>
-            <li>
-            <div class="thumb">
-            <img src="images/listing/sf3.png" alt="sf3.png">
-          </div>
-          <div class="info-product">
-          <div class="item_title">TV 55" 4-Series 4K UHD smart TV</div>
-          <div class="price"><span class="sale">$32.50</span></div>
-        </div>
-      </li>
-      <li>
-      <div class="thumb">
-      <img src="images/listing/sf4.png" alt="sf4.png">
+    </li>
+    <li>
+    <div class="thumb">
+    <img src="images/listing/sf5.png" alt="sf5.png">
     </div>
     <div class="info-product">
-    <div class="item_title">Hugolog Baby Monitor, 2K Security Camera, PT Cameras for</div>
+    <div class="item_title">Apple iPhone Retina 6s Plus 64GB</div>
     <div class="price"><span class="sale">$32.50</span></div>
-  </div>
-  </li>
-  <li>
-  <div class="thumb">
-  <img src="images/listing/sf5.png" alt="sf5.png">
-  </div>
-  <div class="info-product">
-  <div class="item_title">Apple iPhone Retina 6s Plus 64GB</div>
-  <div class="price"><span class="sale">$32.50</span></div>
-  </div>
-  </li>
-  </ul>
-  </div>
-  </div> -->
-  <!-- /.search-suggestions -->
-  </div><!-- /.box-search -->
-  </form><!-- /.form-search -->
-  </div><!-- /.top-search -->
-  </div>
-  <div class="col-auto bgc-gmart-gray p-0">
-    <div class="actegory home2_style">
-      <select class="selectpicker" id="selectbox_alCategory">
-        <option value="AllCategory">All Category</option>
-        <option value="Today’sHotDeals">Today’s Hot Deals</option>
-        <option value="Babies&Moms">Babies & Moms</option>
-        <option value="Clothing&Accessories">Clothing & Accessories</option>
-        <option value="Electronics">Electronics</option>
-        <option value="Grocery&Market">Grocery & Market</option>
-        <option value="Health&Beauty">Health & Beauty</option>
-        <option value="Home&Kitchen">Home & Kitchen</option>
-        <option value="Home&Furniture">Home & Furniture</option>
-        <option value="Health&Beauty">Health & Beauty</option>
-        <option value="Sport&Outdoor">Sport & Outdoor</option>
-        <option value="Toy&VideoGames">Toy & Video Games</option>
-      </select>
     </div>
-  </div>
-  <div class="col-auto p-0">
-    <div class="advscrh_frm_btn home3_style">
-      <button type="submit" class="btn search-btn"><span class="flaticon-search"></span></button>
+    </li>
+    </ul>
     </div>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-  <div class="col-lg-5 col-xl-4 col-xxl-3 align-self-center">
-    <div class="text-center text-lg-end">
-      <div class="wrapper d-flex">
-        <!-- <a href="page-account-wishlist.html" class="header_iconbox_home3_style me-4">
-        <div class="d-block d-flex align-items-center">
-        <div class="icon me-2"><span class="flaticon-heart"></span></div>
+    </div> -->
+    <!-- /.search-suggestions -->
+    </div><!-- /.box-search -->
+    </form><!-- /.form-search -->
+    </div><!-- /.top-search -->
+    </div>
+    <div class="col-auto bgc-gmart-gray p-0">
+      <div class="actegory home2_style">
+        <select class="selectpicker" id="selectbox_alCategory">
+          <option value="AllCategory">All Category</option>
+          <option value="Today’sHotDeals">Today’s Hot Deals</option>
+          <option value="Babies&Moms">Babies & Moms</option>
+          <option value="Clothing&Accessories">Clothing & Accessories</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Grocery&Market">Grocery & Market</option>
+          <option value="Health&Beauty">Health & Beauty</option>
+          <option value="Home&Kitchen">Home & Kitchen</option>
+          <option value="Home&Furniture">Home & Furniture</option>
+          <option value="Health&Beauty">Health & Beauty</option>
+          <option value="Sport&Outdoor">Sport & Outdoor</option>
+          <option value="Toy&VideoGames">Toy & Video Games</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-auto p-0">
+      <div class="advscrh_frm_btn home3_style">
+        <button type="submit" class="btn search-btn"><span class="flaticon-search"></span></button>
+      </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="col-lg-5 col-xl-4 col-xxl-3 align-self-center">
+      <div class="text-center text-lg-end">
+        <div class="wrapper d-flex">
+          <!-- <a href="page-account-wishlist.html" class="header_iconbox_home3_style me-4">
+          <div class="d-block d-flex align-items-center">
+          <div class="icon me-2"><span class="flaticon-heart"></span></div>
+          <div class="details">
+          <h5 class="title">Wishlist</h5>
+        </div>
+      </div>
+    </a> -->
+      <%= link_to accounts_path, class: "header_iconbox_home3_style me-4 " do %>
+      <div class="d-block d-flex align-items-center">
+        <div class="icon me-2"><span class="flaticon-profile"></span></div>
         <div class="details">
-        <h5 class="title">Wishlist</h5>
-      </div>
-    </div>
-  </a> -->
-    <%= link_to accounts_path, class: "header_iconbox_home3_style me-4 " do %>
-    <div class="d-block d-flex align-items-center">
-      <div class="icon me-2"><span class="flaticon-profile"></span></div>
-      <div class="details">
-        <h5 class="title">My Account</h5>
-      </div>
-    </div>
-  <% end %>
-  <a href="#" class="header_iconbox_home3_style cart-filter-btn">
-    <div class="d-block d-flex align-items-center">
-      <div class="icon me-2"><img src="images/icons/flaticon-shopping-cart.svg" alt=""><span class="badge bgc-thm rounded-circle">2</span></div>
-      <div class="details ms-2">
-        <h5 class="title">Cart</h5>
-      </div>
-    </div>
-  </a>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-
-  <!-- Color Ful Line -->
-  <div class="h2 bgszc bgrn bgpc dn-992" style="background-image: url('<%=asset_path "background/home3-line.png"%>');"></div>
-
-  <!-- Main Header Nav -->
-  <header class="header-nav menu_style_home_one menu_home5_style athome3 main-menu bb1">
-    <!-- Ace Responsive Menu -->
-    <nav class="posr">
-      <div class="container posr menu_bdrt1">
-        <!-- Menu Toggle btn-->
-        <div class="menu-toggle">
-          <button type="button" id="menu-btn">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <h5 class="title">My Account</h5>
         </div>
-        <div class="posr logo1 home4_style">
-          <div id="mega-menu">
-            <a class="btn-mega" href="#">
-              <img class="me-2" src=" <%= asset_path "desktop-nav-menu-dark.svg" %>"  alt="Desktop Menu Icon">
-              <span class="fw500 fz16 heading-color vam">Browse Categories</span>
-            </a>
-            <ul class="menu">
-              <li>
-                <a class="dropdown" href="#">
-                  <span class="menu-icn flaticon-diamond"></span>
-                  <span class="menu-title">Today’s Hot Deals</span>
-                </a>
-                <div class="drop-menu">
-                  <div class="one-third">
-                    <div class="cat-title">Electronics</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All</a></li>
-                    </ul>
-                    <div class="cat-title">TV & Video</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop all TVs</a></li>
-                      <li><a href="#">TVs by Size</a></li>
-                      <li><a href="#">Smart TVs</a></li>
-                      <li><a href="#">Roku TVs</a></li>
-                      <li><a href="#">Streaming</a></li>
-                      <li><a href="#">TV Mounts & Accessories</a></li>
-                      <li><a href="#">DVD & Blu-Ray Players</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Computers</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Computers</a></li>
-                      <li><a href="#">Laptops</a></li>
-                      <li><a href="#">Chromebook</a></li>
-                      <li><a href="#">PC Gaming</a></li>
-                      <li><a href="#">Desktops</a></li>
-                      <li><a href="#">Monitors</a></li>
-                      <li><a href="#">Networking</a></li>
-                      <li><a href="#">Computer Accessories</a></li>
-                      <li><a href="#">Computer Components</a></li>
-                      <li><a href="#">Tax Software</a></li>
-                      <li><a href="#">Computer Software</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Cell Phones</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Cell Phones</a></li>
-                      <li><a href="#">Wireless Deals</a></li>
-                      <li><a href="#">5G Phones</a></li>
-                      <li><a href="#">iPhone</a></li>
-                      <li><a href="#">Galaxy Phones</a></li>
-                      <li><a href="#">Phone Chargers & Power Banks</a></li>
-                      <li><a href="#">Grips & Phone Stands</a></li>
-                      <li><a href="#">Phone Cables</a></li>
-                      <li><a href="#">Car Mounts</a></li>
-                      <li><a href="#">iPhone Accessories</a></li>
-                      <li><a href="#">Cell Phone Accessory Deals</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Smart Home</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All Smart Home</a></li>
-                      <li><a href="#">Smart Assistants & Hubs</a></li>
-                      <li><a href="#">Smart Security</a></li>
-                      <li><a href="#">Smart Energy & Lighting</a></li>
-                    </ul>
-                    <div class="cat-title">Photo Services</div>
-                    <ul class="mb0">
-                      <li><a href="#">All Photo Services</a></li>
-                      <li><a href="#">Same Day Services</a></li>
-                      <li><a href="#">Photo Cards</a></li>
-                      <li><a href="#">Photo Gifts</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
+      </div>
+    <% end %>
+    <a href="#" class="header_iconbox_home3_style cart-filter-btn">
+      <div class="d-block d-flex align-items-center">
+        <div class="icon me-2"><img src="images/icons/flaticon-shopping-cart.svg" alt=""><span class="badge bgc-thm rounded-circle">2</span></div>
+        <div class="details ms-2">
+          <h5 class="title">Cart</h5>
+        </div>
+      </div>
+    </a>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
 
+    <!-- Color Ful Line -->
+    <div class="h2 bgszc bgrn bgpc dn-992" style="background-image: url('<%=asset_path "background/home3-line.png"%>');"></div>
 
-              <li>
-                <a class="dropdown" href="#">
-                  <span class="menu-icn flaticon-cooking"></span>
-                  <span class="menu-title">Home & Kitchen</span>
-                </a>
-                <div class="drop-menu">
-                  <div class="one-third">
-                    <div class="cat-title">Electronics</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All</a></li>
-                    </ul>
-                    <div class="cat-title">TV & Video</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop all TVs</a></li>
-                      <li><a href="#">TVs by Size</a></li>
-                      <li><a href="#">Smart TVs</a></li>
-                      <li><a href="#">Roku TVs</a></li>
-                      <li><a href="#">Streaming</a></li>
-                      <li><a href="#">TV Mounts & Accessories</a></li>
-                      <li><a href="#">DVD & Blu-Ray Players</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Computers</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Computers</a></li>
-                      <li><a href="#">Laptops</a></li>
-                      <li><a href="#">Chromebook</a></li>
-                      <li><a href="#">PC Gaming</a></li>
-                      <li><a href="#">Desktops</a></li>
-                      <li><a href="#">Monitors</a></li>
-                      <li><a href="#">Networking</a></li>
-                      <li><a href="#">Computer Accessories</a></li>
-                      <li><a href="#">Computer Components</a></li>
-                      <li><a href="#">Tax Software</a></li>
-                      <li><a href="#">Computer Software</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Cell Phones</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Cell Phones</a></li>
-                      <li><a href="#">Wireless Deals</a></li>
-                      <li><a href="#">5G Phones</a></li>
-                      <li><a href="#">iPhone</a></li>
-                      <li><a href="#">Galaxy Phones</a></li>
-                      <li><a href="#">Phone Chargers & Power Banks</a></li>
-                      <li><a href="#">Grips & Phone Stands</a></li>
-                      <li><a href="#">Phone Cables</a></li>
-                      <li><a href="#">Car Mounts</a></li>
-                      <li><a href="#">iPhone Accessories</a></li>
-                      <li><a href="#">Cell Phone Accessory Deals</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Smart Home</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All Smart Home</a></li>
-                      <li><a href="#">Smart Assistants & Hubs</a></li>
-                      <li><a href="#">Smart Security</a></li>
-                      <li><a href="#">Smart Energy & Lighting</a></li>
-                    </ul>
-                    <div class="cat-title">Photo Services</div>
-                    <ul class="mb0">
-                      <li><a href="#">All Photo Services</a></li>
-                      <li><a href="#">Same Day Services</a></li>
-                      <li><a href="#">Photo Cards</a></li>
-                      <li><a href="#">Photo Gifts</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-
-
-              <li>
-                <a class="dropdown" href="#">
-                  <span class="menu-icn flaticon-armchair"></span>
-                  <span class="menu-title">Home & Furniture</span>
-                </a>
-                <div class="drop-menu">
-                  <div class="one-third">
-                    <div class="cat-title">Electronics</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All</a></li>
-                    </ul>
-                    <div class="cat-title">TV & Video</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop all TVs</a></li>
-                      <li><a href="#">TVs by Size</a></li>
-                      <li><a href="#">Smart TVs</a></li>
-                      <li><a href="#">Roku TVs</a></li>
-                      <li><a href="#">Streaming</a></li>
-                      <li><a href="#">TV Mounts & Accessories</a></li>
-                      <li><a href="#">DVD & Blu-Ray Players</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Computers</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Computers</a></li>
-                      <li><a href="#">Laptops</a></li>
-                      <li><a href="#">Chromebook</a></li>
-                      <li><a href="#">PC Gaming</a></li>
-                      <li><a href="#">Desktops</a></li>
-                      <li><a href="#">Monitors</a></li>
-                      <li><a href="#">Networking</a></li>
-                      <li><a href="#">Computer Accessories</a></li>
-                      <li><a href="#">Computer Components</a></li>
-                      <li><a href="#">Tax Software</a></li>
-                      <li><a href="#">Computer Software</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Cell Phones</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Cell Phones</a></li>
-                      <li><a href="#">Wireless Deals</a></li>
-                      <li><a href="#">5G Phones</a></li>
-                      <li><a href="#">iPhone</a></li>
-                      <li><a href="#">Galaxy Phones</a></li>
-                      <li><a href="#">Phone Chargers & Power Banks</a></li>
-                      <li><a href="#">Grips & Phone Stands</a></li>
-                      <li><a href="#">Phone Cables</a></li>
-                      <li><a href="#">Car Mounts</a></li>
-                      <li><a href="#">iPhone Accessories</a></li>
-                      <li><a href="#">Cell Phone Accessory Deals</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Smart Home</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All Smart Home</a></li>
-                      <li><a href="#">Smart Assistants & Hubs</a></li>
-                      <li><a href="#">Smart Security</a></li>
-                      <li><a href="#">Smart Energy & Lighting</a></li>
-                    </ul>
-                    <div class="cat-title">Photo Services</div>
-                    <ul class="mb0">
-                      <li><a href="#">All Photo Services</a></li>
-                      <li><a href="#">Same Day Services</a></li>
-                      <li><a href="#">Photo Cards</a></li>
-                      <li><a href="#">Photo Gifts</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <a class="dropdown" href="#">
-                  <span class="menu-icn flaticon-smartphone-1"></span>
-                  <span class="menu-title">Electronics</span>
-                </a>
-                <div class="drop-menu">
-                  <div class="one-third">
-                    <div class="cat-title">Electronics</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All</a></li>
-                    </ul>
-                    <div class="cat-title">TV & Video</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop all TVs</a></li>
-                      <li><a href="#">TVs by Size</a></li>
-                      <li><a href="#">Smart TVs</a></li>
-                      <li><a href="#">Roku TVs</a></li>
-                      <li><a href="#">Streaming</a></li>
-                      <li><a href="#">TV Mounts & Accessories</a></li>
-                      <li><a href="#">DVD & Blu-Ray Players</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Computers</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Computers</a></li>
-                      <li><a href="#">Laptops</a></li>
-                      <li><a href="#">Chromebook</a></li>
-                      <li><a href="#">PC Gaming</a></li>
-                      <li><a href="#">Desktops</a></li>
-                      <li><a href="#">Monitors</a></li>
-                      <li><a href="#">Networking</a></li>
-                      <li><a href="#">Computer Accessories</a></li>
-                      <li><a href="#">Computer Components</a></li>
-                      <li><a href="#">Tax Software</a></li>
-                      <li><a href="#">Computer Software</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Cell Phones</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Cell Phones</a></li>
-                      <li><a href="#">Wireless Deals</a></li>
-                      <li><a href="#">5G Phones</a></li>
-                      <li><a href="#">iPhone</a></li>
-                      <li><a href="#">Galaxy Phones</a></li>
-                      <li><a href="#">Phone Chargers & Power Banks</a></li>
-                      <li><a href="#">Grips & Phone Stands</a></li>
-                      <li><a href="#">Phone Cables</a></li>
-                      <li><a href="#">Car Mounts</a></li>
-                      <li><a href="#">iPhone Accessories</a></li>
-                      <li><a href="#">Cell Phone Accessory Deals</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Smart Home</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All Smart Home</a></li>
-                      <li><a href="#">Smart Assistants & Hubs</a></li>
-                      <li><a href="#">Smart Security</a></li>
-                      <li><a href="#">Smart Energy & Lighting</a></li>
-                    </ul>
-                    <div class="cat-title">Photo Services</div>
-                    <ul class="mb0">
-                      <li><a href="#">All Photo Services</a></li>
-                      <li><a href="#">Same Day Services</a></li>
-                      <li><a href="#">Photo Cards</a></li>
-                      <li><a href="#">Photo Gifts</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-
-              <li>
-                <a class="dropdown" href="#">
-                  <span class="menu-icn flaticon-bride-dress"></span>
-                  <span class="menu-title">Clothing & Accessories</span>
-                </a>
-                <div class="drop-menu">
-                  <div class="one-third">
-                    <div class="cat-title">Electronics</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All</a></li>
-                    </ul>
-                    <div class="cat-title">TV & Video</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop all TVs</a></li>
-                      <li><a href="#">TVs by Size</a></li>
-                      <li><a href="#">Smart TVs</a></li>
-                      <li><a href="#">Roku TVs</a></li>
-                      <li><a href="#">Streaming</a></li>
-                      <li><a href="#">TV Mounts & Accessories</a></li>
-                      <li><a href="#">DVD & Blu-Ray Players</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Computers</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Computers</a></li>
-                      <li><a href="#">Laptops</a></li>
-                      <li><a href="#">Chromebook</a></li>
-                      <li><a href="#">PC Gaming</a></li>
-                      <li><a href="#">Desktops</a></li>
-                      <li><a href="#">Monitors</a></li>
-                      <li><a href="#">Networking</a></li>
-                      <li><a href="#">Computer Accessories</a></li>
-                      <li><a href="#">Computer Components</a></li>
-                      <li><a href="#">Tax Software</a></li>
-                      <li><a href="#">Computer Software</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Cell Phones</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Cell Phones</a></li>
-                      <li><a href="#">Wireless Deals</a></li>
-                      <li><a href="#">5G Phones</a></li>
-                      <li><a href="#">iPhone</a></li>
-                      <li><a href="#">Galaxy Phones</a></li>
-                      <li><a href="#">Phone Chargers & Power Banks</a></li>
-                      <li><a href="#">Grips & Phone Stands</a></li>
-                      <li><a href="#">Phone Cables</a></li>
-                      <li><a href="#">Car Mounts</a></li>
-                      <li><a href="#">iPhone Accessories</a></li>
-                      <li><a href="#">Cell Phone Accessory Deals</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Smart Home</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All Smart Home</a></li>
-                      <li><a href="#">Smart Assistants & Hubs</a></li>
-                      <li><a href="#">Smart Security</a></li>
-                      <li><a href="#">Smart Energy & Lighting</a></li>
-                    </ul>
-                    <div class="cat-title">Photo Services</div>
-                    <ul class="mb0">
-                      <li><a href="#">All Photo Services</a></li>
-                      <li><a href="#">Same Day Services</a></li>
-                      <li><a href="#">Photo Cards</a></li>
-                      <li><a href="#">Photo Gifts</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-
-              <li>
-                <a class="dropdown" href="#">
-                  <span class="menu-icn flaticon-heart-beat"></span>
-                  <span class="menu-title">Health & Beauty</span>
-                </a>
-                <div class="drop-menu">
-                  <div class="one-third">
-                    <div class="cat-title">Electronics</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All</a></li>
-                    </ul>
-                    <div class="cat-title">TV & Video</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop all TVs</a></li>
-                      <li><a href="#">TVs by Size</a></li>
-                      <li><a href="#">Smart TVs</a></li>
-                      <li><a href="#">Roku TVs</a></li>
-                      <li><a href="#">Streaming</a></li>
-                      <li><a href="#">TV Mounts & Accessories</a></li>
-                      <li><a href="#">DVD & Blu-Ray Players</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Computers</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Computers</a></li>
-                      <li><a href="#">Laptops</a></li>
-                      <li><a href="#">Chromebook</a></li>
-                      <li><a href="#">PC Gaming</a></li>
-                      <li><a href="#">Desktops</a></li>
-                      <li><a href="#">Monitors</a></li>
-                      <li><a href="#">Networking</a></li>
-                      <li><a href="#">Computer Accessories</a></li>
-                      <li><a href="#">Computer Components</a></li>
-                      <li><a href="#">Tax Software</a></li>
-                      <li><a href="#">Computer Software</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Cell Phones</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Cell Phones</a></li>
-                      <li><a href="#">Wireless Deals</a></li>
-                      <li><a href="#">5G Phones</a></li>
-                      <li><a href="#">iPhone</a></li>
-                      <li><a href="#">Galaxy Phones</a></li>
-                      <li><a href="#">Phone Chargers & Power Banks</a></li>
-                      <li><a href="#">Grips & Phone Stands</a></li>
-                      <li><a href="#">Phone Cables</a></li>
-                      <li><a href="#">Car Mounts</a></li>
-                      <li><a href="#">iPhone Accessories</a></li>
-                      <li><a href="#">Cell Phone Accessory Deals</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Smart Home</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All Smart Home</a></li>
-                      <li><a href="#">Smart Assistants & Hubs</a></li>
-                      <li><a href="#">Smart Security</a></li>
-                      <li><a href="#">Smart Energy & Lighting</a></li>
-                    </ul>
-                    <div class="cat-title">Photo Services</div>
-                    <ul class="mb0">
-                      <li><a href="#">All Photo Services</a></li>
-                      <li><a href="#">Same Day Services</a></li>
-                      <li><a href="#">Photo Cards</a></li>
-                      <li><a href="#">Photo Gifts</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-
-              <li>
-                <a class="dropdown" href="#">
-                  <span class="menu-icn flaticon-volleyball"></span>
-                  <span class="menu-title">Sport & Outdoor</span>
-                </a>
-                <div class="drop-menu">
-                  <div class="one-third">
-                    <div class="cat-title">Electronics</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All</a></li>
-                    </ul>
-                    <div class="cat-title">TV & Video</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop all TVs</a></li>
-                      <li><a href="#">TVs by Size</a></li>
-                      <li><a href="#">Smart TVs</a></li>
-                      <li><a href="#">Roku TVs</a></li>
-                      <li><a href="#">Streaming</a></li>
-                      <li><a href="#">TV Mounts & Accessories</a></li>
-                      <li><a href="#">DVD & Blu-Ray Players</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Computers</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Computers</a></li>
-                      <li><a href="#">Laptops</a></li>
-                      <li><a href="#">Chromebook</a></li>
-                      <li><a href="#">PC Gaming</a></li>
-                      <li><a href="#">Desktops</a></li>
-                      <li><a href="#">Monitors</a></li>
-                      <li><a href="#">Networking</a></li>
-                      <li><a href="#">Computer Accessories</a></li>
-                      <li><a href="#">Computer Components</a></li>
-                      <li><a href="#">Tax Software</a></li>
-                      <li><a href="#">Computer Software</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Cell Phones</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Cell Phones</a></li>
-                      <li><a href="#">Wireless Deals</a></li>
-                      <li><a href="#">5G Phones</a></li>
-                      <li><a href="#">iPhone</a></li>
-                      <li><a href="#">Galaxy Phones</a></li>
-                      <li><a href="#">Phone Chargers & Power Banks</a></li>
-                      <li><a href="#">Grips & Phone Stands</a></li>
-                      <li><a href="#">Phone Cables</a></li>
-                      <li><a href="#">Car Mounts</a></li>
-                      <li><a href="#">iPhone Accessories</a></li>
-                      <li><a href="#">Cell Phone Accessory Deals</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Smart Home</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All Smart Home</a></li>
-                      <li><a href="#">Smart Assistants & Hubs</a></li>
-                      <li><a href="#">Smart Security</a></li>
-                      <li><a href="#">Smart Energy & Lighting</a></li>
-                    </ul>
-                    <div class="cat-title">Photo Services</div>
-                    <ul class="mb0">
-                      <li><a href="#">All Photo Services</a></li>
-                      <li><a href="#">Same Day Services</a></li>
-                      <li><a href="#">Photo Cards</a></li>
-                      <li><a href="#">Photo Gifts</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <a class="dropdown" href="#">
-                  <span class="menu-icn flaticon-groceries"></span>
-                  <span class="menu-title">Grocery & Market</span>
-                </a>
-                <div class="drop-menu">
-                  <div class="one-third">
-                    <div class="cat-title">Electronics</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All</a></li>
-                    </ul>
-                    <div class="cat-title">TV & Video</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop all TVs</a></li>
-                      <li><a href="#">TVs by Size</a></li>
-                      <li><a href="#">Smart TVs</a></li>
-                      <li><a href="#">Roku TVs</a></li>
-                      <li><a href="#">Streaming</a></li>
-                      <li><a href="#">TV Mounts & Accessories</a></li>
-                      <li><a href="#">DVD & Blu-Ray Players</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Computers</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Computers</a></li>
-                      <li><a href="#">Laptops</a></li>
-                      <li><a href="#">Chromebook</a></li>
-                      <li><a href="#">PC Gaming</a></li>
-                      <li><a href="#">Desktops</a></li>
-                      <li><a href="#">Monitors</a></li>
-                      <li><a href="#">Networking</a></li>
-                      <li><a href="#">Computer Accessories</a></li>
-                      <li><a href="#">Computer Components</a></li>
-                      <li><a href="#">Tax Software</a></li>
-                      <li><a href="#">Computer Software</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Cell Phones</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Cell Phones</a></li>
-                      <li><a href="#">Wireless Deals</a></li>
-                      <li><a href="#">5G Phones</a></li>
-                      <li><a href="#">iPhone</a></li>
-                      <li><a href="#">Galaxy Phones</a></li>
-                      <li><a href="#">Phone Chargers & Power Banks</a></li>
-                      <li><a href="#">Grips & Phone Stands</a></li>
-                      <li><a href="#">Phone Cables</a></li>
-                      <li><a href="#">Car Mounts</a></li>
-                      <li><a href="#">iPhone Accessories</a></li>
-                      <li><a href="#">Cell Phone Accessory Deals</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Smart Home</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All Smart Home</a></li>
-                      <li><a href="#">Smart Assistants & Hubs</a></li>
-                      <li><a href="#">Smart Security</a></li>
-                      <li><a href="#">Smart Energy & Lighting</a></li>
-                    </ul>
-                    <div class="cat-title">Photo Services</div>
-                    <ul class="mb0">
-                      <li><a href="#">All Photo Services</a></li>
-                      <li><a href="#">Same Day Services</a></li>
-                      <li><a href="#">Photo Cards</a></li>
-                      <li><a href="#">Photo Gifts</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <a class="dropdown" href="#">
-                  <span class="menu-icn flaticon-remote-control"></span>
-                  <span class="menu-title">Toy & Video Games</span>
-                </a>
-                <div class="drop-menu">
-                  <div class="one-third">
-                    <div class="cat-title">Electronics</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All</a></li>
-                    </ul>
-                    <div class="cat-title">TV & Video</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop all TVs</a></li>
-                      <li><a href="#">TVs by Size</a></li>
-                      <li><a href="#">Smart TVs</a></li>
-                      <li><a href="#">Roku TVs</a></li>
-                      <li><a href="#">Streaming</a></li>
-                      <li><a href="#">TV Mounts & Accessories</a></li>
-                      <li><a href="#">DVD & Blu-Ray Players</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Computers</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Computers</a></li>
-                      <li><a href="#">Laptops</a></li>
-                      <li><a href="#">Chromebook</a></li>
-                      <li><a href="#">PC Gaming</a></li>
-                      <li><a href="#">Desktops</a></li>
-                      <li><a href="#">Monitors</a></li>
-                      <li><a href="#">Networking</a></li>
-                      <li><a href="#">Computer Accessories</a></li>
-                      <li><a href="#">Computer Components</a></li>
-                      <li><a href="#">Tax Software</a></li>
-                      <li><a href="#">Computer Software</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Cell Phones</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Cell Phones</a></li>
-                      <li><a href="#">Wireless Deals</a></li>
-                      <li><a href="#">5G Phones</a></li>
-                      <li><a href="#">iPhone</a></li>
-                      <li><a href="#">Galaxy Phones</a></li>
-                      <li><a href="#">Phone Chargers & Power Banks</a></li>
-                      <li><a href="#">Grips & Phone Stands</a></li>
-                      <li><a href="#">Phone Cables</a></li>
-                      <li><a href="#">Car Mounts</a></li>
-                      <li><a href="#">iPhone Accessories</a></li>
-                      <li><a href="#">Cell Phone Accessory Deals</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Smart Home</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All Smart Home</a></li>
-                      <li><a href="#">Smart Assistants & Hubs</a></li>
-                      <li><a href="#">Smart Security</a></li>
-                      <li><a href="#">Smart Energy & Lighting</a></li>
-                    </ul>
-                    <div class="cat-title">Photo Services</div>
-                    <ul class="mb0">
-                      <li><a href="#">All Photo Services</a></li>
-                      <li><a href="#">Same Day Services</a></li>
-                      <li><a href="#">Photo Cards</a></li>
-                      <li><a href="#">Photo Gifts</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <a class="dropdown" href="#">
-                  <span class="menu-icn flaticon-feeding-bottle"></span>
-                  <span class="menu-title">Babies & Moms</span>
-                </a>
-                <div class="drop-menu">
-                  <div class="one-third">
-                    <div class="cat-title">Electronics</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All</a></li>
-                    </ul>
-                    <div class="cat-title">TV & Video</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop all TVs</a></li>
-                      <li><a href="#">TVs by Size</a></li>
-                      <li><a href="#">Smart TVs</a></li>
-                      <li><a href="#">Roku TVs</a></li>
-                      <li><a href="#">Streaming</a></li>
-                      <li><a href="#">TV Mounts & Accessories</a></li>
-                      <li><a href="#">DVD & Blu-Ray Players</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Computers</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Computers</a></li>
-                      <li><a href="#">Laptops</a></li>
-                      <li><a href="#">Chromebook</a></li>
-                      <li><a href="#">PC Gaming</a></li>
-                      <li><a href="#">Desktops</a></li>
-                      <li><a href="#">Monitors</a></li>
-                      <li><a href="#">Networking</a></li>
-                      <li><a href="#">Computer Accessories</a></li>
-                      <li><a href="#">Computer Components</a></li>
-                      <li><a href="#">Tax Software</a></li>
-                      <li><a href="#">Computer Software</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Cell Phones</div>
-                    <ul class="mb0">
-                      <li><a href="#">Shop All Cell Phones</a></li>
-                      <li><a href="#">Wireless Deals</a></li>
-                      <li><a href="#">5G Phones</a></li>
-                      <li><a href="#">iPhone</a></li>
-                      <li><a href="#">Galaxy Phones</a></li>
-                      <li><a href="#">Phone Chargers & Power Banks</a></li>
-                      <li><a href="#">Grips & Phone Stands</a></li>
-                      <li><a href="#">Phone Cables</a></li>
-                      <li><a href="#">Car Mounts</a></li>
-                      <li><a href="#">iPhone Accessories</a></li>
-                      <li><a href="#">Cell Phone Accessory Deals</a></li>
-                    </ul>
-                  </div>
-                  <div class="one-third">
-                    <div class="cat-title">Smart Home</div>
-                    <ul class="mb20">
-                      <li><a href="#">Shop All Smart Home</a></li>
-                      <li><a href="#">Smart Assistants & Hubs</a></li>
-                      <li><a href="#">Smart Security</a></li>
-                      <li><a href="#">Smart Energy & Lighting</a></li>
-                    </ul>
-                    <div class="cat-title">Photo Services</div>
-                    <ul class="mb0">
-                      <li><a href="#">All Photo Services</a></li>
-                      <li><a href="#">Same Day Services</a></li>
-                      <li><a href="#">Photo Cards</a></li>
-                      <li><a href="#">Photo Gifts</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            </ul>
+    <!-- Main Header Nav -->
+    <header class="header-nav menu_style_home_one menu_home5_style athome3 main-menu bb1">
+      <!-- Ace Responsive Menu -->
+      <nav class="posr">
+        <div class="container posr menu_bdrt1">
+          <!-- Menu Toggle btn-->
+          <div class="menu-toggle">
+            <button type="button" id="menu-btn">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
           </div>
-        </div>
-        <!-- Responsive Menu Structure-->
-        <ul id="respMenu" class="ace-responsive-menu menu_list_custom_code wa pl200" data-menu-style="horizontal">
-
-          <li> <a href="#"><span class="title">Home</span></a>
-
-          </li>
-          <li class="megamenu_style"> <a href="#"><span class="title">Shop</span></a>
-            <ul class="row dropdown-megamenu">
-
-
-              <li class="col mega_menu_list">
-                <h4 class="title">User Dashboard</h4>
-                <ul>
-                  <li><a href="page-dashboard.html">Dashboard</a></li>
-                  <li><a href="page-dashboard-order.html">Orders</a></li>
-                  <li><a href="page-dashboard-address.html">Addresses</a></li>
-                  <li><a href="page-dashboard-account-details.html">Account Details</a></li>
-                  <li><a href="page-dashboard-wish-list.html">Wishlist</a></li>
-                </ul>
-              </li>
-              <li class="col mega_menu_list">
-                <h4 class="title">Shop</h4>
-                <ul>
-                  <li><a href="page-shop-cart.html">Cart</a></li>
-                  <li><a href="page-shop-checkout.html">Checkout</a></li>
-                  <li><a href="page-shop-order-received.html">Wishlist</a></li>
-                  <li><a href="page-account-details.html">My account</a></li>
-                </ul>
-              </li>
-              <li class="col mega_menu_list">
-                <h4 class="title">Knowledge Base</h4>
-                <ul>
-                  <li><a href="page-shop-single-v1.html">About Us</a></li>
-                  <li><a href="page-shop-single-v2.html">Services</a></li>
-                  <li><a href="page-shop-single-v3.html">Deals</a></li>
-                  <li><a href="page-shop-single-v4.html">Terms & Conditions</a></li>
-                  <li><a href="page-shop-single-v5.html">Privacy Policy</a></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li> <a href="#"><span class="title">Help & Contact</span></a>
-            <ul>
-              <li><a href="page-about.html">Help Center</a></li>
-              <li><a href="page-about.html">Contact Us</a></li>
-
-
-              <li><a href="page-become-vendor.html">Tickets</a></li>
-              <li><a href="page-faq.html">Faq</a></li>
-              <li><a href="page-terms.html">Terms and Conditions</a></li>
-            </ul>
-          </li>
-          <li> <a href="#"><span class="title">Blog & Community</span></a>
-
-          </li>
-        </ul>
-        <ul id="respMenu2" class="ace-responsive-menu widget_menu_home2 wa" data-menu-style="horizontal">
-          <li class="list-inline-item list_c"><a href="#">Become a Vendor</a></li>
-          <li class="list-inline-item list_c"><a href="#">Merchant Pro</a></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
-
-  <!-- Body Ovelay Behind Sidebar -->
-  <div class="hiddenbar-body-ovelay"></div>
-  <!-- Sign In Hiddn SideBar -->
-  <div class="signin-hidden-sbar">
-    <div class="hsidebar-header">
-      <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
-      <h4 class="title">Sign-In</h4>
-    </div>
-    <div class="hsidebar-content">
-      <div class="log_reg_form sidebar_area">
-        <div class="login_form">
-          <form action="#">
-            <div class="mb-2 mr-sm-2">
-              <label class="form-label">Username or email address</label>
-              <input type="text" class="form-control" placeholder="Ali Tufan">
-            </div>
-            <div class="form-group mb5">
-              <label class="form-label">Password</label>
-              <input type="password" class="form-control" placeholder="Password">
-            </div>
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="exampleCheck3">
-              <label class="custom-control-label" for="exampleCheck3">Remember me</label>
-              <a class="btn-fpswd float-end" href="#">Lost your password?</a>
-            </div>
-            <button type="submit" class="btn btn-log btn-thm mt20">Login</button>
-            <p class="text-center mb25 mt10">Don't have an account? <a class="signup-filter-btn" href="#">Create account</a></p>
-            <div class="hr_content">
-              <hr>
-              <span class="hr_top_text">or</span>
-            </div>
-            <ul class="login_with_social text-center mt30 mb0">
-              <li class="list-inline-item"><a href="#"><i class="fab fa-facebook"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-google"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-apple"></i></a></li>
-            </ul>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--End Sign In Hiddn SideBar -->
-  <!-- Your Cart Hiddn SideBar -->
-  <div class="cart-hidden-sbar">
-    <div class="hsidebar-header">
-      <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
-      <h4 class="title">Your Cart</h4>
-    </div>
-    <div class="hsidebar-content">
-      <div class="log_fav_cart_widget hsidebar_home_page">
-        <div class="wrapper">
-          <ul class="cart">
-            <li class="list-inline-item">
-              <ul class="dropdown_content">
-                <li class="list_content">
-                  <div>
-                    <img class="float-start mt10" src="images/shop/s1.png" alt="75x75">
-                    <p>Apple MacBook Pro with Apple M1 Chip</p>
-                    <div class="cart_btn home_page_sidebar mt10">
-                      <div class="quantity-block home_page_sidebar">
-                        <button class="quantity-arrow-minus home_page_sidebar"><img src="images/icons/minus.svg" alt=""></button>
-                        <input class="quantity-num home_page_sidebar" type="number" value="3">
-                        <button class="quantity-arrow-plus home_page_sidebar"> <span class="flaticon-close"></span> </button>
-                      </div>
-                      <span class="home_page_sidebar price">$3.399</span>
+          <div class="posr logo1 home4_style">
+            <div id="mega-menu">
+              <a class="btn-mega" href="#">
+                <img class="me-2" src=" <%= asset_path "desktop-nav-menu-dark.svg" %>"  alt="Desktop Menu Icon">
+                <span class="fw500 fz16 heading-color vam">Browse Categories</span>
+              </a>
+              <ul class="menu">
+                <li>
+                  <a class="dropdown" href="#">
+                    <span class="menu-icn flaticon-diamond"></span>
+                    <span class="menu-title">Today’s Hot Deals</span>
+                  </a>
+                  <div class="drop-menu">
+                    <div class="one-third">
+                      <div class="cat-title">Electronics</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All</a></li>
+                      </ul>
+                      <div class="cat-title">TV & Video</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop all TVs</a></li>
+                        <li><a href="#">TVs by Size</a></li>
+                        <li><a href="#">Smart TVs</a></li>
+                        <li><a href="#">Roku TVs</a></li>
+                        <li><a href="#">Streaming</a></li>
+                        <li><a href="#">TV Mounts & Accessories</a></li>
+                        <li><a href="#">DVD & Blu-Ray Players</a></li>
+                      </ul>
                     </div>
-                    <span class="close_icon"><i class="flaticon-close"></i></span>
+                    <div class="one-third">
+                      <div class="cat-title">Computers</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Computers</a></li>
+                        <li><a href="#">Laptops</a></li>
+                        <li><a href="#">Chromebook</a></li>
+                        <li><a href="#">PC Gaming</a></li>
+                        <li><a href="#">Desktops</a></li>
+                        <li><a href="#">Monitors</a></li>
+                        <li><a href="#">Networking</a></li>
+                        <li><a href="#">Computer Accessories</a></li>
+                        <li><a href="#">Computer Components</a></li>
+                        <li><a href="#">Tax Software</a></li>
+                        <li><a href="#">Computer Software</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Cell Phones</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Cell Phones</a></li>
+                        <li><a href="#">Wireless Deals</a></li>
+                        <li><a href="#">5G Phones</a></li>
+                        <li><a href="#">iPhone</a></li>
+                        <li><a href="#">Galaxy Phones</a></li>
+                        <li><a href="#">Phone Chargers & Power Banks</a></li>
+                        <li><a href="#">Grips & Phone Stands</a></li>
+                        <li><a href="#">Phone Cables</a></li>
+                        <li><a href="#">Car Mounts</a></li>
+                        <li><a href="#">iPhone Accessories</a></li>
+                        <li><a href="#">Cell Phone Accessory Deals</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Smart Home</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All Smart Home</a></li>
+                        <li><a href="#">Smart Assistants & Hubs</a></li>
+                        <li><a href="#">Smart Security</a></li>
+                        <li><a href="#">Smart Energy & Lighting</a></li>
+                      </ul>
+                      <div class="cat-title">Photo Services</div>
+                      <ul class="mb0">
+                        <li><a href="#">All Photo Services</a></li>
+                        <li><a href="#">Same Day Services</a></li>
+                        <li><a href="#">Photo Cards</a></li>
+                        <li><a href="#">Photo Gifts</a></li>
+                      </ul>
+                    </div>
                   </div>
                 </li>
-                <li class="list_content">
-                  <div>
-                    <img class="float-start mt10" src="images/shop/s2.png" alt="75x75">
-                    <p>Apple MacBook Pro with Apple M1 Chip</p>
-                    <div class="cart_btn home_page_sidebar mt10">
-                      <div class="quantity-block home_page_sidebar">
-                        <button class="quantity-arrow-minus2 home_page_sidebar"><img src="images/icons/minus.svg" alt=""></button>
-                        <input class="quantity-num2 home_page_sidebar" type="number" value="3">
-                        <button class="quantity-arrow-plus2 home_page_sidebar"> <span class="flaticon-close"></span> </button>
-                      </div>
-                      <span class="home_page_sidebar price">$3.399</span>
+
+
+                <li>
+                  <a class="dropdown" href="#">
+                    <span class="menu-icn flaticon-cooking"></span>
+                    <span class="menu-title">Home & Kitchen</span>
+                  </a>
+                  <div class="drop-menu">
+                    <div class="one-third">
+                      <div class="cat-title">Electronics</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All</a></li>
+                      </ul>
+                      <div class="cat-title">TV & Video</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop all TVs</a></li>
+                        <li><a href="#">TVs by Size</a></li>
+                        <li><a href="#">Smart TVs</a></li>
+                        <li><a href="#">Roku TVs</a></li>
+                        <li><a href="#">Streaming</a></li>
+                        <li><a href="#">TV Mounts & Accessories</a></li>
+                        <li><a href="#">DVD & Blu-Ray Players</a></li>
+                      </ul>
                     </div>
-                    <span class="close_icon"><i class="flaticon-close"></i></span>
+                    <div class="one-third">
+                      <div class="cat-title">Computers</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Computers</a></li>
+                        <li><a href="#">Laptops</a></li>
+                        <li><a href="#">Chromebook</a></li>
+                        <li><a href="#">PC Gaming</a></li>
+                        <li><a href="#">Desktops</a></li>
+                        <li><a href="#">Monitors</a></li>
+                        <li><a href="#">Networking</a></li>
+                        <li><a href="#">Computer Accessories</a></li>
+                        <li><a href="#">Computer Components</a></li>
+                        <li><a href="#">Tax Software</a></li>
+                        <li><a href="#">Computer Software</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Cell Phones</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Cell Phones</a></li>
+                        <li><a href="#">Wireless Deals</a></li>
+                        <li><a href="#">5G Phones</a></li>
+                        <li><a href="#">iPhone</a></li>
+                        <li><a href="#">Galaxy Phones</a></li>
+                        <li><a href="#">Phone Chargers & Power Banks</a></li>
+                        <li><a href="#">Grips & Phone Stands</a></li>
+                        <li><a href="#">Phone Cables</a></li>
+                        <li><a href="#">Car Mounts</a></li>
+                        <li><a href="#">iPhone Accessories</a></li>
+                        <li><a href="#">Cell Phone Accessory Deals</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Smart Home</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All Smart Home</a></li>
+                        <li><a href="#">Smart Assistants & Hubs</a></li>
+                        <li><a href="#">Smart Security</a></li>
+                        <li><a href="#">Smart Energy & Lighting</a></li>
+                      </ul>
+                      <div class="cat-title">Photo Services</div>
+                      <ul class="mb0">
+                        <li><a href="#">All Photo Services</a></li>
+                        <li><a href="#">Same Day Services</a></li>
+                        <li><a href="#">Photo Cards</a></li>
+                        <li><a href="#">Photo Gifts</a></li>
+                      </ul>
+                    </div>
                   </div>
                 </li>
-                <li class="list_content_total_price">
-                  <h5>Total: <span class="total_price float-end">$6.225.98</span></h5>
+
+
+                <li>
+                  <a class="dropdown" href="#">
+                    <span class="menu-icn flaticon-armchair"></span>
+                    <span class="menu-title">Home & Furniture</span>
+                  </a>
+                  <div class="drop-menu">
+                    <div class="one-third">
+                      <div class="cat-title">Electronics</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All</a></li>
+                      </ul>
+                      <div class="cat-title">TV & Video</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop all TVs</a></li>
+                        <li><a href="#">TVs by Size</a></li>
+                        <li><a href="#">Smart TVs</a></li>
+                        <li><a href="#">Roku TVs</a></li>
+                        <li><a href="#">Streaming</a></li>
+                        <li><a href="#">TV Mounts & Accessories</a></li>
+                        <li><a href="#">DVD & Blu-Ray Players</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Computers</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Computers</a></li>
+                        <li><a href="#">Laptops</a></li>
+                        <li><a href="#">Chromebook</a></li>
+                        <li><a href="#">PC Gaming</a></li>
+                        <li><a href="#">Desktops</a></li>
+                        <li><a href="#">Monitors</a></li>
+                        <li><a href="#">Networking</a></li>
+                        <li><a href="#">Computer Accessories</a></li>
+                        <li><a href="#">Computer Components</a></li>
+                        <li><a href="#">Tax Software</a></li>
+                        <li><a href="#">Computer Software</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Cell Phones</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Cell Phones</a></li>
+                        <li><a href="#">Wireless Deals</a></li>
+                        <li><a href="#">5G Phones</a></li>
+                        <li><a href="#">iPhone</a></li>
+                        <li><a href="#">Galaxy Phones</a></li>
+                        <li><a href="#">Phone Chargers & Power Banks</a></li>
+                        <li><a href="#">Grips & Phone Stands</a></li>
+                        <li><a href="#">Phone Cables</a></li>
+                        <li><a href="#">Car Mounts</a></li>
+                        <li><a href="#">iPhone Accessories</a></li>
+                        <li><a href="#">Cell Phone Accessory Deals</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Smart Home</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All Smart Home</a></li>
+                        <li><a href="#">Smart Assistants & Hubs</a></li>
+                        <li><a href="#">Smart Security</a></li>
+                        <li><a href="#">Smart Energy & Lighting</a></li>
+                      </ul>
+                      <div class="cat-title">Photo Services</div>
+                      <ul class="mb0">
+                        <li><a href="#">All Photo Services</a></li>
+                        <li><a href="#">Same Day Services</a></li>
+                        <li><a href="#">Photo Cards</a></li>
+                        <li><a href="#">Photo Gifts</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <a class="dropdown" href="#">
+                    <span class="menu-icn flaticon-smartphone-1"></span>
+                    <span class="menu-title">Electronics</span>
+                  </a>
+                  <div class="drop-menu">
+                    <div class="one-third">
+                      <div class="cat-title">Electronics</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All</a></li>
+                      </ul>
+                      <div class="cat-title">TV & Video</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop all TVs</a></li>
+                        <li><a href="#">TVs by Size</a></li>
+                        <li><a href="#">Smart TVs</a></li>
+                        <li><a href="#">Roku TVs</a></li>
+                        <li><a href="#">Streaming</a></li>
+                        <li><a href="#">TV Mounts & Accessories</a></li>
+                        <li><a href="#">DVD & Blu-Ray Players</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Computers</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Computers</a></li>
+                        <li><a href="#">Laptops</a></li>
+                        <li><a href="#">Chromebook</a></li>
+                        <li><a href="#">PC Gaming</a></li>
+                        <li><a href="#">Desktops</a></li>
+                        <li><a href="#">Monitors</a></li>
+                        <li><a href="#">Networking</a></li>
+                        <li><a href="#">Computer Accessories</a></li>
+                        <li><a href="#">Computer Components</a></li>
+                        <li><a href="#">Tax Software</a></li>
+                        <li><a href="#">Computer Software</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Cell Phones</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Cell Phones</a></li>
+                        <li><a href="#">Wireless Deals</a></li>
+                        <li><a href="#">5G Phones</a></li>
+                        <li><a href="#">iPhone</a></li>
+                        <li><a href="#">Galaxy Phones</a></li>
+                        <li><a href="#">Phone Chargers & Power Banks</a></li>
+                        <li><a href="#">Grips & Phone Stands</a></li>
+                        <li><a href="#">Phone Cables</a></li>
+                        <li><a href="#">Car Mounts</a></li>
+                        <li><a href="#">iPhone Accessories</a></li>
+                        <li><a href="#">Cell Phone Accessory Deals</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Smart Home</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All Smart Home</a></li>
+                        <li><a href="#">Smart Assistants & Hubs</a></li>
+                        <li><a href="#">Smart Security</a></li>
+                        <li><a href="#">Smart Energy & Lighting</a></li>
+                      </ul>
+                      <div class="cat-title">Photo Services</div>
+                      <ul class="mb0">
+                        <li><a href="#">All Photo Services</a></li>
+                        <li><a href="#">Same Day Services</a></li>
+                        <li><a href="#">Photo Cards</a></li>
+                        <li><a href="#">Photo Gifts</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <a class="dropdown" href="#">
+                    <span class="menu-icn flaticon-bride-dress"></span>
+                    <span class="menu-title">Clothing & Accessories</span>
+                  </a>
+                  <div class="drop-menu">
+                    <div class="one-third">
+                      <div class="cat-title">Electronics</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All</a></li>
+                      </ul>
+                      <div class="cat-title">TV & Video</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop all TVs</a></li>
+                        <li><a href="#">TVs by Size</a></li>
+                        <li><a href="#">Smart TVs</a></li>
+                        <li><a href="#">Roku TVs</a></li>
+                        <li><a href="#">Streaming</a></li>
+                        <li><a href="#">TV Mounts & Accessories</a></li>
+                        <li><a href="#">DVD & Blu-Ray Players</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Computers</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Computers</a></li>
+                        <li><a href="#">Laptops</a></li>
+                        <li><a href="#">Chromebook</a></li>
+                        <li><a href="#">PC Gaming</a></li>
+                        <li><a href="#">Desktops</a></li>
+                        <li><a href="#">Monitors</a></li>
+                        <li><a href="#">Networking</a></li>
+                        <li><a href="#">Computer Accessories</a></li>
+                        <li><a href="#">Computer Components</a></li>
+                        <li><a href="#">Tax Software</a></li>
+                        <li><a href="#">Computer Software</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Cell Phones</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Cell Phones</a></li>
+                        <li><a href="#">Wireless Deals</a></li>
+                        <li><a href="#">5G Phones</a></li>
+                        <li><a href="#">iPhone</a></li>
+                        <li><a href="#">Galaxy Phones</a></li>
+                        <li><a href="#">Phone Chargers & Power Banks</a></li>
+                        <li><a href="#">Grips & Phone Stands</a></li>
+                        <li><a href="#">Phone Cables</a></li>
+                        <li><a href="#">Car Mounts</a></li>
+                        <li><a href="#">iPhone Accessories</a></li>
+                        <li><a href="#">Cell Phone Accessory Deals</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Smart Home</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All Smart Home</a></li>
+                        <li><a href="#">Smart Assistants & Hubs</a></li>
+                        <li><a href="#">Smart Security</a></li>
+                        <li><a href="#">Smart Energy & Lighting</a></li>
+                      </ul>
+                      <div class="cat-title">Photo Services</div>
+                      <ul class="mb0">
+                        <li><a href="#">All Photo Services</a></li>
+                        <li><a href="#">Same Day Services</a></li>
+                        <li><a href="#">Photo Cards</a></li>
+                        <li><a href="#">Photo Gifts</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <a class="dropdown" href="#">
+                    <span class="menu-icn flaticon-heart-beat"></span>
+                    <span class="menu-title">Health & Beauty</span>
+                  </a>
+                  <div class="drop-menu">
+                    <div class="one-third">
+                      <div class="cat-title">Electronics</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All</a></li>
+                      </ul>
+                      <div class="cat-title">TV & Video</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop all TVs</a></li>
+                        <li><a href="#">TVs by Size</a></li>
+                        <li><a href="#">Smart TVs</a></li>
+                        <li><a href="#">Roku TVs</a></li>
+                        <li><a href="#">Streaming</a></li>
+                        <li><a href="#">TV Mounts & Accessories</a></li>
+                        <li><a href="#">DVD & Blu-Ray Players</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Computers</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Computers</a></li>
+                        <li><a href="#">Laptops</a></li>
+                        <li><a href="#">Chromebook</a></li>
+                        <li><a href="#">PC Gaming</a></li>
+                        <li><a href="#">Desktops</a></li>
+                        <li><a href="#">Monitors</a></li>
+                        <li><a href="#">Networking</a></li>
+                        <li><a href="#">Computer Accessories</a></li>
+                        <li><a href="#">Computer Components</a></li>
+                        <li><a href="#">Tax Software</a></li>
+                        <li><a href="#">Computer Software</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Cell Phones</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Cell Phones</a></li>
+                        <li><a href="#">Wireless Deals</a></li>
+                        <li><a href="#">5G Phones</a></li>
+                        <li><a href="#">iPhone</a></li>
+                        <li><a href="#">Galaxy Phones</a></li>
+                        <li><a href="#">Phone Chargers & Power Banks</a></li>
+                        <li><a href="#">Grips & Phone Stands</a></li>
+                        <li><a href="#">Phone Cables</a></li>
+                        <li><a href="#">Car Mounts</a></li>
+                        <li><a href="#">iPhone Accessories</a></li>
+                        <li><a href="#">Cell Phone Accessory Deals</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Smart Home</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All Smart Home</a></li>
+                        <li><a href="#">Smart Assistants & Hubs</a></li>
+                        <li><a href="#">Smart Security</a></li>
+                        <li><a href="#">Smart Energy & Lighting</a></li>
+                      </ul>
+                      <div class="cat-title">Photo Services</div>
+                      <ul class="mb0">
+                        <li><a href="#">All Photo Services</a></li>
+                        <li><a href="#">Same Day Services</a></li>
+                        <li><a href="#">Photo Cards</a></li>
+                        <li><a href="#">Photo Gifts</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+
+                <li>
+                  <a class="dropdown" href="#">
+                    <span class="menu-icn flaticon-volleyball"></span>
+                    <span class="menu-title">Sport & Outdoor</span>
+                  </a>
+                  <div class="drop-menu">
+                    <div class="one-third">
+                      <div class="cat-title">Electronics</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All</a></li>
+                      </ul>
+                      <div class="cat-title">TV & Video</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop all TVs</a></li>
+                        <li><a href="#">TVs by Size</a></li>
+                        <li><a href="#">Smart TVs</a></li>
+                        <li><a href="#">Roku TVs</a></li>
+                        <li><a href="#">Streaming</a></li>
+                        <li><a href="#">TV Mounts & Accessories</a></li>
+                        <li><a href="#">DVD & Blu-Ray Players</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Computers</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Computers</a></li>
+                        <li><a href="#">Laptops</a></li>
+                        <li><a href="#">Chromebook</a></li>
+                        <li><a href="#">PC Gaming</a></li>
+                        <li><a href="#">Desktops</a></li>
+                        <li><a href="#">Monitors</a></li>
+                        <li><a href="#">Networking</a></li>
+                        <li><a href="#">Computer Accessories</a></li>
+                        <li><a href="#">Computer Components</a></li>
+                        <li><a href="#">Tax Software</a></li>
+                        <li><a href="#">Computer Software</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Cell Phones</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Cell Phones</a></li>
+                        <li><a href="#">Wireless Deals</a></li>
+                        <li><a href="#">5G Phones</a></li>
+                        <li><a href="#">iPhone</a></li>
+                        <li><a href="#">Galaxy Phones</a></li>
+                        <li><a href="#">Phone Chargers & Power Banks</a></li>
+                        <li><a href="#">Grips & Phone Stands</a></li>
+                        <li><a href="#">Phone Cables</a></li>
+                        <li><a href="#">Car Mounts</a></li>
+                        <li><a href="#">iPhone Accessories</a></li>
+                        <li><a href="#">Cell Phone Accessory Deals</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Smart Home</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All Smart Home</a></li>
+                        <li><a href="#">Smart Assistants & Hubs</a></li>
+                        <li><a href="#">Smart Security</a></li>
+                        <li><a href="#">Smart Energy & Lighting</a></li>
+                      </ul>
+                      <div class="cat-title">Photo Services</div>
+                      <ul class="mb0">
+                        <li><a href="#">All Photo Services</a></li>
+                        <li><a href="#">Same Day Services</a></li>
+                        <li><a href="#">Photo Cards</a></li>
+                        <li><a href="#">Photo Gifts</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <a class="dropdown" href="#">
+                    <span class="menu-icn flaticon-groceries"></span>
+                    <span class="menu-title">Grocery & Market</span>
+                  </a>
+                  <div class="drop-menu">
+                    <div class="one-third">
+                      <div class="cat-title">Electronics</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All</a></li>
+                      </ul>
+                      <div class="cat-title">TV & Video</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop all TVs</a></li>
+                        <li><a href="#">TVs by Size</a></li>
+                        <li><a href="#">Smart TVs</a></li>
+                        <li><a href="#">Roku TVs</a></li>
+                        <li><a href="#">Streaming</a></li>
+                        <li><a href="#">TV Mounts & Accessories</a></li>
+                        <li><a href="#">DVD & Blu-Ray Players</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Computers</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Computers</a></li>
+                        <li><a href="#">Laptops</a></li>
+                        <li><a href="#">Chromebook</a></li>
+                        <li><a href="#">PC Gaming</a></li>
+                        <li><a href="#">Desktops</a></li>
+                        <li><a href="#">Monitors</a></li>
+                        <li><a href="#">Networking</a></li>
+                        <li><a href="#">Computer Accessories</a></li>
+                        <li><a href="#">Computer Components</a></li>
+                        <li><a href="#">Tax Software</a></li>
+                        <li><a href="#">Computer Software</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Cell Phones</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Cell Phones</a></li>
+                        <li><a href="#">Wireless Deals</a></li>
+                        <li><a href="#">5G Phones</a></li>
+                        <li><a href="#">iPhone</a></li>
+                        <li><a href="#">Galaxy Phones</a></li>
+                        <li><a href="#">Phone Chargers & Power Banks</a></li>
+                        <li><a href="#">Grips & Phone Stands</a></li>
+                        <li><a href="#">Phone Cables</a></li>
+                        <li><a href="#">Car Mounts</a></li>
+                        <li><a href="#">iPhone Accessories</a></li>
+                        <li><a href="#">Cell Phone Accessory Deals</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Smart Home</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All Smart Home</a></li>
+                        <li><a href="#">Smart Assistants & Hubs</a></li>
+                        <li><a href="#">Smart Security</a></li>
+                        <li><a href="#">Smart Energy & Lighting</a></li>
+                      </ul>
+                      <div class="cat-title">Photo Services</div>
+                      <ul class="mb0">
+                        <li><a href="#">All Photo Services</a></li>
+                        <li><a href="#">Same Day Services</a></li>
+                        <li><a href="#">Photo Cards</a></li>
+                        <li><a href="#">Photo Gifts</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <a class="dropdown" href="#">
+                    <span class="menu-icn flaticon-remote-control"></span>
+                    <span class="menu-title">Toy & Video Games</span>
+                  </a>
+                  <div class="drop-menu">
+                    <div class="one-third">
+                      <div class="cat-title">Electronics</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All</a></li>
+                      </ul>
+                      <div class="cat-title">TV & Video</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop all TVs</a></li>
+                        <li><a href="#">TVs by Size</a></li>
+                        <li><a href="#">Smart TVs</a></li>
+                        <li><a href="#">Roku TVs</a></li>
+                        <li><a href="#">Streaming</a></li>
+                        <li><a href="#">TV Mounts & Accessories</a></li>
+                        <li><a href="#">DVD & Blu-Ray Players</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Computers</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Computers</a></li>
+                        <li><a href="#">Laptops</a></li>
+                        <li><a href="#">Chromebook</a></li>
+                        <li><a href="#">PC Gaming</a></li>
+                        <li><a href="#">Desktops</a></li>
+                        <li><a href="#">Monitors</a></li>
+                        <li><a href="#">Networking</a></li>
+                        <li><a href="#">Computer Accessories</a></li>
+                        <li><a href="#">Computer Components</a></li>
+                        <li><a href="#">Tax Software</a></li>
+                        <li><a href="#">Computer Software</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Cell Phones</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Cell Phones</a></li>
+                        <li><a href="#">Wireless Deals</a></li>
+                        <li><a href="#">5G Phones</a></li>
+                        <li><a href="#">iPhone</a></li>
+                        <li><a href="#">Galaxy Phones</a></li>
+                        <li><a href="#">Phone Chargers & Power Banks</a></li>
+                        <li><a href="#">Grips & Phone Stands</a></li>
+                        <li><a href="#">Phone Cables</a></li>
+                        <li><a href="#">Car Mounts</a></li>
+                        <li><a href="#">iPhone Accessories</a></li>
+                        <li><a href="#">Cell Phone Accessory Deals</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Smart Home</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All Smart Home</a></li>
+                        <li><a href="#">Smart Assistants & Hubs</a></li>
+                        <li><a href="#">Smart Security</a></li>
+                        <li><a href="#">Smart Energy & Lighting</a></li>
+                      </ul>
+                      <div class="cat-title">Photo Services</div>
+                      <ul class="mb0">
+                        <li><a href="#">All Photo Services</a></li>
+                        <li><a href="#">Same Day Services</a></li>
+                        <li><a href="#">Photo Cards</a></li>
+                        <li><a href="#">Photo Gifts</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <a class="dropdown" href="#">
+                    <span class="menu-icn flaticon-feeding-bottle"></span>
+                    <span class="menu-title">Babies & Moms</span>
+                  </a>
+                  <div class="drop-menu">
+                    <div class="one-third">
+                      <div class="cat-title">Electronics</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All</a></li>
+                      </ul>
+                      <div class="cat-title">TV & Video</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop all TVs</a></li>
+                        <li><a href="#">TVs by Size</a></li>
+                        <li><a href="#">Smart TVs</a></li>
+                        <li><a href="#">Roku TVs</a></li>
+                        <li><a href="#">Streaming</a></li>
+                        <li><a href="#">TV Mounts & Accessories</a></li>
+                        <li><a href="#">DVD & Blu-Ray Players</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Computers</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Computers</a></li>
+                        <li><a href="#">Laptops</a></li>
+                        <li><a href="#">Chromebook</a></li>
+                        <li><a href="#">PC Gaming</a></li>
+                        <li><a href="#">Desktops</a></li>
+                        <li><a href="#">Monitors</a></li>
+                        <li><a href="#">Networking</a></li>
+                        <li><a href="#">Computer Accessories</a></li>
+                        <li><a href="#">Computer Components</a></li>
+                        <li><a href="#">Tax Software</a></li>
+                        <li><a href="#">Computer Software</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Cell Phones</div>
+                      <ul class="mb0">
+                        <li><a href="#">Shop All Cell Phones</a></li>
+                        <li><a href="#">Wireless Deals</a></li>
+                        <li><a href="#">5G Phones</a></li>
+                        <li><a href="#">iPhone</a></li>
+                        <li><a href="#">Galaxy Phones</a></li>
+                        <li><a href="#">Phone Chargers & Power Banks</a></li>
+                        <li><a href="#">Grips & Phone Stands</a></li>
+                        <li><a href="#">Phone Cables</a></li>
+                        <li><a href="#">Car Mounts</a></li>
+                        <li><a href="#">iPhone Accessories</a></li>
+                        <li><a href="#">Cell Phone Accessory Deals</a></li>
+                      </ul>
+                    </div>
+                    <div class="one-third">
+                      <div class="cat-title">Smart Home</div>
+                      <ul class="mb20">
+                        <li><a href="#">Shop All Smart Home</a></li>
+                        <li><a href="#">Smart Assistants & Hubs</a></li>
+                        <li><a href="#">Smart Security</a></li>
+                        <li><a href="#">Smart Energy & Lighting</a></li>
+                      </ul>
+                      <div class="cat-title">Photo Services</div>
+                      <ul class="mb0">
+                        <li><a href="#">All Photo Services</a></li>
+                        <li><a href="#">Same Day Services</a></li>
+                        <li><a href="#">Photo Cards</a></li>
+                        <li><a href="#">Photo Gifts</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- Responsive Menu Structure-->
+          <ul id="respMenu" class="ace-responsive-menu menu_list_custom_code wa pl200" data-menu-style="horizontal">
+
+            <li> <a href="#"><span class="title">Home</span></a>
+
+            </li>
+            <li class="megamenu_style"> <a href="#"><span class="title">Shop</span></a>
+              <ul class="row dropdown-megamenu">
+
+
+                <li class="col mega_menu_list">
+                  <h4 class="title">User Dashboard</h4>
+                  <ul>
+                    <li><a href="page-dashboard.html">Dashboard</a></li>
+                    <li><a href="page-dashboard-order.html">Orders</a></li>
+                    <li><a href="page-dashboard-address.html">Addresses</a></li>
+                    <li><a href="page-dashboard-account-details.html">Account Details</a></li>
+                    <li><a href="page-dashboard-wish-list.html">Wishlist</a></li>
+                  </ul>
+                </li>
+                <li class="col mega_menu_list">
+                  <h4 class="title">Shop</h4>
+                  <ul>
+                    <li><a href="page-shop-cart.html">Cart</a></li>
+                    <li><a href="page-shop-checkout.html">Checkout</a></li>
+                    <li><a href="page-shop-order-received.html">Wishlist</a></li>
+                    <li><a href="page-account-details.html">My account</a></li>
+                  </ul>
+                </li>
+                <li class="col mega_menu_list">
+                  <h4 class="title">Knowledge Base</h4>
+                  <ul>
+                    <li><a href="page-shop-single-v1.html">About Us</a></li>
+                    <li><a href="page-shop-single-v2.html">Services</a></li>
+                    <li><a href="page-shop-single-v3.html">Deals</a></li>
+                    <li><a href="page-shop-single-v4.html">Terms & Conditions</a></li>
+                    <li><a href="page-shop-single-v5.html">Privacy Policy</a></li>
+                  </ul>
                 </li>
               </ul>
             </li>
+            <li> <a href="#"><span class="title">Help & Contact</span></a>
+              <ul>
+                <li><a href="page-about.html">Help Center</a></li>
+                <li><a href="page-about.html">Contact Us</a></li>
+
+
+                <li><a href="page-become-vendor.html">Tickets</a></li>
+                <li><a href="page-faq.html">Faq</a></li>
+                <li><a href="page-terms.html">Terms and Conditions</a></li>
+              </ul>
+            </li>
+            <li> <a href="#"><span class="title">Blog & Community</span></a>
+
+            </li>
+          </ul>
+          <ul id="respMenu2" class="ace-responsive-menu widget_menu_home2 wa" data-menu-style="horizontal">
+            <li class="list-inline-item list_c"><a href="#">Become a Vendor</a></li>
+            <li class="list-inline-item list_c"><a href="#">Merchant Pro</a></li>
           </ul>
         </div>
+      </nav>
+    </header>
+
+    <!-- Body Ovelay Behind Sidebar -->
+    <div class="hiddenbar-body-ovelay"></div>
+    <!-- Sign In Hiddn SideBar -->
+    <div class="signin-hidden-sbar">
+      <div class="hsidebar-header">
+        <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
+        <h4 class="title">Sign-In</h4>
       </div>
-    </div>
-    <div class="hsidebar_footer_content">
-      <div class="list_last_content">
-        <div class="lc">
-          <p class="para">Buy $98.00 more to enjoy FREE Shipping</p>
-          <div class="uilayout_range home1_style">
-            <div class="sidebar_range_slider mb30 mt25">
-              <input class="range-example-km" value="80" type="text">
-            </div>
+      <div class="hsidebar-content">
+        <div class="log_reg_form sidebar_area">
+          <div class="login_form">
+            <form action="#">
+              <div class="mb-2 mr-sm-2">
+                <label class="form-label">Username or email address</label>
+                <input type="text" class="form-control" placeholder="Ali Tufan">
+              </div>
+              <div class="form-group mb5">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" placeholder="Password">
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="exampleCheck3">
+                <label class="custom-control-label" for="exampleCheck3">Remember me</label>
+                <a class="btn-fpswd float-end" href="#">Lost your password?</a>
+              </div>
+              <button type="submit" class="btn btn-log btn-thm mt20">Login</button>
+              <p class="text-center mb25 mt10">Don't have an account? <a class="signup-filter-btn" href="#">Create account</a></p>
+              <div class="hr_content">
+                <hr>
+                <span class="hr_top_text">or</span>
+              </div>
+              <ul class="login_with_social text-center mt30 mb0">
+                <li class="list-inline-item"><a href="#"><i class="fab fa-facebook"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-google"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-apple"></i></a></li>
+              </ul>
+            </form>
           </div>
-          <a href="#" class="cart_btns btn btn-white">View Cart</a>
-          <a href="#" class="checkout_btns btn btn-thm">Checkout</a>
         </div>
       </div>
     </div>
-  </div>
-  <!--End Your Cart Hiddn SideBar -->
-  <!-- Sign Up Hiddn SideBar -->
-  <div class="signup-hidden-sbar">
-    <div class="hsidebar-header">
-      <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
-      <h4 class="title">Create Your Account</h4>
-    </div>
-    <div class="hsidebar-content">
-      <div class="log_reg_form sidebar_area">
-        <div class="sign_up_form">
-          <form action="#">
-            <div class="form-group">
-              <label class="form-label">Your Name</label>
-              <input type="text" class="form-control" placeholder="Ali Tufan">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Username</label>
-              <input type="text" class="form-control" placeholder="alitfn">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Your Email</label>
-              <input type="email" class="form-control" placeholder="creativelayers088@gmail.com">
-            </div>
-            <div class="form-group mb20">
-              <label class="form-label">Password</label>
-              <input type="password" class="form-control" placeholder="******************">
-            </div>
-            <button type="submit" class="btn btn-signup btn-thm">Create Account</button>
-            <p class="text-center mb25 mt10">Already have an account? <a href="page-login.html">Sign in</a></p>
-            <div class="hr_content">
-              <hr>
-              <span class="hr_top_text">or</span>
-            </div>
-            <ul class="login_with_social text-center mt30 mb0">
-              <li class="list-inline-item"><a href="#"><i class="fab fa-facebook"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-google"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-              <li class="list-inline-item"><a href="#"><i class="fab fa-apple"></i></a></li>
+    <!--End Sign In Hiddn SideBar -->
+    <!-- Your Cart Hiddn SideBar -->
+    <div class="cart-hidden-sbar">
+      <div class="hsidebar-header">
+        <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
+        <h4 class="title">Your Cart</h4>
+      </div>
+      <div class="hsidebar-content">
+        <div class="log_fav_cart_widget hsidebar_home_page">
+          <div class="wrapper">
+            <ul class="cart">
+              <li class="list-inline-item">
+                <ul class="dropdown_content">
+                  <li class="list_content">
+                    <div>
+                      <img class="float-start mt10" src="images/shop/s1.png" alt="75x75">
+                      <p>Apple MacBook Pro with Apple M1 Chip</p>
+                      <div class="cart_btn home_page_sidebar mt10">
+                        <div class="quantity-block home_page_sidebar">
+                          <button class="quantity-arrow-minus home_page_sidebar"><img src="images/icons/minus.svg" alt=""></button>
+                          <input class="quantity-num home_page_sidebar" type="number" value="3">
+                          <button class="quantity-arrow-plus home_page_sidebar"> <span class="flaticon-close"></span> </button>
+                        </div>
+                        <span class="home_page_sidebar price">$3.399</span>
+                      </div>
+                      <span class="close_icon"><i class="flaticon-close"></i></span>
+                    </div>
+                  </li>
+                  <li class="list_content">
+                    <div>
+                      <img class="float-start mt10" src="images/shop/s2.png" alt="75x75">
+                      <p>Apple MacBook Pro with Apple M1 Chip</p>
+                      <div class="cart_btn home_page_sidebar mt10">
+                        <div class="quantity-block home_page_sidebar">
+                          <button class="quantity-arrow-minus2 home_page_sidebar"><img src="images/icons/minus.svg" alt=""></button>
+                          <input class="quantity-num2 home_page_sidebar" type="number" value="3">
+                          <button class="quantity-arrow-plus2 home_page_sidebar"> <span class="flaticon-close"></span> </button>
+                        </div>
+                        <span class="home_page_sidebar price">$3.399</span>
+                      </div>
+                      <span class="close_icon"><i class="flaticon-close"></i></span>
+                    </div>
+                  </li>
+                  <li class="list_content_total_price">
+                    <h5>Total: <span class="total_price float-end">$6.225.98</span></h5>
+                  </li>
+                </ul>
+              </li>
             </ul>
-          </form>
+          </div>
+        </div>
+      </div>
+      <div class="hsidebar_footer_content">
+        <div class="list_last_content">
+          <div class="lc">
+            <p class="para">Buy $98.00 more to enjoy FREE Shipping</p>
+            <div class="uilayout_range home1_style">
+              <div class="sidebar_range_slider mb30 mt25">
+                <input class="range-example-km" value="80" type="text">
+              </div>
+            </div>
+            <a href="#" class="cart_btns btn btn-white">View Cart</a>
+            <a href="#" class="checkout_btns btn btn-thm">Checkout</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!--End Sign Up Hiddn SideBar -->
+    <!--End Your Cart Hiddn SideBar -->
+    <!-- Sign Up Hiddn SideBar -->
+    <div class="signup-hidden-sbar">
+      <div class="hsidebar-header">
+        <div class="sidebar-close-icon"><span class="flaticon-close"></span></div>
+        <h4 class="title">Create Your Account</h4>
+      </div>
+      <div class="hsidebar-content">
+        <div class="log_reg_form sidebar_area">
+          <div class="sign_up_form">
+            <form action="#">
+              <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <input type="text" class="form-control" placeholder="Ali Tufan">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" placeholder="alitfn">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Your Email</label>
+                <input type="email" class="form-control" placeholder="creativelayers088@gmail.com">
+              </div>
+              <div class="form-group mb20">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" placeholder="******************">
+              </div>
+              <button type="submit" class="btn btn-signup btn-thm">Create Account</button>
+              <p class="text-center mb25 mt10">Already have an account? <a href="page-login.html">Sign in</a></p>
+              <div class="hr_content">
+                <hr>
+                <span class="hr_top_text">or</span>
+              </div>
+              <ul class="login_with_social text-center mt30 mb0">
+                <li class="list-inline-item"><a href="#"><i class="fab fa-facebook"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-google"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fab fa-apple"></i></a></li>
+              </ul>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--End Sign Up Hiddn SideBar -->
 
 
-  <% end %>
+    <% end %>
