@@ -247,25 +247,28 @@
 
               <% if user_signed_in? %>
               <li class="col mega_menu_list">
-                <h4 class="title">User Dashboard</h4>
+                <h4 class="title">My Axis </h4>
                 <ul>
-                  <li> <%= link_to accounts_path do %>Dashboard<% end %>> </li>
+                  <li> <%= link_to accounts_path do %> Dashboard <% end %> </li>
                   <li><a href="#">Orders</a></li>
-                  <li><a href="#">Addresses</a></li>
-                  <li><%= link_to edit_user_registration_path do %>Account Details<%end %></li>
+                  <li><a href="#">messages</a></li>
+                  <li><%= link_to edit_user_registration_path do %> Account Details <% end %></li>
                 </ul>
               </li>
+
+              <% else %>
+
+                            <li class="col mega_menu_list">
+                              <h4 class="title">Shop</h4>
+                              <ul>
+                                <li><a href="#">Cart</a></li>
+                                <li><a href="#">Checkout</a></li>
+                                <li><a href="#">Wishlist</a></li>
+                              </ul>
+                            </li>
               <% end %>
 
 
-              <li class="col mega_menu_list">
-                <h4 class="title">Shop</h4>
-                <ul>
-                  <li><a href="#">Cart</a></li>
-                  <li><a href="#">Checkout</a></li>
-                  <li><a href="#">Wishlist</a></li>
-                </ul>
-              </li>
               <li class="col mega_menu_list">
                 <h4 class="title">Knowledge Base</h4>
                 <ul>
