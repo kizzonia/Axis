@@ -1,17 +1,17 @@
+<%= simple_form_for(@product, html: { class: "product-form" }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-<%= simple_form_for(@product) do |f| %>
-<%= f.error_notification %>
-<%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-
-<div class="col-lg-12">
-  <div class="d-flex align-items-center bb1 mb30 pb30">
-    <div class="flex-shrink-0">
-      <% if @product.prodimage? %>
-      <%= image_tag @product.prodimage_url.to_s, alt: "avatar", class: "img-fluid" %>
-      <% else %>
-      <img src="<%= asset_path "resource/avatar.png" %>" alt="avatar" class="img-fluid">
-      <% end %>      </div>
+  <!-- Product Image Section -->
+  <div class="col-lg-12">
+    <div class="d-flex align-items-center bb1 mb30 pb30">
+      <div class="flex-shrink-0">
+        <% if @product.prodimage? %>
+          <%= image_tag @product.prodimage_url.to_s, alt: "avatar", class: "img-fluid" %>
+        <% else %>
+          <img src="<%= asset_path "resource/avatar.png" %>" alt="avatar" class="img-fluid">
+        <% end %>
+      </div>
       <div class="flex-grow-1 ms-4 editing_list">
         <h5 class="mb0">Your Product Image</h5>
         <p class="fz14 heading-color">PNG or JPG no bigger than 800px wide and tall.</p>
@@ -19,12 +19,12 @@
           <li class="list-inline-item mb-1">
             <%= f.input :prodimage, as: :file, label: false, wrapper: false, input_html: { class: "d-none", id: "image-upload" } %>
             <%= link_to "#", class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "View" }, title: "Edit", aria: { label: "View" }, onclick: "document.getElementById('image-upload').click();" do %>
-            <span class="flaticon-cloud-computing"></span>
+              <span class="flaticon-cloud-computing"></span>
             <% end %>
           </li>
           <li class="list-inline-item mb-1">
             <%= link_to "#", class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "Edit" }, title: "Delete", aria: { label: "Edit" }, method: :delete, data: { confirm: "Are you sure?" } do %>
-            <span class="flaticon-delete"></span>
+              <span class="flaticon-delete"></span>
             <% end %>
           </li>
         </ul>
@@ -32,67 +32,120 @@
     </div>
   </div>
 
-<div class="row">
-  <div class="col-md-6">
-    <div class="form-group mb-4">
-      <%= f.input :name, label: "Product Name" %>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="form-group">
-      <%= f.input :title, label: "Product Title " %>
-
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6">
-    <div class="form-group mb-4">
-      <%= f.input :price, label: 'Price', input_html: { step: 0.01 } %>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="form-group">
-      <%= f.input :sku, label: "Product SKU number"%>
-
-    </div>
-  </div></div>
-
-<div class="row">  <div class="col-md-6">
-    <div class="form-group mb-4">
-      <%= f.association :category,
-      collection: Category.all,
-      label_method: :name,
-      value_method: :id,
-      prompt: 'Select Category' %> </div>
+  <!-- Basic Product Information -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-4">
+        <%= f.input :name, label: "Product Name", placeholder: "Enter product name", required: true %>
+      </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group">
-        <%= f.association :sub_category,
-        collection: SubCategory.all,
-        label_method: :name,
-        value_method: :id,
-        prompt: 'Select Subcategory',
-        grouped_by: :category %>
+      <div class="form-group mb-4">
+        <%= f.input :title, label: "Product Title", placeholder: "Enter product title", required: true %>
       </div>
     </div>
-</div>
+  </div>
 
+  <!-- Price and SKU -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-4">
+        <%= f.input :price, label: "Price", input_html: { step: 0.01, placeholder: "Enter price" }, required: true %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-4">
+        <%= f.input :sku, label: "Product SKU", placeholder: "Enter SKU number", required: true %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category and Subcategory -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-4">
+        <%= f.association :category,
+                          collection: Category.all,
+                          label_method: :name,
+                          value_method: :id,
+                          prompt: 'Select Category',
+                          required: true %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-4">
+        <%= f.association :sub_category,
+                          collection: SubCategory.all,
+                          label_method: :name,
+                          value_method: :id,
+                          prompt: 'Select Subcategory',
+                          grouped_by: :category,
+                          required: true %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Status -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-4">
+        <%= f.input :status, as: :boolean, label: "Is this product in stock?", checked_value: true, unchecked_value: false %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-4">
+        <%= f.input :verified, as: :boolean, label: "Is this product verified?", checked_value: true, unchecked_value: false %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Overview and Description -->
+  <div class="row">
     <div class="col-md-12">
       <div class="form-group mb-4">
- <%= f.input :status, as: :boolean, label: "Is this product in stock?", checked_value: true, unchecked_value: false %>
+        <%= f.input :overview, label: "Product Overview", placeholder: "Enter a brief overview", input_html: { rows: 3 } %>
       </div>
     </div>
-
     <div class="col-md-12">
-      <div class="form-group mb30">
-        <%= f.input :description, as: :rich_text_area %>
+      <div class="form-group mb-4">
+        <%= f.input :description, as: :rich_text_area, label: "Product Description", placeholder: "Enter detailed description" %>
       </div>
-
     </div>
+  </div>
 
-    <div class="form-actions">
-      <%= f.button :submit, "Create Product", class: "style2 btn btn-thm me-3 mb15-520" %>
+  <!-- Discount Type and Feature -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-4">
+        <%= f.input :discounttype, label: "Discount Type", placeholder: "Enter discount type (e.g., percentage, fixed)" %>
+      </div>
     </div>
-    <% end %>
+    <div class="col-md-6">
+      <div class="form-group mb-4">
+        <%= f.input :feature, as: :boolean, label: "Is this a featured product?", checked_value: true, unchecked_value: false %>
+      </div>
+    </div>
+  </div>
+
+  <!-- State and Slug -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-4">
+        <%= f.input :state, label: "Product State", placeholder: "Enter product state (e.g., new, used)" %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-4">
+        <%= f.input :slug, label: "Product Slug", placeholder: "Enter a unique slug for the product" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- User ID (Hidden Field) -->
+  <%= f.input :user_id, as: :hidden, input_html: { value: current_user.id } %>
+
+  <!-- Form Actions -->
+  <div class="form-actions text-center">
+    <%= f.button :submit, "Create Product", class: "btn btn-thm btn-lg" %>
+  </div>
+<% end %>
