@@ -23,6 +23,7 @@ gem 'ckeditor'
 # gem "kredis"
 gem "bootstrap"
 gem "sassc-rails"
+gem 'sass', '~> 3.7.4' # Replace with a newer version, e.g., '~> 3.7.5' or higher
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 gem 'seed_dump'
