@@ -3,6 +3,9 @@
 //= require popper.min
 //= require bootstrap
 //= require rails-ujs
+//= require ckeditor/init
+
+
 //= require bootstrap-select.min
 //= require jquery.mmenu.all
 //= require ace-responsive-menu
