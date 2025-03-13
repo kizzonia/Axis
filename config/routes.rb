@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  # mount Ckeditor::Engine => '/ckeditor'
+  mount Ckeditor::Engine => '/ckeditor'
   get "carts/show"
 
   resources :cart_items, only: [:create, :destroy]
