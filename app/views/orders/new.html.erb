@@ -1,0 +1,114 @@
+<!-- app/views/orders/new.html.erb -->
+<section class="shop-checkouts pt30">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-lg-4 m-auto">
+        <div class="main-title text-center mb50">
+          <h2 class="title">Checkout</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 col-xl-9">
+        <div class="checkout_form style2">
+          <div class="main-title mb50">
+            <p>Shipping Details ? <br>
+              <a class="signin-filter-btn" href="#">Please Note Shipping and delivery is handled by the seller</a></p>
+          </div>
+          <h4 class="title mb20">Billing details</h4>
+          <div class="checkout_coupon ui_kit_button">
+
+            <%= form_with model: @order, url: orders_path, local: true, class: "form2" do |form| %>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <%= form.label :first_name, "First name *", class: "form-label" %>
+                    <%= form.text_field :first_name, class: "form-control form_control", placeholder: "Ali", required: true %>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <%= form.label :last_name, "Last name *", class: "form-label" %>
+                    <%= form.text_field :last_name, class: "form-control form_control", placeholder: "Tufan", required: true %>
+                  </div>
+                </div>
+
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <%= form.label :country, "Country / Region *", class: "form-label" %>
+                    <%= form.select :country, options_for_select(["Turkey", "United Kingdom", "United States", "Ukraine", "Uruguay", "UK", "Uzbekistan"]), { prompt: "Select" }, class: "selectpicker show-tick", required: true %>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <%= form.label :street_address, "Street address *", class: "form-label" %>
+                    <%= form.text_field :street_address, class: "form-control form_control mb10", required: true %>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <%= form.label :city, "Town / City *", class: "form-label" %>
+                    <%= form.text_field :city, class: "form-control form_control", required: true %>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <%= form.label :state, "State *", class: "form-label" %>
+                    <%= form.select :state, options_for_select(["Istanbul", "London", "New York", "Paris", "Dubai", "Rome", "Singapore"]), { prompt: "Select" }, class: "selectpicker show-tick", required: true %>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <%= form.label :zip_code, "ZIP *", class: "form-label" %>
+                    <%= form.text_field :zip_code, class: "form-control form_control", required: true %>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <%= form.label :phone, "Phone *", class: "form-label" %>
+                    <%= form.text_field :phone, class: "form-control form_control", required: true %>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <%= form.label :email, "Your Email", class: "form-label" %>
+                    <%= form.email_field :email, class: "form-control form_control email", required: true %>
+                  </div>
+                </div>
+
+                <div class="col-sm-12">
+
+                    <%= form.label :order_notes, "Order notes (optional)", class: "ai_title" %>
+                    <%= form.text_area :order_notes, class: "form-control", rows: "12", placeholder: "Order Notes" %>
+                  </div>
+                </div>
+              </div>
+              <%= form.submit "Place Order", class: "btn btn-thm btn-block mb0" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-xl-3">
+        <div class="order_sidebar_widget checkout_page mb30">
+          <h4 class="title">Your Order</h4>
+          <ul>
+            <% current_user.cart.cart_items.each do |cart_item| %>
+              <li>
+                <p class="product_name_qnt"><%= cart_item.product.name %> x <%= cart_item.quantity %></p>
+                <span class="price"><%= number_to_currency(cart_item.product.price * cart_item.quantity) %></span>
+              </li>
+            <% end %>
+            <li class="subtitle">
+              <p>Sub Total <span class="float-end totals"><%= number_to_currency(current_user.cart.total_price) %></span></p>
+            </li>
+            <li class="subtitle">
+              <p>Shipping <span class="float-end totals"><%= number_to_currency(20) %></span></p>
+            </li>
+            <li class="subtitle">
+              <p>Total <span class="float-end totals"><%= number_to_currency(current_user.cart.total_price + 20) %></span></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</section>

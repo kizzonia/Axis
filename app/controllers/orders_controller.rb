@@ -3,26 +3,35 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
 
   def new
-    @cart = current_user.cart
     @order = Order.new
+    @cart = current_user.cart
   end
 
   def create
-    @cart = current_user.cart
-    @order = current_user.orders.build(total_price: @cart.total_price, status: 'pending')
+    @order = current_user.orders.build(order_params)
+    @order.total_price = current_user.cart.total_price + 20 # Add shipping cost
+    @order.status = :pending
 
     if @order.save
-      @cart.cart_items.each do |cart_item|
+      current_user.cart.cart_items.each do |cart_item|
         @order.order_items.create(
           product: cart_item.product,
           quantity: cart_item.quantity,
           price: cart_item.product.price
         )
       end
-      @cart.destroy
+      current_user.cart.destroy
       redirect_to @order, notice: 'Order placed successfully.'
     else
       render :new
     end
+  end
+
+  private
+
+  def order_params
+    params.require(:order).permit(
+      :first_name, :last_name, :country, :street_address, :city, :state, :zip_code, :phone, :email, :user_id, :order_notes
+    )
   end
 end
