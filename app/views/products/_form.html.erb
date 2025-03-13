@@ -141,6 +141,7 @@
   </div>
 
   <!-- Category and Subcategory Selection -->
+  <!-- Category and Subcategory Selection -->
   <div class="row">
     <div class="col-md-6">
       <div class="form-group mb-4">
@@ -166,6 +167,7 @@
     </div>
   </div>
 
+
   <!-- Form Actions -->
   <div class="form-actions text-center">
     <%= f.button :submit, "Create Product", class: "btn btn-thm btn-lg" %>
@@ -173,7 +175,7 @@
 <% end %>
 
 <!-- JavaScript for Dynamic Subcategory Selection -->
-<script>
+<!-- <script>
   document.addEventListener('DOMContentLoaded', function() {
     const categorySelector = document.getElementById('category-selector');
     const subCategorySelector = document.getElementById('sub-category-selector');
@@ -197,4 +199,34 @@
       }
     });
   });
+</script> -->
+
+
+<script type="text/javascript">
+  document.addEventListener('turbo:load', function() {
+    const categorySelector = document.getElementById('category-selector');
+    const subCategorySelector = document.getElementById('sub-category-selector');
+
+    if (categorySelector && subCategorySelector) {
+      categorySelector.addEventListener('change', function() {
+        const categoryId = this.value;
+        if (categoryId) {
+          fetch(`/categories/${categoryId}/sub_categories.json`)
+            .then(response => response.json())
+            .then(data => {
+              subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+              data.forEach(subCategory => {
+                const option = document.createElement('option');
+                option.value = subCategory.id;
+                option.textContent = subCategory.name;
+                subCategorySelector.appendChild(option);
+              });
+            })
+            .catch(error => console.error('Error fetching subcategories:', error));
+        } else {
+          subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+        }
+      });
+    }
+  }); 
 </script>
