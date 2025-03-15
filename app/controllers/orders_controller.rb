@@ -27,25 +27,32 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = current_user.orders.build(order_params)
-    @order.total_price = current_user.cart.total_price  # Add shipping cost
-    @order.seller = @cart.cart_items.first.product.user # Assign the seller
+    @cart = current_user.cart
+   if @cart.nil? || @cart.cart_items.empty?
+     redirect_to cart_path, alert: 'Your cart is empty.' and return
+   end
 
-    @order.status = :pending
+   if @cart.cart_items.first.product.user.nil?
+     redirect_to cart_path, alert: 'Invalid product or seller.' and return
+   end
 
-    if @order.save
-      current_user.cart.cart_items.each do |cart_item|
-        @order.order_items.create(
-          product: cart_item.product,
-          quantity: cart_item.quantity,
-          price: cart_item.product.price
-        )
-      end
-      current_user.cart.destroy
-      redirect_to @order, notice: 'Order placed successfully.'
-    else
-      render :new
-    end
+   @order = current_user.orders.build(order_params)
+   @order.status = :pending
+   @order.seller = @cart.cart_items.first.product.user # Assign the seller
+
+   if @order.save
+     @cart.cart_items.each do |cart_item|
+       @order.order_items.create(
+         product: cart_item.product,
+         quantity: cart_item.quantity,
+         price: cart_item.product.price
+       )
+     end
+     @cart.destroy
+     redirect_to @order, notice: 'Order placed successfully.'
+   else
+     render :new
+   end
   end
 
   private
