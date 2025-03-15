@@ -235,37 +235,32 @@
 
                   </ul>
               </div>
+              <!-- Billing Details -->
+              <div class="order_sidebar_widget checkout_page mb30 mb30">
+                <h4 class="title">Delivery Details</h4>
+                <ul>
+                  <li><p class="product_name_qnt">Name: <span class="float-end totals"><%= @order.first_name %> <%= @order.last_name %></span> </p></li>
+                  <li class="subtitle"><p>Address:<span class="float-end totals"><%= @order.street_address %>, <%= @order.city %>, <%= @order.state %>, <%= @order.zip_code %></span></p></li>
+                  <li class="subtitle"><p>Country:<span class="float-end totals"><%= @order.country %></span></p></li>
+                  <li class="subtitle"><p>Delivery Contacts: <span class="float-end totals"><%= @order.email %> & <br> Phone:<%= @order.phone %> </span></p></li>
+
+                </ul>
+                </div>
+                <div class="order_sidebar_widget checkout_page mb30 mb30">
+                  <h4 class="title">Order Summary</h4>
+                  <ul>
+                    <li><p class="product_name_qnt">Subtotal: <span class="float-end totals"><%= number_to_currency(@order.total_price) %></span> </p></li>
+                    <li class="subtitle"><p>Shipping <span class="float-end totals">Communicate with your seller For shipping Details </span></p>
+                  </li>
+                    <li class="subtitle"><p>  Total:<span class="float-end totals"><%= number_to_currency(@order.total_price ) %></span></p></li>
+
+                  </ul>
+
+                </div>
             </div>
 
-            <div class="col-lg-4 col-xl-3">
-
-            <!-- Billing Details -->
-            <div class="order_sidebar_widget checkout_page mb30 mb30">
-              <h4 class="title">Delivery Details</h4>
-              <ul>
-                <li><p class="product_name_qnt">Name: <span class="float-end totals"><%= @order.first_name %> <%= @order.last_name %></span> </p></li>
-                <li class="subtitle"><p>Address:<span class="float-end totals"><%= @order.street_address %>, <%= @order.city %>, <%= @order.state %>, <%= @order.zip_code %></span></p></li>
-                <li class="subtitle"><p>Country:<span class="float-end totals"><%= @order.country %></span></p></li>
-                <li class="subtitle"><p>Delivery Contacts: <span class="float-end totals"><%= @order.email %> & <br> Phone:<%= @order.phone %> </span></p></li>
-
-              </ul>
-              </div>
-            </div>
 
     <!-- Order Summary -->
-    <div class="col-lg-4">
-      <div class="order_sidebar_widget checkout_page mb30 mb30">
-        <h4 class="title">Order Summary</h4>
-        <ul>
-          <li><p class="product_name_qnt">Subtotal: <span class="float-end totals"><%= number_to_currency(@order.total_price) %></span> </p></li>
-          <li class="subtitle"><p>Shipping <span class="float-end totals">Communicate with your seller For shipping Details </span></p>
-        </li>
-          <li class="subtitle"><p>  Total:<span class="float-end totals"><%= number_to_currency(@order.total_price ) %></span></p></li>
-
-        </ul>
-
-      </div>
-
-        </div>
+  
       </div>
   </section>
