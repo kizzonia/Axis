@@ -67,7 +67,7 @@ class OrdersController < ApplicationController
     end
   end
 
-  def find_product
+  def find_order
     @order = Order.find(params[:id])
   end
   def order_params
