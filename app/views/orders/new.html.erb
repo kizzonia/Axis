@@ -83,8 +83,7 @@
                   </div>
                 </div>
               </div>
-              <%= form.submit "Place Order", class: "btn btn-thm btn-block mb0" %>
-            <% end %>
+
           </div>
         </div>
       <div class="col-lg-4 col-xl-3">
@@ -101,14 +100,43 @@
               <p>Sub Total <span class="float-end totals"><%= number_to_currency(current_user.cart.total_price) %></span></p>
             </li>
             <li class="subtitle">
-              <p>Shipping <span class="float-end totals"><%= number_to_currency(20) %></span></p>
+              <p>Shipping <span class="float-end totals">Communicate with your seller on the next page </span></p>
             </li>
             <li class="subtitle">
               <p>Total <span class="float-end totals"><%= number_to_currency(current_user.cart.total_price + 20) %></span></p>
             </li>
           </ul>
         </div>
+        <div class="order_sidebar_widget checkout_page mb30 mb30">
+          <div class="payment_method">
+            <div class="ui_kit_radiobox pm_content bb1">
+              <div class="radio mb10">
+                <input id="radio_one" name="radio" type="radio" checked="">
+                <label class="pmtitle" for="radio_one"><span class="radio-label"></span> Direct bank transfer</label>
+              </div>
+              <div class="pm_details">
+                <p>Make your payment directly into our bank account.
+                  Please use your Order ID as the payment reference.
+                  Your order will not be shipped until the funds have cleared in our escrow account.</p>
+              </div>
+            </div>
+
+            <div class="ui_kit_radiobox pm_content">
+              <div class="radio mb10">
+                <input id="radio_one3" name="radio" type="radio">
+                <label class="pmtitle" for="radio_one3"><span class="radio-label"></span> Wallet Payment</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui_kit_button payment_widget_btn">
+          <%= form.submit "Place Order", class: "btn btn-thm btn-block mb0" %>
+        <% end %>
+        </div>
+        
       </div>
+
+
     </div>
   </div>
 
