@@ -8,7 +8,8 @@ class OrdersController < ApplicationController
 
 
     def index
-
+      @orders_as_buyer = current_user.orders
+      @orders_as_seller = Order.where(seller: current_user)
     end
 
     def show
@@ -27,7 +28,9 @@ class OrdersController < ApplicationController
 
   def create
     @order = current_user.orders.build(order_params)
-    @order.total_price = current_user.cart.total_price + 20 # Add shipping cost
+    @order.total_price = current_user.cart.total_price  # Add shipping cost
+    @order.seller = @cart.cart_items.first.product.user # Assign the seller
+
     @order.status = :pending
 
     if @order.save

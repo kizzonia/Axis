@@ -1,0 +1,38 @@
+<!-- app/views/orders/index.html.erb -->
+<h1>Your Orders</h1>
+
+<h2>Orders as Buyer</h2>
+<% if @orders_as_buyer.any? %>
+  <ul>
+    <% @orders_as_buyer.each do |order| %>
+      <li>
+        <h3>Order #<%= order.id %></h3>
+        <p><strong>Status:</strong> <%= order.status.capitalize %></p>
+        <p><strong>Total:</strong> <%= number_to_currency(order.total_price) %></p>
+        <p><strong>Seller:</strong> <%= order.seller.email %></p>
+        <%= link_to 'View Details', order_path(order), class: 'btn btn-primary' %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You have no orders as a buyer.</p>
+<% end %>
+
+<h2>Orders as Seller</h2>
+<% if @orders_as_seller.any? %>
+  <ul>
+    <% @orders_as_seller.each do |order| %>
+      <li>
+        <h3>Order #<%= order.id %></h3>
+        <p><strong>Status:</strong> <%= order.status.capitalize %></p>
+        <p><strong>Total:</strong> <%= number_to_currency(order.total_price) %></p>
+        <p><strong>Buyer:</strong> <%= order.user.email %></p>
+        <%= link_to 'View Details', order_path(order), class: 'btn btn-primary' %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You have no orders as a seller.</p>
+<% end %>
+
+<%= link_to 'Back to Dashboard', accounts_path, class: 'btn btn-secondary' %>
