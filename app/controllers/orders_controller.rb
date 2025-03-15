@@ -1,6 +1,24 @@
 # app/controllers/orders_controller.rb
 class OrdersController < ApplicationController
   before_action :authenticate_user!
+  layout :resolve_layout
+  before_action :find_order, only: [ :show, :edit, :update, :destroy]
+
+  add_flash_types :success, :danger, :info, :notice
+
+
+    def index
+
+    end
+
+    def show
+      @order = Order.find(params[:id])
+     # Ensure the order belongs to the current user (for security)
+     unless @order.user == current_user
+       redirect_to root_path, alert: "You are not authorized to view this order."
+     end
+    end
+
 
   def new
     @order = Order.new
@@ -28,7 +46,20 @@ class OrdersController < ApplicationController
   end
 
   private
+  def resolve_layout
+    case action_name
+    when "index"
+      "accounts"
+    when  "show", "create", "edit"
+      "application"
+    else
+      "application"
+    end
+  end
 
+  def find_product
+    @order = Order.find(params[:id])
+  end
   def order_params
     params.require(:order).permit(
       :first_name, :last_name, :country, :street_address, :city, :state, :zip_code, :phone, :email, :user_id, :order_notes
