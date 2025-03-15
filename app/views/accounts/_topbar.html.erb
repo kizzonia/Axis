@@ -14,8 +14,8 @@
     <div class="d-flex justify-content-between statistics_funfact">
       <div class="details">
         <div class="subtitle1">My Orders</div>
-        <div class="title">66,894</div>
-        <div class="subtitle2"><span>40+</span> New Order</div>
+        <div class="title"><%= Order.where(user_id: current_user.id).count %></div>
+        <div class="subtitle2"><%= link_to orders_path do %><span>View Orders</span> <% end %></div>
       </div>
       <div class="icon text-center mt-4"><i class="flaticon-sent"></i></div>
     </div>
@@ -24,7 +24,7 @@
     <div class="d-flex justify-content-between statistics_funfact">
       <div class="details">
         <div class="subtitle1">Transactions</div>
-        <div class="title">583.35M</div>
+        <div class="title">0</div>
         <div class="subtitle2"><span>90+</span> New Customer</div>
       </div>
       <div class="icon text-center mt-4"><i class="flaticon-customer"></i></div>

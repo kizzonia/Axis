@@ -54,8 +54,8 @@
     <% @services = Service.all.order('created_at ASC') %>
     <% @welcomes = Welcome.all %>
     <% @headers = Header.all %>
-    <% @blogs = Blog.all %>
-    <% @features = Feature.all %>
+    <%  @orders = Order.where(user_id: current_user).order('created_at ASC') %>
+    <% @products = Product.where(user_id: current_user).order('created_at ASC') %>
 
     <% @faqs = Faq.all.order('created_at ASC') %>
 

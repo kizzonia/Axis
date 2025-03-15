@@ -1,6 +1,16 @@
 <!-- app/views/orders/index.html.erb -->
-<h1>Your Orders</h1>
 
+<div class="row pb50">
+  <div class="col-lg-12">
+    <div class="dashboard_title_area">
+      <h2>Orders</h2>
+      <p class="para">Here you can see items bought and items sold </p>
+    </div>
+  </div>
+</div>
+<%= render "accounts/topbar" %>
+
+<div class="row">
 <h2>Orders as Buyer</h2>
 <% if @orders_as_buyer.any? %>
   <ul>
@@ -36,3 +46,4 @@
 <% end %>
 
 <%= link_to 'Back to Dashboard', accounts_path, class: 'btn btn-secondary' %>
+</div>
