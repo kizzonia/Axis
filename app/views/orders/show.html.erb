@@ -1,0 +1,69 @@
+<!-- app/views/orders/new.html.erb -->
+<section class="shop-checkouts pt30">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-lg-4 m-auto">
+        <div class="main-title text-center mb50">
+          <h2 class="title">Payment And Communication</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 col-xl-9">
+        <div class="checkout_form style2">
+          <div class="main-title mb50">
+            <p>Message Chat Box <br>
+              <a class="signin-filter-btn" href="#">Please Note Shipping and delivery is handled by the seller? <br>Discuss with the seller to make sure you get everything you need </a></p>
+          </div>
+          </div>
+          </div>
+
+          <div class="col-lg-4">
+
+          </div>
+          <div class="col-lg-4 col-xl-3">
+
+          <!-- Billing Details -->
+          <div class="order_sidebar_widget checkout_page mb30 mb30">
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Billing Details</h5>
+        <p><strong>Name:</strong> <%= @order.first_name %> <%= @order.last_name %></p>
+        <p><strong>Email:</strong> <%= @order.email %></p>
+        <p><strong>Phone:</strong> <%= @order.phone %></p>
+        <p><strong>Address:</strong> <%= @order.street_address %>, <%= @order.city %>, <%= @order.state %>, <%= @order.zip_code %></p>
+        <p><strong>Country:</strong> <%= @order.country %></p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Order Summary -->
+  <div class="col-lg-4">
+    <div class="order_sidebar_widget checkout_page mb30 mb30">
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Order Summary</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Subtotal
+            <span><%= number_to_currency(@order.total_price) %></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Shipping
+            <span><%= number_to_currency(20) %></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Total
+            <span><%= number_to_currency(@order.total_price + 20) %></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </div>
+
+      </div>
+    </div>
+</section>
