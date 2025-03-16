@@ -54,10 +54,26 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group mb-4">
-            <%= f.input :status, as: :boolean, label: "Is this product in stock?", checked_value: true, unchecked_value: false %>
+            <%= f.input :category_id,
+                        collection: Category.includes(:sub_categories).all,
+                        label_method: :name,
+                        value_method: :id,
+                        prompt: 'Select Category',
+                        input_html: { id: 'category-selector' },
+                        required: true %>
           </div>
         </div>
-
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :sub_category_id,
+                        collection: SubCategory.all,
+                        label_method: :name,
+                        value_method: :id,
+                        prompt: 'Select Subcategory',
+                        input_html: { id: 'sub-category-selector' },
+                        required: true %>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -91,8 +107,8 @@
       </div>
       </div>
 
-  
-    </div>
+
+
 
     <!-- Media Tab -->
     <div class="tab-pane fade" id="media" role="tabpanel" aria-labelledby="media-tab">
@@ -124,35 +140,16 @@
           </div>
         </div>
       </div>
+
+
     </div>
+
+
   </div>
 
   <!-- Category and Subcategory Selection -->
   <!-- Category and Subcategory Selection -->
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group mb-4">
-        <%= f.input :category_id,
-                    collection: Category.includes(:sub_categories).all,
-                    label_method: :name,
-                    value_method: :id,
-                    prompt: 'Select Category',
-                    input_html: { id: 'category-selector' },
-                    required: true %>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-group mb-4">
-        <%= f.input :sub_category_id,
-                    collection: SubCategory.all,
-                    label_method: :name,
-                    value_method: :id,
-                    prompt: 'Select Subcategory',
-                    input_html: { id: 'sub-category-selector' },
-                    required: true %>
-      </div>
-    </div>
-  </div>
+
 
 
   <!-- Form Actions -->
@@ -188,7 +185,7 @@
   });
 </script> -->
 
-
+<!--
 <script type="text/javascript">
   document.addEventListener('turbo:load', function() {
     const categorySelector = document.getElementById('category-selector');
@@ -216,4 +213,4 @@
       });
     }
   });
-</script>
+</script> -->
