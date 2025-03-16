@@ -37,7 +37,7 @@
         </div>
         <div class="col-md-6">
           <div class="form-group mb-4">
-            <%= f.input :title, label: "Product condition", placeholder: "Enter product state (e.g., new, used)" %>
+            <%= f.input :title, label: "Product condition", as: :select, collectiion: ["Brand New", "Used"] %>
           </div>
         </div>
       </div>

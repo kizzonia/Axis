@@ -61,7 +61,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">SKU</th>
-                        <!-- <th scope="col">Stock</th> -->
+                        <th scope="col">Product Condition</th>
                         <th scope="col">Price</th>
                         <th scope="col">Categories</th>
                         <th scope="col">Date</th>
@@ -74,10 +74,10 @@
                       <% @products.each do |product| %>
                       <tr>
                         <th scope="row">#<%= product.id %></th>
-                        <td><%= product.name %>-<%= product.title %></td>
+                        <td><%= product.name %></td>
                         <td><%= product.sku %></td>
 
-                
+                          <td><%= product.title %></td>
 
                         <td><%= number_to_currency(product.price) %></td>
                         <td> <%= product.category.name %> / <%= product.sub_category.name %></td>
