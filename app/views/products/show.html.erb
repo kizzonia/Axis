@@ -20,229 +20,38 @@
       <div class="container">
         <div class="row wrap">
           <div class="col-xl-7">
-            <div class="column">
-              <div class="shop_single_natabmenu">
-                <div class="d-block d-sm-flex align-items-start">
-                  <div class="nav flex-column nav-pills me-0 me-md-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <button class="nav-link active " id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
-                      <img src="<%= @product.prodimage_url.to_s %>" alt=""></button>
-                      <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-                        <img src="<%= @product.prodimage_url.to_s %>" alt="">
-                      </button>
-
-                    </div>
-                    <div class="tab-content m-auto" id="v-pills-tabContent">
-                      <div class="tab-pane fade" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                        <div class="shop_single_navmenu_content justify-content-center">
-                          <a class="product_popup popup-img" href="<%= @product.prodimage_url.to_s %>">
-                            <span class="flaticon-full-screen"></span></a>
-                          <div class="zoomimg_wrapper m-auto">
-                            <img class="zoom-img" id="zoom_01" src="<%= @product.prodimage_url.to_s %>" data-zoom-image="<%= @product.prodimage_url.to_s %>" width="410" alt="Shop Single Image"/>
-                          </div>
-                        </div>
+              <div class="row">
+                <div class="col-md-8">
+                  <img src="<%= @product.prodimage_url.to_s %>" alt="">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="shop_single_description">
+                  <h4 class="title">Overview</h4>
+                  <p class="para">The first notebook of its kind, this Apple MacBook Pro is a beast.
+                    With the blazing-fast M1 Pro chip — the first Apple silicon designed for pros —
+                    you get groundbreaking performance and amazing battery life. Add to that a stunning
+                    Liquid Retina XDR display, the best camera and audio ever in a Mac notebook, and all
+                    the ports you need.</p>
+                  <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body px-0 pt-0">
+                          <p class="para">Placeholder content for this accordion, which is intended to demonstrate the class. This is the first item's
+                            accordion body you get groundbreaking performance and amazing battery life.
+                             Add to that a stunning Liquid Retina XDR display, the best camera and audio ever
+                             in a Mac notebook, and all the ports you need.</p></div>
                       </div>
-
-                       <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                      <div class="shop_single_navmenu_content justify-content-center">
-                      <a class="product_popup popup-img" href="<%= @product.prodimage_url.to_s %>"><span class="flaticon-full-screen"></span></a>
-                      <div class="zoomimg_wrapper m-auto">
-                      <img class="zoom-img" id="zoom_02" src="<%= @product.prodimage_url.to_s %>" data-zoom-image="<%= @product.prodimage_url.to_s %>" width="410" alt="Shop Single Image"/>
+                      <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed px-0 pt-3 text-thm1" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">See More <span class="fas fa-angle-down ml10"></span></button>
+                      </h2>
                     </div>
                   </div>
                 </div>
-
-
-
-        </div>
-      </div>
-    </div>
-    </div>
-
-
-    <div class="shop_single_product_details ps-0 mt-4 d-block d-xl-none">
-      <div class="sspd_price mt-4 mb25">$<%= @product.price %> </div>
-      <div class="mb-0">
-        <ul class="cart_btn_widget shop_single3_style db-767 d-flex mb-0">
-          <li class="me-3 mb-2">
-            <div class="cart_btn home_page_sidebar">
-              <div class="quantity-block home_page_sidebar">
-                <button class="quantity-arrow-minus2 shop_single_page_sidebar">
-                  <img src="<%= asset_path "icons/minus.svg"%> " alt=""></button>
-                  <input class="quantity-num2 shop_single_page_sidebar" type="number" value="3">
-                  <button class="quantity-arrow-plus2 shop_single_page_sidebar">
-                    <span class="flaticon-close"></span> </button>
-                  </div>
-                </div>
-              </li>
-              <li class="me-0 me-sm-3 mb-3">
-                <%= button_to 'Add to Cart', cart_items_path(product_id: @product.id), method: :post, class: 'btn btn-thm bdrs60' %>
-              </li>
-
-              <li class="me-0 me-sm-3 mb-3">
-                <a href="#" class="btn btn-white bdr_thm bdrs60">Buy Now</a></li>
-            </ul>
-            <ul class="shop_single_wishlist_area db-400 d-flex align-items-center mb-3">
-              <li class="pe-2 ms-2 ms-sm-0"><a href="#"><span class="flaticon-heart me-2"></span>Wishlist</a></li>
-              <li class="pe-2 ms-2"><a href="#"><span class="flaticon-question me-2"></span>Ask a Question</a></li>
-              <li class="ms-2"><a href="#"><span class="flaticon-share me-2"></span>Share</a></li>
-
-            </ul>
-          </div>
-          <hr class="mt-0 mb20">
-          <ul class="sspd_sku mb30">
-            <li><a href="#">SKU: <%= @product.sku %> </a></li>
-            <li><a href="#">Categories: <%= @product.category.name %></a></li>
-            <li><a href="#">Tags: <%= @product.sub_category.name %></a></li>
-          </ul>
-          <hr>
-          <div class="vendor_iconbox style2 d-flex mb-1 mt-4">
-            <span class="icon fz30 heading-color"><span class="flaticon-truck"></span></span>
-            <div class="details ms-3 mt-0">
-              <p class="heading-color">Shipping By Seller</p>
-            </div>
-          </div>
-          <div class="vendor_iconbox style2 d-flex mb-1">
-            <span class="icon fz30 heading-color"><span class="flaticon-shop"></span></span>
-            <div class="details ms-3 mt-0">
-              <p class="heading-color">Sold and shipped by <a href="#" class="fw500 heading-color fz16"><%= @product.user.username %></a></p>
-            </div>
-          </div>
-          <div class="vendor_iconbox style2 d-flex mb-0">
-            <span class="icon fz30 heading-color"><span class="flaticon-return-box"></span></span>
-
-          </div>
-          <hr>
-
-        </div>
-        <div class="shortcode_widget_accprdons shop_single_accordion px-0 mt-5">
-          <div class="faq_according text-start">
-            <div class="shop_single_description">
-              <h4 class="title"><%= @product.title %></h4>
-              <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item">
-                  <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body px-0 pt-0">
-                      <p class="para">Placeholder content for this accordion, which is intended to demonstrate the class. This is the first item's accordion body you get groundbreaking performance and amazing battery life. Add to that a stunning Liquid Retina XDR display, the best camera and audio ever in a Mac notebook, and all the ports you need.</p></div>
-                  </div>
-                  <h2 class="accordion-header" id="flush-headingOne">
-                    <button class="accordion-button collapsed px-0 pt-3 text-thm1" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">See More <span class="fas fa-angle-down ml10"></span></button>
-                  </h2>
                 </div>
               </div>
-            </div>
-            <hr>
-            <div class="accordion" id="accordionExample">
-              <div class="card">
-                <div class="card-header" id="headingOne">
-                  <h2 class="mb-0">
-                    <button class="btn btn-link text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">More Information</button>
-                  </h2>
-                </div>
-                <div id="collapseOne" class="collapse show ps-1" aria-labelledby="headingOne" data-parent="#accordionExample">
-                  <div class="card-body">
-                    <h5 class="mt20"><%= @product.sub_category.name %></h5>
-                    <div class="shop_item_list_features shop_single_style mb30">
-                      <%= @product.description %>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-
-
-    <div class="card">
-      <div class="card-header" id="headingSive">
-        <h2 class="mb-0">
-          <button class="btn btn-link collapsed text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">Questions and Answers</button>
-        </h2>
-      </div>
-      <div id="collapseSix" class="collapse" aria-labelledby="headingSive" data-parent="#accordionExample">
-        <div class="card-body">
-          <div class="shop_single_qna">
-            <div class="search_field mt-3">
-              <div class="blog_search_widget">
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Have a question? Search for answer" aria-label="Recipient's username">
-                  <button class="btn btn-thm" type="button"><span class="fa fa-search"></span></button>
-                </div>
-              </div>
-            </div>
-            <div class="question_with_poster mt-3">
-              <h5 class="title">Q: Can dvds be played on apple computers?</h5>
-              <p class="author">Asked by Ali Tufan - May 14, 2022 on zenmart.com</p>
-            </div>
-            <div class="question_with_answer mt-3 ms-3">
-              <h5 class="title">A: If you buy a separate CD/DVD drive.</h5>
-              <p class="author mb-0">Answered by TFN-Store - May 24, 2022</p>
-            </div>
-            <div class="question_with_poster mt-3">
-              <h5 class="title">Q: Can dvds be played on apple computers?</h5>
-              <p class="author">Asked by Ali Tufan - May 14, 2022 on zenmart.com</p>
-            </div>
-            <div class="question_with_answer mt-3 ms-3">
-              <h5 class="title">A: If you buy a separate CD/DVD drive.</h5>
-              <p class="author mb-0">Answered by TFN-Store - May 24, 2022</p>
-            </div>
-            <div class="more_btn mt30 text-center">
-              <a href="#" class="btn btn-lg btn-white bdr_thm">Explore all questions</a>
-            </div>
           </div>
-        </div>
-      </div>
-      <div class="bsp_reveiw_wrt mb-0">
-        <form class="comments_form">
-          <div class="row">
-            <div class="col-md-12">
-              <h4 class="title mb20">Chat with Seller</h4>
-              <p class="heading-color">Your email address will not be published. Required fields are marked *</p>
-              <h5 class="mb0">inquire about this product</h5>
-              <div class="sspd_postdate vendor_single">
-                <!-- <div class="sspd_review">
-                <ul class="mb0">
-                <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
-                <li class="list-inline-item"><a href="#"><i class="fal fa-star"></i></a></li>
-                <li class="list-inline-item"><a href="#"><i class="fal fa-star"></i></a></li>
-                <li class="list-inline-item"><a href="#"><i class="fal fa-star"></i></a></li>
-                <li class="list-inline-item"><a href="#"><i class="fal fa-star"></i></a></li>
-              </ul>
-            </div> -->
-          </div>
-          <div class="form-group">
-            <label class="heading-color mb10">Your message </label>
-            <textarea class="form-control" rows="6"></textarea>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="heading-color mb10">Name</label>
-            <input type="text" class="form-control">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="heading-color mb10">Email</label>
-            <input type="email" class="form-control">
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-            <label class="form-check-label" for="defaultCheck1">Save my name, email, and website in this browser for the next time I comment.</label>
-          </div>
-          <br>
-          <button type="submit" class="btn btn-thm">Submit</button>
-        </div>
-      </div>
-    </form>
-    </div>
-    </div>
-
-
-    </div>
-    </div>
-    </div>
-    </div>
 
     <div class="col-xl-4 offset-xl-1 d-none d-xl-block">
       <div class="column">
