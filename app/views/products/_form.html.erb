@@ -1,3 +1,7 @@
+<style media="screen">
+
+</style>
+
 <%= simple_form_for(@product, html: { class: "product-form" }) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
@@ -103,7 +107,10 @@
             <%= f.input :state, label: "Product Shipping", as: :select, collection: ["Paid", "Free"] %>
           </div>
           <div class="form-group mb-4">
-            <%= f.input :status, label: "Product Stock Status", as: :boolean %>
+            <strong>
+              <%= f.input :status, label: "Product Stock Status", as: :boolean, class: "form-control" %>
+
+            </strong>
           </div>
         </div>
 
