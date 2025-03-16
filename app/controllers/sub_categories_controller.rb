@@ -19,7 +19,6 @@ class SubCategoriesController < ApplicationController
   def show
     @abouts = About.all
     @services = Service.all
-    @products = Product.includes(:category, :sub_category, :user).all
 
       @headers = Header.all
       @blogs = Blog.all.order('created_at DESC')
