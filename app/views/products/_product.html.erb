@@ -89,7 +89,7 @@
                         <td class="editing_list align-middle">
                           <ul>
                             <li class="list-inline-item mb-1">
-                              <%= link_to product, class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "View" }, title: "Edit", aria: { label: "View" } do %>
+                              <%= link_to edit_product_path(product), class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "View" }, title: "Edit", aria: { label: "View" } do %>
                                 <span class="flaticon-pencil"></span>
                               <% end %>
                              </li>
