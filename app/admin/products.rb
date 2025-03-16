@@ -21,8 +21,8 @@ ActiveAdmin.register Product do
     f.inputs do
       para "Product Belongings"
       f.input :user_id, :label => 'Users', :as => :select, :collection => User.all.map{|u| ["#{u.email}", u.id]}
-      f.input :category_id, :label => 'Category', :as => :select, :collection => User.all.map{|u| ["#{u.name}", u.id]}
-      f.input :sub_category_id, :label => 'SubCategory', :as => :select, :collection => User.all.map{|u| ["#{u.name}", u.id]}
+      f.input :category_id, :label => 'Category', :as => :select, :collection => Category.all.map{|u| ["#{u.name}", u.id]}
+      f.input :sub_category_id, :label => 'SubCategory', :as => :select, :collection => SubCategory.all.map{|u| ["#{u.name}", u.id]}
 
     para "Product Image"
     f.input :prodimage, as: :file
