@@ -1633,7 +1633,7 @@
             animateIn: 'fadeIn',
             active: true,
             smartSpeed: 1000,
-            autoplay: true
+            autoplay: false
         });
         $('.banner-carousel-btn .left-btn').on('click', function() {
             $('.banner-style-one').trigger('next.owl.carousel');
