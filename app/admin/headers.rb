@@ -57,12 +57,6 @@ ActiveAdmin.register Header do
       f.input :feedbacks_sub_title
 
 
-      para "projects/events"
-
-      f.input :projects_title, placeholder: "Branches  Board header"
-      f.input :projects_sub_title
-
-
       para "blog"
 
       f.input :blogs_title
