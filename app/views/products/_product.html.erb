@@ -61,7 +61,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">SKU</th>
-                        <th scope="col">Stock</th>
+                        <!-- <th scope="col">Stock</th> -->
                         <th scope="col">Price</th>
                         <th scope="col">Categories</th>
                         <th scope="col">Date</th>
@@ -77,11 +77,11 @@
                         <td><%= product.name %>-<%= product.title %></td>
                         <td><%= product.sku %></td>
 
-                        <%= if product.status? %>
+                        <%# <%= if product.status? %>
                         <td class="status"><span class="style4">for Sale</td>
                           <% else %>
                           <td class="status"><span class="style4">for Auction</td>
-                          <% end %>
+                          <% end %> %>
 
 
                         <td><%= number_to_currency(product.price) %></td>
