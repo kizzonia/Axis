@@ -77,12 +77,7 @@
                         <td><%= product.name %>-<%= product.title %></td>
                         <td><%= product.sku %></td>
 
-                        <%# <%= if product.status? %>
-                        <td class="status"><span class="style4">for Sale</td>
-                          <% else %>
-                          <td class="status"><span class="style4">for Auction</td>
-                          <% end %> %>
-
+                
 
                         <td><%= number_to_currency(product.price) %></td>
                         <td> <%= product.category.name %> / <%= product.sub_category.name %></td>
