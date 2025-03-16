@@ -8,13 +8,15 @@
 </p>
 <% end %>
 
-<p class="text-center mb25 mt10">Don't have an account?
+
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+<p class="text-center mb25 mt10">Don't have an account?
   <%= link_to new_registration_path(resource_name) do %>
       Sign Up
   <% end %>
+  </p>
 <% end %>
-</p>
+
 
 <p class="text-center mb25 mt10">
 
