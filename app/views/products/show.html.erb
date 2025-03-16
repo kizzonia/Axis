@@ -31,7 +31,7 @@
                     <div class="faq_according text-start">
                       <div class="shop_single_description">
                         <h4 class="title">Overview</h4>
-                        <p class="para"><%= @product.description %>.</p>
+                        <p class="para"><%= raw(@product.description) %>.</p>
                         <!-- <div class="accordion accordion-flush" id="accordionFlushExample">
                           <div class="accordion-item">
                             <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
