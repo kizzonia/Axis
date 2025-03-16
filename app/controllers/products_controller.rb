@@ -29,7 +29,7 @@ end
      if @product.save
        user = User.find_by_id(@product.user_id)
       product = @product
-       ProductMailer.product_email(user, product).deliver_later
+       # ProductMailer.product_email(user, product).deliver_later
 
        redirect_to products_path, notice: 'Product was successfully created.'
      else
@@ -38,15 +38,20 @@ end
    end
 
    def edit
-     @product = current_user.products.find(params[:id])
    end
 
    def update
-     @product = current_user.products.find(params[:id])
+     # @product = current_user.products.find(params[:id])
+     # if @product.update(product_params)
+     #   redirect_to products_path, notice: 'Product was successfully updated.'
+     # else
+     #   render :edit
+     # end
+
      if @product.update(product_params)
-       redirect_to products_path, notice: 'Product was successfully updated.'
+       redirect_to root_path
      else
-       render :edit
+       render 'edit'
      end
    end
 
