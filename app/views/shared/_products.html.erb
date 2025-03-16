@@ -39,7 +39,8 @@
         <div class="item">
           <div class="shop_item bdrtrb1 px-2 px-sm-3">
             <div class="thumb pb30">
-              <img src="<%= a.prodimage_url.to_s %>" alt="Deal Day1">
+              <img class="img-fluid" style="height:350px;" src="<%= a.prodimage_url.to_s %>" alt="Deal Day1">
+
               <div class="thumb_info">
                 <ul class="mb0">
                   <li><a href="#"><span class="flaticon-heart"></span></a></li>
@@ -53,15 +54,16 @@
             </div>
             <div class="details">
               <div class="sub_title"><%= a.category.name %></div>
-              <div class="title"><%= link_to a.name, a %>/<%= link_to a.title, a %></div>
+              <div class="title"><%= link_to a.name, a %></div>
+              <p class="sub_title"><%= link_to a.title, a %></p>
               <div class="review d-flex db-500">
-                <ul class="mb0 me-2">
+                <!-- <ul class="mb0 me-2">
                   <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
                   <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
                   <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
                   <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
                   <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
-                </ul>
+                </ul> -->
                 <!-- <div class="review_count"><a href="#">3,014 reviews</a></div> -->
               </div>
               <div class="si_footer">
