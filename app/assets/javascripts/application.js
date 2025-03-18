@@ -12,7 +12,6 @@
 //= require parallax
 //= require scrollto
 
-//= require jquery-scrolltofixed-min
 //= require jquery.counterup
 //= require wow.min
 //= require progressbar
