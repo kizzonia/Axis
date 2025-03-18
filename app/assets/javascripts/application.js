@@ -21,3 +21,4 @@
 //= require scrollbalance
 //= require toastr
 //= require "trix"
+//= require "script"

@@ -65,7 +65,7 @@
 
     <% @faqs = Faq.all.order('created_at ASC') %>
 
-    <div class="">
+    <div class="wrapper ovh">
       <div class="preloader"></div>
    <%= render "shared/header" %>
 
@@ -76,7 +76,6 @@
     </div>
 
 
-    <%= javascript_include_tag 'script' %>
 
   </body>
 </html>
