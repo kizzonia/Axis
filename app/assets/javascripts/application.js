@@ -19,4 +19,3 @@
 //= require timepicker
 //= require toastr
 //= require "trix"
-//= require "script"
