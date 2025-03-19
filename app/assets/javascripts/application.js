@@ -17,6 +17,6 @@
 //= require progressbar
 //= require slider
 //= require timepicker
-//= require scrollbalance
 //= require toastr
 //= require "trix"
+//= require "script"
