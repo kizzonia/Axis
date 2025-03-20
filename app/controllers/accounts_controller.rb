@@ -12,7 +12,8 @@ class AccountsController < InheritedResources::Base
             @products = Product.where(user_id: current_user).order('created_at ASC')
             @products = current_user.products.includes(:category, :sub_category)
             @orders = Order.where(user_id: current_user).order('created_at ASC')
-
+            @orders_as_buyer = current_user.orders
+            @orders_as_seller = Order.where(seller: current_user)
 
       end
 
