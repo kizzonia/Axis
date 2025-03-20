@@ -27,16 +27,18 @@
       </thead>
       <tbody>
         <% @orders_as_buyer.each do |order| %>
-          <tr>
-            <td><%= order.id %></td>
-            <td><%= order.product_name %></td>
-            <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
-            <td><%= number_to_currency(order.total_price) %></td>
-            <td><%= order.seller.email %></td>
-            <td>
-              <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
-            </td>
-          </tr>
+          <% order.order_items.each do |order_item| %>
+            <tr>
+              <td><%= order.id %></td>
+              <td><%= order_item.product.name %></td>
+              <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
+              <td><%= number_to_currency(order_item.price * order_item.quantity) %></td>
+              <td><%= order.seller.email %></td>
+              <td>
+                <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>
@@ -61,16 +63,18 @@
       </thead>
       <tbody>
         <% @orders_as_seller.each do |order| %>
-          <tr>
-            <td><%= order.id %></td>
-            <td><%= order.product_name %></td>
-            <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
-            <td><%= number_to_currency(order.total_price) %></td>
-            <td><%= order.user.email %></td>
-            <td>
-              <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
-            </td>
-          </tr>
+          <% order.order_items.each do |order_item| %>
+            <tr>
+              <td><%= order.id %></td>
+              <td><%= order_item.product.name %></td>
+              <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
+              <td><%= number_to_currency(order_item.price * order_item.quantity) %></td>
+              <td><%= order.user.email %></td>
+              <td>
+                <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>
