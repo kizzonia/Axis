@@ -20,7 +20,7 @@
     <link rel="icon" href="<%= asset_path'favicon.svg' %>" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%# <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %> %>
     <link rel="stylesheet" href="https://atugatran.github.io/FontAwesome6Pro/css/all.min.css" >
     <!--Start of Tawk.to Script-->
     <!-- <script type="text/javascript">
@@ -65,7 +65,7 @@
     <% @faqs = Faq.all.order('created_at ASC') %>
 
     <div class="wrapper ovh">
-      <div class="preloader"></div>
+      <!-- <div class="preloader"></div> -->
    <%= render "shared/header" %>
 
    <%= render "shared/headermobile" %>
