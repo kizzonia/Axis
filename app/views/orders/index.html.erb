@@ -30,11 +30,10 @@
       <div class="row">
         <div class="col-xl-12">
           <div class="application_statics">
-            <h4 class="title pl30 mb30">Recent Orders</h4>
+            <h4 class="title pl30 mb30">Orders Bought</h4>
             <div class="account_user_deails dashboard_page">
               <div class="order_table table-responsive">
 
-                <h2>Orders as Buyer</h2>
                 <% if @orders_as_buyer.any? %>
                   <table class="table">
                     <thead class="table-light">
@@ -67,6 +66,8 @@
                 <% else %>
                   <p>You have no orders as a buyer.</p>
                 <% end %>
+
+
               </div>
             </div>
           </div>
@@ -76,10 +77,16 @@
     </div>
     <div class="tab-pane fade col-xl-6" id="password" role="tabpanel" aria-labelledby="password-tab">
       <div class="row">
+        <div class="col-xl-12">
+          <div class="application_statics">
+            <h4 class="title pl30 mb30">Orders Sold</h4>
+            <div class="account_user_deails dashboard_page">
+              <div class="order_table table-responsive">
+
         <h2>Orders as Seller</h2>
         <% if @orders_as_seller.any? %>
-          <table class="table table-bordered">
-            <thead>
+        <table class="table">
+          <thead class="table-light">
               <tr>
                 <th>Order ID</th>
                 <th>Product Name</th>
@@ -109,6 +116,14 @@
         <% else %>
           <p>You have no orders as a seller.</p>
         <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
       </div>
     </div>
   </div>
@@ -122,53 +137,4 @@
 
 
 
-
-<div class="row">
-  <div class="col-xl-12">
-    <div class="application_statics">
-      <h4 class="title pl30 mb30">Recent Orders</h4>
-      <div class="account_user_deails dashboard_page">
-        <div class="order_table table-responsive">
-
-          <h2>Orders as Buyer</h2>
-          <% if @orders_as_buyer.any? %>
-            <table class="table">
-              <thead class="table-light">
-                <tr>
-                  <th>Order ID</th>
-                  <th>Product Name</th>
-                  <th>Status</th>
-                  <th>Total</th>
-                  <th>Seller</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @orders_as_buyer.each do |order| %>
-                  <% order.order_items.each do |order_item| %>
-                    <tr>
-                      <td><%= order.id %></td>
-                      <td><%= order_item.product.name %></td>
-                      <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
-                      <td><%= number_to_currency(order_item.price * order_item.quantity) %></td>
-                      <td><%= order.seller.email %></td>
-                      <td>
-                        <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
-                      </td>
-                    </tr>
-                  <% end %>
-                <% end %>
-              </tbody>
-            </table>
-          <% else %>
-            <p>You have no orders as a buyer.</p>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-</div>
-</div>
 </div>
