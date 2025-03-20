@@ -1,56 +1,6 @@
 <%= render "shared/banner" %>
 <%= render "shared/features" %>
-<!-- Top Category -->
-<section class="top-category pb30 pt20">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="d-flex justify-content-between">
-          <div class="main-title">
-            <h2>Shop by Category</h2>
-          </div>
-          <div class="main-title mb-5">
-            <%= link_to "View All Categories", categories_path, class: "title_more_btn mt10" %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <% @categories.each do |category| %>
-
-      <div class="col-6 col-md-3 col-xl">
-        <a href="page-shop-list-v6.html">
-          <div class="iconbox">
-            <div class="icon"><img src="<%= category.iconimg_url.to_s %>" alt="Category Image"></div>
-            <div class="details">
-              <h5 class="title"><%= link_to category.name, category %></h5>
-              <p class="subtitle">View items</p>
-            </div>
-          </div>
-        </a>
-      </div>
-  <% end %>
-    </div>
-    <div class="row mt70">
-      <% @categories.take(3).each do |category| %>
-
-      <div class="col-lg-6 col-xl-4">
-        <div class="banner_one home1_style color1 mb30">
-          <div class="thumb style1"><img class="float-end" src="<%= category.cateimg_url.to_s %>" alt="smartwatch"></div>
-          <div class="details">
-            <p class="para color-light-blue">Exclusive <span class="fw500">& More</span></p>
-            <h3 class="title"><%= link_to category.name, category %></h3>
-            <%= link_to "Shop Now", category, class: "shop_btn" %>
-          </div>
-        </div>
-      </div>
-
-      <% end %>
-
-
-    </div>
-  </div>
-</section>
+<% render "shared/cates" %>
 <%= render "shared/abtcta" %>
 <%= render "shared/products" %>
 <%= render "shared/services" %>

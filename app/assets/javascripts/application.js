@@ -2,7 +2,6 @@
 //= require jquery-migrate-3.0.0.min
 //= require popper.min
 //= require bootstrap
-//= require rails-ujs
 //= require bootstrap-select.min
 //= require jquery.mmenu.all
 //= require ace-responsive-menu
@@ -12,7 +11,7 @@
 //= require parallax
 
 //= require jquery.counterup
-// = require wow.min
+//= require wow.min
 //= require progressbar
 //= require slider
 //= require timepicker
