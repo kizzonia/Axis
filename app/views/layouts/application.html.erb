@@ -22,6 +22,8 @@
       <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
       <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
       <link rel="stylesheet" href="https://atugatran.github.io/FontAwesome6Pro/css/all.min.css" >
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
       <!--Start of Tawk.to Script-->
       <!-- <script type="text/javascript">
       var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -64,13 +66,15 @@
 
       <% @faqs = Faq.all.order('created_at ASC') %>
 
-      <div class="wrapper ovh">
+      <div class="wrapper ovh overflow-hidden">
         <div class="preloader"></div>
      <%= render "shared/header" %>
-
-
+  <div class="hiddenbar-body-ovelay"></div>
+      <%= render "shared/headermobile2" %>
       <%= yield %>
     <%= render "shared/footer" %>
+    <a class="scrollToHome" href="#"><i class="fas fa-angle-up"></i></a>
+
       </div>
 
       <%= javascript_include_tag 'script' %>
