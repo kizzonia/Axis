@@ -14,11 +14,10 @@
     <%= csp_meta_tag %>
     <%= favicon_link_tag asset_path('favicon.svg') %>
 
-    <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="icon" href="<%= asset_path'favicon.svg' %>" type="image/png">
+    <link rel="icon" href="<%= asset_path'favicon.svg' %>" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -75,7 +74,7 @@
   <%= render "shared/footer" %>
     </div>
 
-    <%= javascript_include_tag 'script' %>
+    <%# <%= javascript_include_tag 'script' %> %>
 
 
   </body>
