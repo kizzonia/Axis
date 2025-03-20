@@ -12,6 +12,117 @@
 </div>
 <%= render "accounts/topbar" %>
 
+<div class="ui_kit_tab style2">
+  <!-- nav tab Nav List Start -->
+  <ul class="nav nav-tabs mb15" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="editprofile-tab" data-bs-toggle="tab" data-bs-target="#editprofile" type="button" role="tab" aria-controls="editprofile" aria-selected="true">
+        Buy</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password" type="button" role="tab" aria-controls="password" aria-selected="false">Sell</button>
+    </li>
+
+  </ul>
+  <!-- nav tab Nav List End -->
+  <div class="tab-content pt20 row" id="myTabContent">
+    <div class="tab-pane fade show active col-lg-12" id="editprofile" role="tabpanel" aria-labelledby="editprofile-tab">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="application_statics">
+            <h4 class="title pl30 mb30">Recent Orders</h4>
+            <div class="account_user_deails dashboard_page">
+              <div class="order_table table-responsive">
+
+                <h2>Orders as Buyer</h2>
+                <% if @orders_as_buyer.any? %>
+                  <table class="table">
+                    <thead class="table-light">
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Product Name</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Seller</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @orders_as_buyer.each do |order| %>
+                        <% order.order_items.each do |order_item| %>
+                          <tr>
+                            <td><%= order.id %></td>
+                            <td><%= order_item.product.name %></td>
+                            <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
+                            <td><%= number_to_currency(order_item.price * order_item.quantity) %></td>
+                            <td><%= order.seller.email %></td>
+                            <td>
+                              <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
+                            </td>
+                          </tr>
+                        <% end %>
+                      <% end %>
+                    </tbody>
+                  </table>
+                <% else %>
+                  <p>You have no orders as a buyer.</p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="tab-pane fade col-xl-6" id="password" role="tabpanel" aria-labelledby="password-tab">
+      <div class="row">
+        <h2>Orders as Seller</h2>
+        <% if @orders_as_seller.any? %>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Product Name</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Buyer</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @orders_as_seller.each do |order| %>
+                <% order.order_items.each do |order_item| %>
+                  <tr>
+                    <td><%= order.id %></td>
+                    <td><%= order_item.product.name %></td>
+                    <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
+                    <td><%= number_to_currency(order_item.price * order_item.quantity) %></td>
+                    <td><%= order.user.email %></td>
+                    <td>
+                      <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
+                    </td>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p>You have no orders as a seller.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 <div class="row">
   <div class="col-xl-12">
     <div class="application_statics">
