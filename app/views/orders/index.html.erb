@@ -11,79 +11,53 @@
   </div>
 </div>
 <%= render "accounts/topbar" %>
-<div class="row">
-  <h2>Orders as Buyer</h2>
-  <% if @orders_as_buyer.any? %>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Product Name</th>
-          <th>Status</th>
-          <th>Total</th>
-          <th>Seller</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @orders_as_buyer.each do |order| %>
-          <% order.order_items.each do |order_item| %>
-            <tr>
-              <td><%= order.id %></td>
-              <td><%= order_item.product.name %></td>
-              <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
-              <td><%= number_to_currency(order_item.price * order_item.quantity) %></td>
-              <td><%= order.seller.email %></td>
-              <td>
-                <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p>You have no orders as a buyer.</p>
-  <% end %>
-</div>
 
 <div class="row">
-  <h2>Orders as Seller</h2>
-  <% if @orders_as_seller.any? %>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Product Name</th>
-          <th>Status</th>
-          <th>Total</th>
-          <th>Buyer</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @orders_as_seller.each do |order| %>
-          <% order.order_items.each do |order_item| %>
-            <tr>
-              <td><%= order.id %></td>
-              <td><%= order_item.product.name %></td>
-              <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
-              <td><%= number_to_currency(order_item.price * order_item.quantity) %></td>
-              <td><%= order.user.email %></td>
-              <td>
-                <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p>You have no orders as a seller.</p>
-  <% end %>
-</div>
+  <div class="col-xl-12">
+    <div class="application_statics">
+      <h4 class="title pl30 mb30">Recent Orders</h4>
+      <div class="account_user_deails dashboard_page">
+        <div class="order_table table-responsive">
 
-<%= link_to 'Back to Dashboard', accounts_path, class: 'btn btn-secondary' %>
+          <h2>Orders as Buyer</h2>
+          <% if @orders_as_buyer.any? %>
+            <table class="table">
+              <thead class="table-light">
+                <tr>
+                  <th>Order ID</th>
+                  <th>Product Name</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Seller</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @orders_as_buyer.each do |order| %>
+                  <% order.order_items.each do |order_item| %>
+                    <tr>
+                      <td><%= order.id %></td>
+                      <td><%= order_item.product.name %></td>
+                      <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
+                      <td><%= number_to_currency(order_item.price * order_item.quantity) %></td>
+                      <td><%= order.seller.email %></td>
+                      <td>
+                        <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
+                      </td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <p>You have no orders as a buyer.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 </div>
 </div>
 </div>
