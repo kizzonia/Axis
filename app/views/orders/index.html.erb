@@ -11,41 +11,73 @@
   </div>
 </div>
 <%= render "accounts/topbar" %>
+<div class="row">
+  <h2>Orders as Buyer</h2>
+  <% if @orders_as_buyer.any? %>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Product Name</th>
+          <th>Status</th>
+          <th>Total</th>
+          <th>Seller</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @orders_as_buyer.each do |order| %>
+          <tr>
+            <td><%= order.id %></td>
+            <td><%= order.product_name %></td>
+            <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
+            <td><%= number_to_currency(order.total_price) %></td>
+            <td><%= order.seller.email %></td>
+            <td>
+              <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>You have no orders as a buyer.</p>
+  <% end %>
+</div>
 
 <div class="row">
-<h2>Orders as Buyer</h2>
-<% if @orders_as_buyer.any? %>
-  <ul>
-    <% @orders_as_buyer.each do |order| %>
-      <li>
-        <h3>Order #<%= order.id %></h3>
-        <p><strong>Status:</strong> <%= order.status.capitalize %></p>
-        <p><strong>Total:</strong> <%= number_to_currency(order.total_price) %></p>
-        <p><strong>Seller:</strong> <%= order.seller.email %></p>
-        <%= link_to 'View Details', order_path(order), class: 'btn btn-primary' %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>You have no orders as a buyer.</p>
-<% end %>
-
-<h2>Orders as Seller</h2>
-<% if @orders_as_seller.any? %>
-  <ul>
-    <% @orders_as_seller.each do |order| %>
-      <li>
-        <h3>Order #<%= order.id %></h3>
-        <p><strong>Status:</strong> <%= order.status.capitalize %></p>
-        <p><strong>Total:</strong> <%= number_to_currency(order.total_price) %></p>
-        <p><strong>Buyer:</strong> <%= order.user.email %></p>
-        <%= link_to 'View Details', order_path(order), class: 'btn btn-primary' %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>You have no orders as a seller.</p>
-<% end %>
+  <h2>Orders as Seller</h2>
+  <% if @orders_as_seller.any? %>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Product Name</th>
+          <th>Status</th>
+          <th>Total</th>
+          <th>Buyer</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @orders_as_seller.each do |order| %>
+          <tr>
+            <td><%= order.id %></td>
+            <td><%= order.product_name %></td>
+            <td><span class="<%= status_class(order.status) %>"><%= order.status.capitalize %></span></td>
+            <td><%= number_to_currency(order.total_price) %></td>
+            <td><%= order.user.email %></td>
+            <td>
+              <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>You have no orders as a seller.</p>
+  <% end %>
+</div>
 
 <%= link_to 'Back to Dashboard', accounts_path, class: 'btn btn-secondary' %>
 </div>
