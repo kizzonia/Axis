@@ -13,7 +13,6 @@
 //= require scrollto
 //= require jquery-scrolltofixed-min
 //= require jquery.counterup
-//= require wow.min
 //= require progressbar
 //= require slider
 //= require timepicker
