@@ -56,7 +56,7 @@
                             <td><%= number_to_currency(order_item.price * order_item.quantity) %></td>
                             <td><%= order.seller.email %></td>
                             <td>
-                              <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
+                              <%= link_to 'View Details', order_path(order), class: 'btn btn-order btn-sm btn-thm' %>
                             </td>
                           </tr>
                         <% end %>
@@ -106,7 +106,7 @@
                     <td><%= number_to_currency(order_item.price * order_item.quantity) %></td>
                     <td><%= order.user.email %></td>
                     <td>
-                      <%= link_to 'View Details', order_path(order), class: 'btn btn-primary btn-sm' %>
+                      <%= link_to 'View Details', order_path(order), class: 'btn btn-order btn-lg btn-thm' %>
                     </td>
                   </tr>
                 <% end %>
