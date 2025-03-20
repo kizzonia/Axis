@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%  @welcomes = Welcome.all  %>
+    <% @welcomes.take(1).each do |w| %>
+    <title><%=w.title %> || <%= w.desc %> </title>
+    <meta name="description" content="<%= w.desc %>">
+    <meta name="keywords" content="<%= w.section %>">
+
+    <% end %>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= favicon_link_tag asset_path('favicon.svg') %>
+
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="<%= asset_path'favicon.svg' %>" type="image/png">
+    <link rel="icon" href="<%= asset_path'favicon.svg' %>" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://atugatran.github.io/FontAwesome6Pro/css/all.min.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!--Start of Tawk.to Script-->
+    <!-- <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/670d9d022480f5b4f58d625d/1ia6iqkpn';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script> -->
+    <!--End of Tawk.to Script-->
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL}, 'google_translate_element');
+    }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  </head>
+
+  <body>
+    <% unless flash.empty? %>
+    <script type="text/javascript">
+      <% flash.each do |f| %>
+      <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
+      toastr['<%= type %>']('<%= f[1] %>');
+      <% end %>
+    </script>
+    <% end %>
+
+    <% @abouts = About.all.order('created_at ASC') %>
+    <% @services = Service.all.order('created_at ASC') %>
+    <% @welcomes = Welcome.all %>
+    <% @headers = Header.all %>
+    <% @blogs = Blog.all %>
+    <% @features = Feature.all %>
+    <%     @categories = Category.includes(:sub_categories).all %>
+
+    <% @faqs = Faq.all.order('created_at ASC') %>
+
+    <div class="wrapper ovh overflow-hidden">
+      <div class="preloader"></div>
+   <%= render "shared/header" %>
+<div class="hiddenbar-body-ovelay"></div>
+    <%= render "shared/headermobile2" %>
+    <%= yield %>
+  <%= render "shared/footer" %>
+  <a class="scrollToHome" href="#"><i class="fas fa-angle-up"></i></a>
+
+    </div>
+
+    <%= javascript_include_tag 'script' %>
+
+
+  </body>
+</html>
