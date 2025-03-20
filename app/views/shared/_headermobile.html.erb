@@ -1,178 +1,124 @@
-  <!-- Main Header Nav For Mobile -->
-  <div id="page" class="stylehome1">
-    <div class="mobile-menu">
-      <div class="header stylehome1 home3_style">
-        <div class="menu_and_widgets">
-          <div class="mobile_menu_bar float-start">
-            <a class="menubar" href="#menu"><span></span></a>
-            <a class="mobile_logo" href="#">The Axis<span class="text-thm">.</span></a>
+    <!-- Main Header Nav For Mobile -->
+    <div id="page" class="stylehome1">
+      <div class="mobile-menu">
+        <div class="header stylehome1 home3_style">
+          <div class="menu_and_widgets">
+            <div class="mobile_menu_bar float-start">
+              <a class="menubar" href="#menu"><span></span></a>
+              <a class="mobile_logo" href="#">The Axis<span class="text-thm">.</span></a>
+            </div>
+            <div class="mobile_menu_widget_icons">
+              <ul class="cart mt15">
+                <li class="list-inline-item">
+                  <%= link_to new_user_registration_path, class: "cart_btn " do %>
+            <span class="icon flaticon-profile"></span><% end %>
+                </li>
+                <li class="list-inline-item">
+                  <a class="cart_btn cart-filter-btn" href="#"><span class="icon"><img src="<%= asset_path "icons/flaticon-shopping-cart.svg"%>" alt=""></span><span class="badge bgc-thm">2</span></a>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="mobile_menu_widget_icons">
-            <ul class="cart mt15">
-              <li class="list-inline-item">
-                <%= link_to new_user_registration_path, class: "cart_btn " do %>
-          <span class="icon flaticon-profile"></span><% end %>
-              </li>
-              <li class="list-inline-item">
-                <a class="cart_btn cart-filter-btn" href="#"><span class="icon"><img src="<%= asset_path "icons/flaticon-shopping-cart.svg"%>" alt=""></span><span class="badge bgc-thm">2</span></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="mobile_menu_search_widget">
-          <div class="header_middle_advnc_search">
-            <div class="container search_form_wrapper">
-              <div class="row">
-                <div>
-                  <div class="top-search text-start">
-                    <form action="#" method="get" class="form-search" accept-charset="utf-8">
-                      <div class="box-search">
-                        <input class="form_control" type="text" name="search" placeholder="Search products…">
-                        <div class="search-suggestions text-start">
-                          <!-- <div class="box-suggestions">
-                            <ul>
-                              <li>
-                                <div class="thumb">
-                                  <img src="images/listing/sf1.png" alt="sf1.png">
-                                </div>
-                                <div class="info-product">
-                                  <div class="item_title">Sony DJ Headphones 4334205465, Black, Standard</div>
-                                  <div class="price"><span class="sale">$32.50</span></div>
-                                </div>
-                              </li>
-                              <li>
-                                <div class="thumb">
-                                  <img src="images/listing/sf2.png" alt="sf2.png">
-                                </div>
-                                <div class="info-product">
-                                  <div class="item_title">Sony E-Mount Full Frame FE 24-70mm f/2.8 GM II G Master</div>
-                                  <div class="price"><span class="sale">$32.50</span></div>
-                                </div>
-                              </li>
-                              <li>
-                                <div class="thumb">
-                                  <img src="images/listing/sf3.png" alt="sf3.png">
-                                </div>
-                                <div class="info-product">
-                                  <div class="item_title">TV 55" 4-Series 4K UHD smart TV</div>
-                                  <div class="price"><span class="sale">$32.50</span></div>
-                                </div>
-                              </li>
-                              <li>
-                                <div class="thumb">
-                                  <img src="images/listing/sf4.png" alt="sf4.png">
-                                </div>
-                                <div class="info-product">
-                                  <div class="item_title">Hugolog Baby Monitor, 2K Security Camera, PT Cameras for</div>
-                                  <div class="price"><span class="sale">$32.50</span></div>
-                                </div>
-                              </li>
-                              <li>
-                                <div class="thumb">
-                                  <img src="images/listing/sf5.png" alt="sf5.png">
-                                </div>
-                                <div class="info-product">
-                                  <div class="item_title">Apple iPhone Retina 6s Plus 64GB</div>
-                                  <div class="price"><span class="sale">$32.50</span></div>
-                                </div>
-                              </li>
-                            </ul>
-                          </div> -->
-                        </div>
-                      </div>
-                    </form>
+          <div class="mobile_menu_search_widget">
+            <div class="header_middle_advnc_search">
+              <div class="container search_form_wrapper">
+                <div class="row">
+                  <div>
+                    <div class="top-search text-start">
+                      <form action="#" method="get" class="form-search" accept-charset="utf-8">
+                      </form>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <div class="advscrh_frm_btn">
-                    <button type="submit" class="btn search-btn"><span class="flaticon-search"></span></button>
+                  <div>
+                    <div class="advscrh_frm_btn">
+                      <button type="submit" class="btn search-btn"><span class="flaticon-search"></span></button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="posr"><div class="mobile_menu_close_btn"><span class="flaticon-close"></span></div></div>
         </div>
-        <div class="posr"><div class="mobile_menu_close_btn"><span class="flaticon-close"></span></div></div>
       </div>
-    </div>
-    <!-- /.mobile-menu -->
-    <nav id="menu" class="stylehome1">
-      <ul>
-        <li><%= link_to root_path do %><span>Home</span> <% end %>
+      <!-- /.mobile-menu -->
+      <nav id="menu" class="stylehome1">
+        <ul>
+          <li><%= link_to root_path do %><span>Home</span> <% end %>
 
-        </li>
-        <li><span>Shop</span>
-          <ul>
-            <% if user_signed_in? %>
+          </li>
+          <li><span>Shop</span>
+            <ul>
+              <% if user_signed_in? %>
 
-            <li><span>User Dashboard</span>
-              <ul>
-                <li> <%= link_to accounts_path do %> Dashboard <% end %> </li>
-                <li><a href="#">Orders</a></li>
-                <li><a href="#">Addresses</a></li>
-                <li><%= link_to edit_user_registration_path do %> Account Details <%end %></li>
+              <li><span>User Dashboard</span>
+                <ul>
+                  <li> <%= link_to accounts_path do %> Dashboard <% end %> </li>
+                  <li><a href="#">Orders</a></li>
+                  <li><a href="#">Addresses</a></li>
+                  <li><%= link_to edit_user_registration_path do %> Account Details <%end %></li>
 
-              </ul>
-            </li>
+                </ul>
+              </li>
+              <% end %>
+
+              <li><span>Shop</span>
+                <ul>
+                  <li><a href="#">Cart</a></li>
+                  <li><a href="#">Checkout</a></li>
+                  <li><a href="#">Wishlist</a></li>
+
+                </ul>
+              </li>
+              <li><span>Knowledge Base</span>
+                <ul>
+                  <% @abouts.each do |a| %>
+                  <li><%= link_to a.title, a %></li>
+                  <% end %>
+
+                </ul>
+              </li>
+              <li><span>Services & Features</span>
+                <ul>
+                  <% @services.each do |a| %>
+                  <li><%= link_to a.title, a %></li>
+                  <% end %>
+                  <% @features.each do |a| %>
+                  <li><%= link_to a.title, a %></li>
+                  <% end %>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><span>Help & Contact</span>
+            <ul>
+              <li><%= link_to "Help Center", helps_path %></li>
+
+              <li><%= link_to "Faq", faqs_path %></li>
+
+            </ul>
+          </li>
+          <li> <%= link_to blogs_path do %><span class="title">Blog & Community</span><% end %>
+
+
+          <li class="title my-3 bb1 pl20 fz20 fw500 pb-3">Categories</li>
+          <% @categories.each do |category| %>
+
+
+          <li><span><i class=" <%= category.icon %> mr20"></i><%= category.name %></span>
+            <ul >
+               <% category.sub_categories.each do |sub_category| %>
+              <li><%= link_to sub_category.name, category_sub_category_path(category, sub_category) %></li>
             <% end %>
+            </ul>
 
-            <li><span>Shop</span>
-              <ul>
-                <li><a href="#">Cart</a></li>
-                <li><a href="#">Checkout</a></li>
-                <li><a href="#">Wishlist</a></li>
-
-              </ul>
-            </li>
-            <li><span>Knowledge Base</span>
-              <ul>
-                <% @abouts.each do |a| %>
-                <li><%= link_to a.title, a %></li>
-                <% end %>
-
-              </ul>
-            </li>
-            <li><span>Services & Features</span>
-              <ul>
-                <% @services.each do |a| %>
-                <li><%= link_to a.title, a %></li>
-                <% end %>
-                <% @features.each do |a| %>
-                <li><%= link_to a.title, a %></li>
-                <% end %>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li><span>Help & Contact</span>
-          <ul>
-            <li><%= link_to "Help Center", helps_path %></li>
-
-            <li><%= link_to "Faq", faqs_path %></li>
-
-          </ul>
-        </li>
-        <li> <%= link_to blogs_path do %><span class="title">Blog & Community</span><% end %>
-
-
-        <li class="title my-3 bb1 pl20 fz20 fw500 pb-3">Categories</li>
-        <% @categories.each do |category| %>
-
-
-        <li><span><i class=" <%= category.icon %> mr20"></i><%= category.name %></span>
-          <ul >
-             <% category.sub_categories.each do |sub_category| %>
-            <li><%= link_to sub_category.name, category_sub_category_path(category, sub_category) %></li>
+          </li>
           <% end %>
-          </ul>
-
-        </li>
-        <% end %>
 
 
-        <li>
-          <%= link_to categories_path, class: "tdu text-thm1 text-capitalize" do %>
-          See More <i class="far fa-angle-down"></i><% end %></li>
-      </ul>
-    </nav>
-  </div>
+          <li>
+            <%= link_to categories_path, class: "tdu text-thm1 text-capitalize" do %>
+            See More <i class="far fa-angle-down"></i><% end %></li>
+        </ul>
+      </nav>
+    </div>
