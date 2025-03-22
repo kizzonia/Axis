@@ -1,5 +1,241 @@
-<p>Welcome <%= @email %>!</p>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+		<title>Confirmation Instructions</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<style type="text/css">
+			* {
+				-ms-text-size-adjust:100%;
+				-webkit-text-size-adjust:none;
+				-webkit-text-resize:100%;
+				text-resize:100%;
+			}
+			a{
+				outline:none;
+				color:#40aceb;
+				text-decoration:underline;
+			}
+			a:hover{text-decoration:none !important;}
+			.nav a:hover{text-decoration:underline !important;}
+			.title a:hover{text-decoration:underline !important;}
+			.title-2 a:hover{text-decoration:underline !important;}
+			.btn:hover{opacity:0.8;}
+			.btn a:hover{text-decoration:none !important;}
+			.btn{
+				-webkit-transition:all 0.3s ease;
+				-moz-transition:all 0.3s ease;
+				-ms-transition:all 0.3s ease;
+				transition:all 0.3s ease;
+			}
+			table td {border-collapse: collapse !important;}
+			.ExternalClass, .ExternalClass a, .ExternalClass span, .ExternalClass b, .ExternalClass br, .ExternalClass p, .ExternalClass div{line-height:inherit;}
+			@media only screen and (max-width:500px) {
+				table[class="flexible"]{width:100% !important;}
+				table[class="center"]{
+					float:none !important;
+					margin:0 auto !important;
+				}
+				*[class="hide"]{
+					display:none !important;
+					width:0 !important;
+					height:0 !important;
+					padding:0 !important;
+					font-size:0 !important;
+					line-height:0 !important;
+				}
+				td[class="img-flex"] img{
+					width:100% !important;
+					height:auto !important;
+				}
+				td[class="aligncenter"]{text-align:center !important;}
+				th[class="flex"]{
+					display:block !important;
+					width:100% !important;
+				}
+				td[class="wrapper"]{padding:0 !important;}
+				td[class="holder"]{padding:30px 15px 20px !important;}
+				td[class="nav"]{
+					padding:20px 0 0 !important;
+					text-align:center !important;
+				}
+				td[class="h-auto"]{height:auto !important;}
+				td[class="description"]{padding:30px 20px !important;}
+				td[class="i-120"] img{
+					width:120px !important;
+					height:auto !important;
+				}
+				td[class="footer"]{padding:5px 20px 20px !important;}
+				td[class="footer"] td[class="aligncenter"]{
+					line-height:25px !important;
+					padding:20px 0 0 !important;
+				}
+				tr[class="table-holder"]{
+					display:table !important;
+					width:100% !important;
+				}
+				th[class="thead"]{display:table-header-group !important; width:100% !important;}
+				th[class="tfoot"]{display:table-footer-group !important; width:100% !important;}
+			}
+		</style>
+	</head>
+	<body style="margin:0; padding:0;" bgcolor="#eaeced">
+		<table style="min-width:320px;" width="100%" cellspacing="0" cellpadding="0" bgcolor="#eaeced">
+			<!-- fix for gmail -->
+			<tbody><tr>
+				<td class="hide">
+					<table width="600" cellpadding="0" cellspacing="0" style="width:600px !important;">
+						<tbody><tr>
+							<td style="min-width:600px; font-size:0; line-height:0;">&nbsp;</td>
+						</tr>
+					</tbody></table>
+				</td>
+			</tr>
+			<tr>
+        <td class="wrapper" style="padding:0 10px;">
+          <!-- module 1 -->
+					<table data-module="module-1" data-thumb="thumbnails/01.png" width="100%" cellpadding="0" cellspacing="0">
+						<tbody><tr>
+							<td data-bgcolor="bg-module" bgcolor="#eaeced">
+								<table class="flexible" width="600" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0">
+									<tbody><tr>
+										<td style="padding:29px 0 30px;">
+											<table width="100%" cellpadding="0" cellspacing="0">
+												<tbody><tr>
+													<th class="flex" width="113" align="left" style="padding:0;">
+														<table class="center" cellpadding="0" cellspacing="0">
+															<tbody><tr>
+																<td style="line-height:0;">
+																	<a target="_blank" style="text-decoration:none;" href="https://www.theaxismarket.com/" border="0" align="left" vspace="0" hspace="0" width="113" height="auto" alt="">
 
-<p>You can confirm your account email through the link below:</p>
+																		<img src="https://www.theaxismarket.com/assets/logo2-4f8d3cb78c86a61e921c272085c90872ead205dc5a9eef7830a8fb9a7d80446e.svg" alt="">
+																	</a>
+																</td>
+															</tr>
+														</tbody></table>
+													</th>
+													<th class="flex" align="left" style="padding:0;">
+														<table width="100%" cellpadding="0" cellspacing="0">
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+														</table>
+													</th>
+												</tr>
+											</tbody></table>
+										</td>
+									</tr>
+								</tbody></table>
+							</td>
+						</tr>
+					</tbody></table>
+
+          <!-- module 2 -->
+          <table data-module="module-2" data-thumb="thumbnails/02.png" width="100%" cellpadding="0" cellspacing="0">
+            <tbody><tr>
+              <td data-bgcolor="bg-module" bgcolor="#eaeced">
+                <table class="flexible" width="600" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0">
+                  <tbody><tr>
+										<td class="img-flex">
+											<img src="https://homestoragebox.s3.us-east-2.amazonaws.com/uploads/category/cateimg/1/large_banner_home7.png" style="vertical-align:top;" width="100%" height="auto" alt=""></td>
+									</tr>
+                  <tr>
+										<td data-bgcolor="bg-block" class="holder" style="padding:58px 60px 52px;" bgcolor="#f9f9f9">
+											<table width="100%" cellpadding="0" cellspacing="0">
+                        <tbody>
+													<tr>
+                          <td data-color="title" data-size="size title" data-min="25" data-max="45" data-link-color="link title color" data-link-style="text-decoration:none; color:#0000;" class="title" align="center" style="font:35px/38px Arial, Helvetica, sans-serif; color:#000; padding:0 0 24px;">
+                            Confirmation Notification
+                          </td>
+                        </tr>
+
+
+                        <tr>
+                          <td style="padding:0 0 20px;">
+                            <table width="134" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0">
+                              <tbody><tr>
+
+                              </tr>
+
+
+															<tr>
+													 <td class="x_79997689email-body" width="100%" style="font-family: Helvetica Neue, Helvetica, Arial, sans-serif">
+															 <table class="x_79997689email-body_inner" align="center" width="600" cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 600px; background-color: rgb(255, 255, 255)">
+																	 <tbody>
+																			 <tr>
+
+																			 </tr>
+																			 <tr>
+																					 <td class="x_79997689welcome" style="font-family: Helvetica Neue, Helvetica, Arial, sans-serif; background-color: rgb(255, 255, 255); padding: 50px 50px 20px">
+																							 <p class="x_79997689welcome_greeting" style="line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+																									 <span class="colour" style="color:rgb(64, 64, 64)">
+																											 <b>
+																													 <span class="font" style="font-family:&quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+																															 <span class="size" style="font-size: 21px; line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+<%= @email %>																															 </span>
+																													 </span>
+																											 </b>
+																									 </span>
+																									 <br>
+																							 </p>
+																							 <p style="line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+																									 <span class="colour" style="color:rgb(64, 64, 64)">
+																											 <span class="font" style="font-family:&quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+																													 <span class="size" style="font-size: 14px; line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">Please click on the link below to confirm and activate your account and also verify that you are human, you can contact support for more information <a href="mailto:support@suissecapitalllc.com" style="font-family: Helvetica Neue, Helvetica, Arial, sans-serif; color: rgb(0, 123, 200); text-decoration: underline" target="_blank">
+																																	 contact support
+																															 </a>
+																															 .
+																													 </span>
+																											 </span>
+																									 </span>
+																									 <br>
+																							 </p>
+																							 <p style="line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+																									 <span class="colour" style="color:rgb(64, 64, 64)">
+																											 <span class="font" style="font-family:&quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+
+																											 </span>
+																									 </span>
+																									 <br>
+																							 </p>
+																							 <p class="x_79997689align-center" style="line-height: 22px; text-align: center; margin-top: 0px; margin-bottom: 25px;">
+																									 <span class="colour" style="color:rgb(64, 64, 64)">
+																											 <span class="font" style="font-family:&quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+																													 <span class="size" style="font-size: 14px; line-height: 22px; text-align: center; margin-top: 0px; margin-bottom: 25px;">
+
+																															 <%= link_to "Confirm Account", confirmation_url(@resource, confirmation_token: @token),
+																															  style: "font-family: Helvetica Neue, Helvetica, Arial, sans-serif; color: rgb(255, 255, 255); text-decoration: none; background-color: rgb(0, 123, 200); font-size: 14px; display: inline-block; min-height: auto; border-radius: 3px; font-weight: 700; text-align: center; border-color: rgb(0, 123, 200); border-style: solid; border-width: 10px 18px" %>
+
+																													 </span>
+																											 </span>
+																									 </span>
+																									 <br>
+																							 </p>
+																							 <p style="line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+																									 <span class="colour" style="color:rgb(64, 64, 64)">
+																											 <span class="font" style="font-family:&quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+																													 <span class="size" style="font-size: 14px; line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+Confirmation Link is valid for only 30minutes																													 </span>
+																											 </span>
+																									 </span>
+																									 <br>
+																							 </p>
+																					 </td>
+																			 </tr>
+                            </tbody></table>
+                          </td>
+                        </tr>
+                      </tbody></table>
+										</td>
+									</tr>
+                  <tr><td height="28"></td></tr>
+                </tbody></table>
+              </td>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+      <!-- fix for gmail -->
+      <tr>
+        <td style="line-height:0;"><div style="display:none; white-space:nowrap; font:15px/1px courier;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div></td>
+      </tr>
+    </tbody></table>
+
+
+</td></tr></tbody></table></body></html>

@@ -1,0 +1,109 @@
+
+
+
+
+
+
+
+<tr>
+  <td data-bgcolor="bg-block" class="holder" style="padding:58px 60px 52px;" bgcolor="#f9f9f9">
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td data-color="title" data-size="size title" data-min="25" data-max="45" data-link-color="link title color" data-link-style="text-decoration:none; color:#0000;" class="title" align="center" style="font:35px/38px Arial, Helvetica, sans-serif; color:#000; padding:0 0 24px;">
+        Product Upload
+        </td>
+      </tr>
+
+
+      <tr>
+        <td style="padding:0 0 20px;">
+          <table width="134" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0">
+            <tbody><tr>
+
+            </tr>
+
+
+            <tr>
+         <td class="x_79997689email-body" width="100%" style="font-family: Helvetica Neue, Helvetica, Arial, sans-serif">
+             <table class="x_79997689email-body_inner" align="center" width="600" cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 600px; background-color: rgb(255, 255, 255)">
+                 <tbody>
+                     <tr>
+
+                     </tr>
+                     <tr>
+                         <td class="x_79997689welcome" style="font-family: Helvetica Neue, Helvetica, Arial, sans-serif; background-color: rgb(255, 255, 255); padding: 50px 50px 20px">
+                             <p class="x_79997689welcome_greeting" style="line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+                                 <span class="colour" style="color:rgb(64, 64, 64)">
+                                     <b>
+                                         <span class="font" style="font-family:&quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+                                             <span class="size" style="font-size: 21px; line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+                                                  Hello <%= @user.username %>
+																						 </span>
+                                         </span>
+                                     </b>
+                                 </span>
+                                 <br>
+                             </p>
+                             <p style="line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+                                 <span class="colour" style="color:rgb(64, 64, 64)">
+                                     <span class="font" style="font-family:&quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+                                         <span class="size" style="font-size: 14px; line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+                                        Your product registrations was successful and your product ready to sale
+                                        <p>Below are your Product Information and details:</p>
+                                         </span>
+                                     </span>
+                                 </span>
+                                 <br>
+                             </p>
+                             <p style="line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+                                 <span class="colour" style="color:rgb(64, 64, 64)">
+                                     <span class="font" style="font-family:&quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+
+                                       Your  Product details
+                                       <br>
+                                       <p>Product Name:<%= @product.product_name %></p>
+                                       <br><p> Product Condition: <%= @product.title %></p>
+                                       <br><p>Product Price: <%= @product.price %></p>
+                                       <br><p>Product Category: <%= @product.category.name %>, <%= @product.sub_category.name %></p>
+                                       <br><p>IP Location: <%= @user.current_sign_in_ip %></p>
+                                       <br><p>Date: <%= @product.created_at %></p>
+                                       <br><p>Opening Date: <%= @product.created_at %></p>
+
+
+
+                                     </span>
+                                 </span>
+                                 <br>
+                             </p>
+                             <p style="line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+                                 <span class="colour" style="color:rgb(64, 64, 64)">
+                                     <span class="font" style="font-family:&quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+                                         <span class="size" style="font-size: 14px; line-height: 22px; text-align: left; margin-top: 0px; margin-bottom: 25px;">
+                                           product is ready, Please click on the link to login into your account.
+                                     </span>
+                                 </span>
+                                 <br>
+                             </p>
+                             <p class="x_79997689align-center" style="line-height: 22px; text-align: center; margin-top: 0px; margin-bottom: 25px;">
+                                 <span class="colour" style="color:rgb(64, 64, 64)">
+                                     <span class="font" style="font-family:&quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+                                         <span class="size" style="font-size: 14px; line-height: 22px; text-align: center; margin-top: 0px; margin-bottom: 25px;">
+                                           <%= link_to "Login", new_user_session_url, style: "font-family: Helvetica Neue, Helvetica, Arial, sans-serif; color: rgb(255, 255, 255); text-decoration: none; background-color: rgb(0, 123, 200); font-size: 14px; display: inline-block; min-height: auto; border-radius: 3px; font-weight: 700; text-align: center; border-color: rgb(0, 123, 200); border-style: solid; border-width: 10px 18px" %>
+                                             </span>
+                                     </span>
+                                 </span>
+                                 <br>
+                             </p>
+
+                         </td>
+                     </tr>
+          </tbody></table>
+        </td>
+      </tr>
+    </tbody></table>
+  </td>
+</tr>
+<tr><td height="28"></td></tr>
+</tbody></table>
+</td>
+</tr>

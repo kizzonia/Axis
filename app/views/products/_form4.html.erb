@@ -1,0 +1,226 @@
+<style media="screen">
+
+</style>
+
+<%= simple_form_for(@product, html: { class: "product-form" }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <!-- Tabs Navigation -->
+  <ul class="nav nav-tabs mb-4" id="productFormTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="basic-info-tab" data-bs-toggle="tab" data-bs-target="#basic-info" type="button" role="tab" aria-controls="basic-info" aria-selected="true">
+        Basic Info
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="false">
+        Details
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="media-tab" data-bs-toggle="tab" data-bs-target="#media" type="button" role="tab" aria-controls="media" aria-selected="false">
+        Media
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tabs Content -->
+  <div class="tab-content" id="productFormTabsContent">
+    <!-- Basic Info Tab -->
+    <div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :name, label: "Product Name", placeholder: "Enter product name", required: true %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :title, label: "Product condition" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :price, label: "Price", input_html: { step: 0.01, placeholder: "Enter price" }, required: true %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :sku, label: "Product SKU", placeholder: "Enter SKU number", required: true %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :category_id,
+                        collection: Category.includes(:sub_categories).all,
+                        label_method: :name,
+                        value_method: :id,
+                        prompt: 'Select Category',
+                        input_html: { id: 'category-selector' },
+                        required: true %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :sub_category_id,
+                        collection: SubCategory.all,
+                        label_method: :name,
+                        value_method: :id,
+                        prompt: 'Select Subcategory',
+                        input_html: { id: 'sub-category-selector' },
+                        required: true %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Details Tab -->
+    <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
+      <div class="row">
+        <!-- <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :overview, label: "Product Overview", placeholder: "Enter a brief overview", input_html: { rows: 3 } %>
+          </div>
+        </div> -->
+        <div class="col-md-12">
+          <div class="form-group mb-4">
+            <%= f.input :description, as: :rich_text_area, row: "15",  label: "Product Description", placeholder: "Enter detailed description" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :discounttype, label: "Discount Type", placeholder: "Enter discount type (e.g., percentage, fixed)" %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :state, label: "Product Shipping", as: :select, collection: ["Paid", "Free"] %>
+          </div>
+        <!-- <div class="form-group mb-4">
+            <strong>
+              <%= f.input :status, label: "Product For Auction.?", as: :boolean, class: "form-control" %>
+
+            </strong>
+          </div> -->
+        </div>
+
+      </div>
+      </div>
+
+
+
+
+    <!-- Media Tab -->
+    <div class="tab-pane fade" id="media" role="tabpanel" aria-labelledby="media-tab">
+      <div class="col-lg-12">
+        <div class="d-flex align-items-center bb1 mb30 pb30">
+          <div class="flex-shrink-0">
+            <% if @product.prodimage? %>
+              <%= image_tag @product.prodimage_url.to_s, alt: "avatar", class: "img-fluid" %>
+            <% else %>
+              <img src="<%= asset_path "resource/avatar.png" %>" alt="avatar" class="img-fluid">
+            <% end %>
+          </div>
+          <div class="flex-grow-1 ms-4 editing_list">
+            <h5 class="mb0">Your Product Image</h5>
+            <p class="fz14 heading-color">PNG or JPG no bigger than 800px wide and tall.</p>
+            <ul>
+              <li class="list-inline-item mb-1">
+                <%= f.input :prodimage, as: :file, label: false, wrapper: false, input_html: { class: "d-none", id: "image-upload" } %>
+                <%= link_to "#", class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "View" }, title: "Edit", aria: { label: "View" }, onclick: "document.getElementById('image-upload').click();" do %>
+                  <span class="flaticon-cloud-computing"></span>
+                <% end %>
+              </li>
+              <li class="list-inline-item mb-1">
+                <%= link_to "#", class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "Edit" }, title: "Delete", aria: { label: "Edit" }, method: :delete, data: { confirm: "Are you sure?" } do %>
+                  <span class="flaticon-delete"></span>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+  <!-- Category and Subcategory Selection -->
+  <!-- Category and Subcategory Selection -->
+
+
+
+  <!-- Form Actions -->
+  <div class="form-actions text-center">
+    <%= f.button :submit, "Create Product", class: "btn btn-thm btn-lg" %>
+  </div>
+<% end %>
+
+<!-- JavaScript for Dynamic Subcategory Selection -->
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const categorySelector = document.getElementById('category-selector');
+    const subCategorySelector = document.getElementById('sub-category-selector');
+
+    categorySelector.addEventListener('change', function() {
+      const categoryId = this.value;
+      if (categoryId) {
+        fetch(`/categories/${categoryId}/sub_categories.json`)
+          .then(response => response.json())
+          .then(data => {
+            subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+            data.forEach(subCategory => {
+              const option = document.createElement('option');
+              option.value = subCategory.id;
+              option.textContent = subCategory.name;
+              subCategorySelector.appendChild(option);
+            });
+          });
+      } else {
+        subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+      }
+    });
+  });
+</script> -->
+
+<!--
+<script type="text/javascript">
+  document.addEventListener('turbo:load', function() {
+    const categorySelector = document.getElementById('category-selector');
+    const subCategorySelector = document.getElementById('sub-category-selector');
+
+    if (categorySelector && subCategorySelector) {
+      categorySelector.addEventListener('change', function() {
+        const categoryId = this.value;
+        if (categoryId) {
+          fetch(`/categories/${categoryId}/sub_categories.json`)
+            .then(response => response.json())
+            .then(data => {
+              subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+              data.forEach(subCategory => {
+                const option = document.createElement('option');
+                option.value = subCategory.id;
+                option.textContent = subCategory.name;
+                subCategorySelector.appendChild(option);
+              });
+            })
+            .catch(error => console.error('Error fetching subcategories:', error));
+        } else {
+          subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+        }
+      });
+    }
+  });
+</script> -->

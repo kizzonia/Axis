@@ -29,7 +29,7 @@ end
      if @product.save
        user = User.find_by_id(@product.user_id)
       product = @product
-       # ProductMailer.product_email(user, product).deliver_later
+       ProductMailer.product_email(user, product).deliver_later
 
        redirect_to products_path, notice: 'Product was successfully created.'
      else
