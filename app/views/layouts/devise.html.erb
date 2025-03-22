@@ -46,6 +46,8 @@
   </head>
 
   <body>
+    <%= custom_bootstrap_flash %>
+
     <% @abouts = About.all.order('created_at ASC') %>
     <% @services = Service.all.order('created_at ASC') %>
     <% @welcomes = Welcome.all %>

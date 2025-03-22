@@ -83,11 +83,11 @@
         };
     });
 
-    // $(".mouse_scroll").on('click', function() {
-    //     $('html, body').animate({
-    //         scrollTop: $("#feature-property, #property-city").offset().top
-    //     }, 1000);
-    // });
+     $(".mouse_scroll").on('click', function() {
+         $('html, body').animate({
+             scrollTop: $("#feature-property, #property-city").offset().top
+         }, 1000);
+     });
     /** Main Menu Custom Script End **/
 
 
@@ -310,15 +310,15 @@
         }
     };
 
-    jQuery(document).on('ready',function(){
-        jQuery(window).stellar({
-            horizontalScrolling: false,
-            hideDistantElements: true,
-            verticalScrolling: !isMobile.any(),
-            scrollProperty: 'scroll',
-            responsive: true
-        });
-    });
+    // jQuery(document).on('ready',function(){
+    //     jQuery(window).stellar({
+    //         horizontalScrolling: false,
+    //         hideDistantElements: true,
+    //         verticalScrolling: !isMobile.any(),
+    //         scrollProperty: 'scroll',
+    //         responsive: true
+    //     });
+    // });
 
     /* ----- MagnificPopup ----- */
     if (($(".popup-img").length > 0) || ($(".popup-iframe").length > 0) || ($(".popup-img-single").length > 0)) {
