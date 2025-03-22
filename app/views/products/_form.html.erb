@@ -26,9 +26,9 @@
   </ul>
 
   <!-- Tabs Content -->
-  <div class="tab-content" id="productFormTabsContent">
+  <div class="tab-content pt20 row " id="myTab">
     <!-- Basic Info & Media Tab -->
-    <div class="tab-pane fade show active" id="media" role="tabpanel" aria-labelledby="media-tab">
+    <div class="tab-pane fade show active col-lg-12" id="media" role="tabpanel" aria-labelledby="media-tab">
       <div class="row">
 
         <div class="col-md-12">
@@ -61,7 +61,7 @@
         </div>
         <div class="col-md-6">
           <div class="form-group mb-4">
-            <%= f.input :title, label: "Product Condition",  %>
+            <%= f.input :title, label: "Product Condition", as: :select, collection: ["Brand New", "Used"]  %>
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@
     </div>
 
     <!-- Description Tab -->
-    <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
+    <div class="tab-pane fade col-xl-12 " id="details" role="tabpanel" aria-labelledby="details-tab">
       <div class="form-group mb-4">
         <%= f.input :description, as: :text, label: "Product Description", placeholder: "Enter detailed description", input_html: { id: "tinymce-editor" } %>
       </div>
