@@ -16,7 +16,6 @@
 //= require slider
 //= require timepicker
 //= require toastr
-//= require tinymce
 
 document.addEventListener("DOMContentLoaded", function() {
   tinymce.init({
