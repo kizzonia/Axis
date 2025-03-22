@@ -21,6 +21,7 @@ def show
 
 end
    def new
+     @categories = Category.includes(:sub_categories).all
      @product = current_user.products.new
    end
 
