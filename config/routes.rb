@@ -7,8 +7,11 @@ Rails.application.routes.draw do
 resources :orders
   resources :products
   resources :categories do
-    get 'sub_categories', on: :member
-    resources :sub_categories
+    member do
+        get :sub_categories
+      end
+
+  resources :sub_categories
     resources :products
 
   end

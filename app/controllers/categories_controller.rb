@@ -28,8 +28,9 @@ class CategoriesController < InheritedResources::Base
      @products = @category.products
   end
   def sub_categories
-    category = Category.find(params[:id])
-    render json: category.sub_categories.select(:id, :name)
+    @category = Category.friendly.find(params[:id])
+    @sub_categories = @category.sub_categories
+    render json: @sub_categories
   end
   private
   def find_categories

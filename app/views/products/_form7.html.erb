@@ -147,33 +147,19 @@
     const imageUpload = document.getElementById('image-upload');
     const imagePreview = document.getElementById('image-preview');
 
-    if (categorySelector && subCategorySelector) {
-         categorySelector.addEventListener('change', function() {
-           const categoryId = this.value;
-
-           if (categoryId) {
-             // Fetch subcategories for the selected category
-             fetch(`/categories/${categoryId}/sub_categories`)
-               .then(response => response.json())
-               .then(data => {
-                 // Clear existing options
-                 subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
-
-                 // Add new options
-                 data.forEach(subCategory => {
-                   const option = document.createElement('option');
-                   option.value = subCategory.id;
-                   option.textContent = subCategory.name;
-                   subCategorySelector.appendChild(option);
-                 });
-               })
-               .catch(error => console.error('Error fetching subcategories:', error));
-           } else {
-             // Clear subcategories if no category is selected
-             subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
-           }
-         });
-       }
+    categorySelector.addEventListener('change', function() {
+      fetch(`/categories/${this.value}/sub_categories.json`)
+        .then(response => response.json())
+        .then(data => {
+          subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+          data.forEach(subCategory => {
+            const option = document.createElement('option');
+            option.value = subCategory.id;
+            option.textContent = subCategory.name;
+            subCategorySelector.appendChild(option);
+          });
+        });
+    });
 
     imageUpload.addEventListener('change', function(event) {
       const file = event.target.files[0];
