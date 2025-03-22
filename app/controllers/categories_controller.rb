@@ -1,6 +1,6 @@
 class CategoriesController < InheritedResources::Base
   before_action :find_categories, only: [ :index, :show, :edit, :update, :destroy]
-  before_action :authenticate_adminuser!, except: [:index, :show]
+  before_action :authenticate_adminuser!, except: [:index, :show, :sub_categories]
   def index
     @abouts = About.all
     @headers = Header.all
