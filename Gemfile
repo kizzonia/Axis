@@ -26,6 +26,7 @@ gem "sassc-rails"
 gem 'sass', '~> 3.7.4' # Replace with a newer version, e.g., '~> 3.7.5' or higher
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
+gem 'tinymce-rails'
 gem 'seed_dump'
 gem 'sass-rails', '~> 5.0'
 gem 'postmark-rails'
