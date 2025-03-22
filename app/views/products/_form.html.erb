@@ -1,78 +1,114 @@
-<style>
-  .form-group {
-    margin-bottom: 1.5rem;
+<style media="screen">
+  /* Custom styles for better UI */
+  .product-form {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   }
-  .preview-img {
-    max-width: 200px;
+  .form-group label {
+    font-weight: bold;
+  }
+  .image-preview {
+    max-width: 100%;
+    height: auto;
     margin-top: 10px;
-    display: none;
+    border-radius: 5px;
   }
 </style>
 
 <%= simple_form_for(@product, html: { class: "product-form" }) do |f| %>
   <%= f.error_notification %>
 
-  <!-- Product Name & Condition -->
-  <div class="row">
-    <div class="col-md-6">
-      <%= f.input :name, label: "Product Name", placeholder: "Enter product name", required: true %>
+  <!-- Tabs Navigation -->
+  <ul class="nav nav-tabs mb-4" id="productFormTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="media-tab" data-bs-toggle="tab" data-bs-target="#media" type="button" role="tab" aria-controls="media" aria-selected="true">
+        Basic Info & Media
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="false">
+        Description
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tabs Content -->
+  <div class="tab-content" id="productFormTabsContent">
+    <!-- Basic Info & Media Tab -->
+    <div class="tab-pane fade show active" id="media" role="tabpanel" aria-labelledby="media-tab">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :name, label: "Product Name", placeholder: "Enter product name", required: true %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :title, label: "Product Condition" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :price, label: "Price", input_html: { step: 0.01, placeholder: "Enter price" }, required: true %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :category_id,
+                        collection: Category.all,
+                        label_method: :name,
+                        value_method: :id,
+                        prompt: 'Select Category',
+                        input_html: { id: 'category-selector' },
+                        required: true %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <%= f.input :sub_category_id,
+                        collection: [],
+                        label_method: :name,
+                        value_method: :id,
+                        prompt: 'Select Subcategory',
+                        input_html: { id: 'sub-category-selector' },
+                        required: true %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-4">
+            <label>Product Image</label>
+            <%= f.input :prodimage, as: :file, label: false, input_html: { id: "image-upload", accept: "image/*" } %>
+            <img id="image-preview" class="image-preview" style="display: none;" />
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-md-6">
-      <%= f.input :title, label: "Product Condition", placeholder: "New, Used, etc." %>
+
+    <!-- Description Tab -->
+    <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
+      <div class="form-group mb-4">
+        <%= f.input :description, as: :text, label: "Product Description", placeholder: "Enter detailed description", input_html: { id: "tinymce-editor" } %>
+      </div>
     </div>
   </div>
 
-  <!-- Price & SKU -->
-  <div class="row">
-    <div class="col-md-6">
-      <%= f.input :price, label: "Price ($)", input_html: { step: 0.01, placeholder: "Enter price" }, required: true %>
-    </div>
-    <div class="col-md-6">
-      <%= f.input :sku, label: "Product SKU", placeholder: "Enter SKU number", required: true %>
-    </div>
-  </div>
-
-  <!-- Category & Subcategory -->
-  <div class="row">
-    <div class="col-md-6">
-      <%= f.input :category_id, collection: Category.all, label_method: :name, value_method: :id,
-                  prompt: 'Select Category', input_html: { id: 'category-selector' }, required: true %>
-    </div>
-    <div class="col-md-6">
-      <%= f.input :sub_category_id, collection: [], label_method: :name, value_method: :id,
-                  prompt: 'Select Subcategory', input_html: { id: 'sub-category-selector' }, required: true %>
-    </div>
-  </div>
-
-  <!-- Product Description -->
-  <div class="form-group">
-    <%= f.input :description, as: :rich_text_area, label: "Product Description", placeholder: "Enter details" %>
-  </div>
-
-  <!-- Discount Type & Shipping -->
-  <div class="row">
-    <div class="col-md-6">
-      <%= f.input :discounttype, label: "Discount Type", placeholder: "Percentage, Fixed, etc." %>
-    </div>
-    <div class="col-md-6">
-      <%= f.input :state, label: "Product Shipping", as: :select, collection: ["Paid", "Free"] %>
-    </div>
-  </div>
-
-  <!-- Image Upload with Preview -->
-  <div class="form-group">
-    <label>Product Image</label>
-    <%= f.input :prodimage, as: :file, label: false, input_html: { id: 'image-upload', class: "form-control" } %>
-    <img id="image-preview" class="preview-img" alt="Product Image Preview">
-  </div>
-
-  <!-- Submit Button -->
+  <!-- Form Actions -->
   <div class="form-actions text-center">
-    <%= f.button :submit, "Create Product", class: "btn btn-primary btn-lg" %>
+    <%= f.button :submit, "Create Product", class: "btn btn-thm btn-lg" %>
   </div>
 <% end %>
 
-<!-- JavaScript for Dynamic Subcategory Selection and Image Preview -->
+<!-- JavaScript for Dynamic Subcategory Selection & Image Preview -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const categorySelector = document.getElementById('category-selector');
@@ -81,22 +117,17 @@
     const imagePreview = document.getElementById('image-preview');
 
     categorySelector.addEventListener('change', function() {
-      const categoryId = this.value;
-      if (categoryId) {
-        fetch(`/categories/${categoryId}/sub_categories.json`)
-          .then(response => response.json())
-          .then(data => {
-            subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
-            data.forEach(subCategory => {
-              const option = document.createElement('option');
-              option.value = subCategory.id;
-              option.textContent = subCategory.name;
-              subCategorySelector.appendChild(option);
-            });
+      fetch(`/categories/${this.value}/sub_categories.json`)
+        .then(response => response.json())
+        .then(data => {
+          subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+          data.forEach(subCategory => {
+            const option = document.createElement('option');
+            option.value = subCategory.id;
+            option.textContent = subCategory.name;
+            subCategorySelector.appendChild(option);
           });
-      } else {
-        subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
-      }
+        });
     });
 
     imageUpload.addEventListener('change', function(event) {
@@ -108,9 +139,19 @@
           imagePreview.style.display = 'block';
         };
         reader.readAsDataURL(file);
-      } else {
-        imagePreview.style.display = 'none';
       }
+    });
+  });
+</script>
+
+<!-- TinyMCE Integration -->
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    tinymce.init({
+      selector: '#tinymce-editor',
+      plugins: 'advlist autolink lists link image charmap print preview anchor',
+      toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
     });
   });
 </script>
