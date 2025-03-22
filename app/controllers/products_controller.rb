@@ -32,7 +32,7 @@ end
       product = @product
        ProductMailer.product_email(user, product).deliver_later
 
-       redirect_to products_path, notice: 'Product was successfully created.'
+       redirect_to products_path, notice: 'Product was successfully created. An email has been sent to you with your product details '
      else
        render :new
      end
