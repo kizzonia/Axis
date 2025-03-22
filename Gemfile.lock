@@ -449,8 +449,6 @@ GEM
     thor (1.3.2)
     tilt (2.6.0)
     timeout (0.4.3)
-    tinymce-rails (7.7.1)
-      railties (>= 3.1.1)
     toastr-rails (1.0.3)
       railties (>= 3.1.0)
     trix (0.10.1)
@@ -529,7 +527,6 @@ DEPENDENCIES
   sitemap_generator
   sprockets-rails
   stimulus-rails
-  tinymce-rails
   toastr-rails
   trix
   turbo-rails
