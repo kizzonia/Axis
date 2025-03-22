@@ -34,7 +34,7 @@ if Rails.env.production?
     :address        => ENV['MAILGUN_SMTP_SERVER'],
     :user_name      => 'support@theaxismarket.com',
     :password       => 'Kizzonia1$',
-    :domain         => 'wwww.theaxismarket.com',
+    :domain         => 'theaxismarket.com',
     :authentication => :plain,
   }
   ActionMailer::Base.delivery_method = :smtp
