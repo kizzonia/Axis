@@ -36,7 +36,8 @@
                 <div class="d-flex align-items-center bb1 mb30 pb30">
                   <div class="flex-shrink-0">
                     <% if @product.prodimage? %>
-                      <%= image_tag @product.prodimage_url.to_s, alt: "avatar", class: "img-fluid" %>
+
+                      <%= image_tag @product.prodimage_url.to_s, alt: "avatar",  class: "thu" %>
                     <% else %>
                       <img src="<%= asset_path "resource/avatar.png" %>" alt="avatar" class="img-fluid">
                     <% end %>
