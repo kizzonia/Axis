@@ -125,6 +125,11 @@
         </div>
 
       </div>
+      <!-- Form Actions -->
+      <div class="form-actions text-center">
+        <button class="btn btn-thm btn-lg" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="false">
+        Next
+        </button>      </div>
     </div>
 
     <!-- Description Tab -->
@@ -132,13 +137,15 @@
       <div class="form-group mb-4">
         <%= f.input :description, as: :text, label: "Product Description", placeholder: "Enter detailed description", input_html: { id: "tinymce-editor" } %>
       </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions text-center">
+        <%= f.button :submit, "Create Product", class: "btn btn-thm btn-lg" %>
+      </div>
     </div>
   </div>
 
-  <!-- Form Actions -->
-  <div class="form-actions text-center">
-    <%= f.button :submit, "Create Product", class: "btn btn-thm btn-lg" %>
-  </div>
+
 <% end %>
 </div>
 <!-- JavaScript for Dynamic Subcategory Selection & Image Preview -->
