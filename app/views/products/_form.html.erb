@@ -1,16 +1,4 @@
 <style media="screen">
-  /* Custom styles for better UI */
-  .product-form {
-    max-width: 800px;
-    margin: auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
-  .form-group label {
-    font-weight: bold;
-  }
   .image-preview {
     max-width: 100%;
     height: auto;
@@ -18,12 +6,13 @@
     border-radius: 5px;
   }
 </style>
+<div class="ui_kit_tab style2">
 
 <%= simple_form_for(@product, html: { class: "product-form" }) do |f| %>
   <%= f.error_notification %>
 
   <!-- Tabs Navigation -->
-  <ul class="nav nav-tabs mb-4" id="productFormTabs" role="tablist">
+  <ul class="nav nav-tabs mb15" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
       <button class="nav-link active" id="media-tab" data-bs-toggle="tab" data-bs-target="#media" type="button" role="tab" aria-controls="media" aria-selected="true">
         Basic Info & Media
@@ -41,6 +30,30 @@
     <!-- Basic Info & Media Tab -->
     <div class="tab-pane fade show active" id="media" role="tabpanel" aria-labelledby="media-tab">
       <div class="row">
+
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label>Product Image</label>
+                <%= f.input :prodimage, as: :file, label: false, input_html: { id: "image-upload", accept: "image/*" } %>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <img id="image-preview" class="image-preview" style="display: none;" />
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+
         <div class="col-md-6">
           <div class="form-group mb-4">
             <%= f.input :name, label: "Product Name", placeholder: "Enter product name", required: true %>
@@ -48,7 +61,7 @@
         </div>
         <div class="col-md-6">
           <div class="form-group mb-4">
-            <%= f.input :title, label: "Product Condition" %>
+            <%= f.input :title, label: "Product Condition",  %>
           </div>
         </div>
       </div>
@@ -84,13 +97,7 @@
                         required: true %>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group mb-4">
-            <label>Product Image</label>
-            <%= f.input :prodimage, as: :file, label: false, input_html: { id: "image-upload", accept: "image/*" } %>
-            <img id="image-preview" class="image-preview" style="display: none;" />
-          </div>
-        </div>
+
       </div>
     </div>
 
@@ -107,7 +114,7 @@
     <%= f.button :submit, "Create Product", class: "btn btn-thm btn-lg" %>
   </div>
 <% end %>
-
+</div>
 <!-- JavaScript for Dynamic Subcategory Selection & Image Preview -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
