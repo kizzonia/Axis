@@ -48,7 +48,7 @@
                     <ul>
                       <li class="list-inline-item mb-1">
                         <%= f.input :prodimage, as: :file, label: false, wrapper: false, input_html: { class: "d-none", id: "image-upload", accept: "image/*" } %>
-                        <%= link_to "#", class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "View" }, title: "Edit", aria: { label: "View" }, onclick: "document.getElementById('image-upload').click();" do %>
+                        <%= link_to "#", class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "View" }, title: "Upload Image/Edit", aria: { label: "View" }, onclick: "document.getElementById('image-upload').click();" do %>
                           <span class="flaticon-cloud-computing"></span>
                         <% end %>
                       </li>
@@ -128,7 +128,7 @@
       <!-- Description Tab -->
       <div class="tab-pane fade col-xl-12" id="details" role="tabpanel" aria-labelledby="details-tab">
         <div class="form-group mb-4">
-          <%= f.input :description, as: :text, label: "Product Description", placeholder: "Enter detailed description", class: 'tinymce' %>
+          <%= f.input :description, as: :rich_text_area, class: "form-control", label: "Product Description", placeholder: "Enter detailed description", class: 'tinymce' %>
         </div>
 
         <!-- Form Actions -->
