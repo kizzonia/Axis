@@ -9,26 +9,13 @@
 //= require snackbar.min
 //= require simplebar
 //= require parallax
-
+//= require scrollto
+//= require jquery-scrolltofixed-min
 //= require jquery.counterup
 //= require wow.min
 //= require progressbar
 //= require slider
 //= require timepicker
+//= require query.ez-plus
+//= require scrollbalance
 //= require toastr
-
-document.addEventListener("DOMContentLoaded", function() {
-  tinymce.init({
-    selector: 'textarea.tinymce', // Selector for textarea elements
-    height: 500,
-    menubar: false,
-    plugins: [
-      'advlist autolink lists link image charmap print preview anchor',
-      'searchreplace visualblocks code fullscreen',
-      'insertdatetime media table paste code help wordcount'
-    ],
-    toolbar: 'undo redo | formatselect | bold italic backcolor | \
-              alignleft aligncenter alignright alignjustify | \
-              bullist numlist outdent indent | removeformat | help'
-  });
-});

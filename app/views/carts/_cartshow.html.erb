@@ -25,6 +25,7 @@
           <table class="table table-borderless">
             <thead>
               <tr>
+                <th>Product Name </th>
                 <th scope="col">PRODUCT</th>
                 <th scope="col">PRICE</th>
                 <th scope="col">QUANTITY</th>
@@ -44,7 +45,7 @@
                         <li class="ms-2 ms-md-3">
                           <a class="cart_title" href="#">
                             <span class="fz16"><%= cart_item.product.name %></span> <br>
-                            <span class="fz14"><span class="fw500">Price:</span> <%= number_to_currency(cart_item.product.price) %></span>
+                            <span class="fz14"><span class="fw500">Product Condition:</span> <%= cart_item.product.title) %></span>
                           </a>
                         </li>
                       </ul>
