@@ -90,7 +90,7 @@
                               <% end %>
                              </li>
                             <li class="list-inline-item mb-1">
-                              <%= link_to product_path(product), class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "Edit", confirm: "Are you sure?" }, title: "Delete", aria: { label: "Edit" }, method: :delete do %>
+                              <%= link_to product_path(product), class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "Delete", confirm: "Are you sure?" }, title: "Delete", aria: { label: "Delete" }, method: :delete do %>
                                 <span class="flaticon-delete"></span>
                               <% end %>
 
@@ -105,7 +105,7 @@
                       <% else %>
                       <tr>
                         <td>No Products</td>
-                      
+
                       </tr>
 
                       <% end %>

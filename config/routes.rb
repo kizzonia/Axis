@@ -39,9 +39,9 @@ end
   resources :welcomes
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  authenticated :user do
-    root 'accounts#index', as: "authenticated_root"
-  end
+  # authenticated :user do
+  #   root 'accounts#index', as: "authenticated_root"
+  # end
     root "welcomes#index"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -16,6 +16,5 @@
 //= require progressbar
 //= require slider
 //= require timepicker
-//= require query.ez-plus
 //= require scrollbalance
 //= require toastr
