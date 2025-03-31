@@ -25,7 +25,11 @@ Rails.application.configure do
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
-
+  Rails.application.config.session_store :cookie_store,
+    key: '_your_app_session',
+    secure: true,
+    same_site: :lax,
+    expire_after: 14.days
   # Do not fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
@@ -77,7 +81,7 @@ Rails.application.configure do
   config.cache_store = :redis_cache, { url: ENV['REDIS_URL'] }
   config.session_store = :redis_store, { url: ENV['REDIS_URL'] }
   config.action_cable.connection_url = ENV['REDIS_URL']
-  
+
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
   config.action_mailer.perform_caching = false
