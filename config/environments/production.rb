@@ -46,7 +46,7 @@ Rails.application.configure do
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
-  # config.assume_ssl = true
+   config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
@@ -74,6 +74,10 @@ Rails.application.configure do
   # config.active_job.queue_adapter = :resque
   # config.active_job.queue_name_prefix = "axis_production"
 
+  config.cache_store = :redis_cache, { url: ENV['REDIS_URL'] }
+  config.session_store = :redis_store, { url: ENV['REDIS_URL'] }
+  config.action_cable.connection_url = ENV['REDIS_URL']
+  
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
   config.action_mailer.perform_caching = false

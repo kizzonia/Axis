@@ -2,7 +2,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   layout :resolve_layout
-  before_action :find_order, only: [ :show, :edit, :update, :destroy]
+  before_action :find_order, only: [ :show, :edit, :update, :destroy, :pay_with_wallet]
 
   add_flash_types :success, :danger, :info, :notice
 
@@ -54,8 +54,17 @@ class OrdersController < ApplicationController
      render :new
    end
   end
+  def pay_with_wallet
+      if current_user.wallet.balance >= @order.total_amount
+        @order.pay_with_wallet(current_user.wallet)
+        redirect_to @order, notice: 'Order paid successfully with wallet balance.'
+      else
+        redirect_to @order, alert: 'Insufficient wallet balance.'
+      end
+    end
 
   private
+
   def resolve_layout
     case action_name
     when "index"

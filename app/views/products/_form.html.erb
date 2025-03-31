@@ -79,7 +79,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group mb-4">
-              <%= f.input :title, label: "Product Condition", as: :select, collection: ["Brand New", "Used"] %>
+              <%= f.input :title, label: "Product Condition", as: :select, collection: ["Brand New", "Used"], :include_blank => false %>
             </div>
           </div>
         </div>

@@ -8,6 +8,14 @@ class User < ApplicationRecord
   has_many :accounts
   has_many :products, dependent: :destroy
   has_one :cart
- has_many :orders
+  has_one :wallet, dependent: :destroy
+  has_many :transactions, through: :wallet
+  has_many :orders, dependent: :destroy
+
+  after_create :create_wallet
+
+  def create_wallet
+    Wallet.create(user: self, balance: 0.0)
+  end
 
 end

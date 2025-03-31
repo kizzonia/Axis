@@ -19,6 +19,14 @@ resources :sub_categories do
   resources :products
 
 end
+resource :wallet do
+   get 'deposit', on: :member
+   post 'process_deposit', on: :member, as: 'process_deposit'
+ end
+
+ resources :orders do
+   post 'pay_with_wallet', on: :member
+ end
 
   resources :supports
   resources :features

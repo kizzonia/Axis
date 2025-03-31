@@ -26,7 +26,7 @@ ActiveAdmin.register Product do
 
     para "Product Image"
     f.input :prodimage, as: :file
-
+      
       para "Products description"
       f.input :name, label: "Product Name"
       f.input :title, label: "Product Title"

@@ -17,13 +17,19 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
-# gem "redis", ">= 4.0.1"
+ # gem "redis", ">= 4.0.1"
 gem 'ckeditor'
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
-# gem "kredis"
+gem "kredis"
+gem 'omniauth'
+gem 'figaro'
+gem 'sidekiq'
+gem 'wicked_pdf'
+# gem 'wkhtmltopdf-binary'
+gem 'pundit'
 gem "bootstrap"
 gem "sassc-rails"
-gem 'sass', '~> 3.7.4' # Replace with a newer version, e.g., '~> 3.7.5' or higher
+gem 'sass' # Replace with a newer version, e.g., '~> 3.7.5' or higher
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 gem 'seed_dump'
@@ -76,7 +82,12 @@ group :development do
   # Highlight the fine-grained location where an error occurred [https://github.com/ruby/error_highlight]
   gem "error_highlight", ">= 0.4.0", platforms: [ :ruby ]
 end
-
+group :production do
+  gem 'redis'
+  gem 'redis-rails'
+  gem 'sidekiq'
+  gem 'rails_12factor' # Helps with logging on Heroku
+end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
