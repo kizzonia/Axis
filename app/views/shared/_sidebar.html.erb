@@ -11,7 +11,9 @@
       <%= link_to orders_path, class: "items-center" do %> <i class="flaticon-cash-on-delivery mr15"></i>Orders<% end %>
     </div>
     <div class="sidebar_list_item ">
-      <a href="#" class="items-center"><i class="flaticon-growth mr15"></i>Wallet</a>
+      <% @wallets.each do |a| %>
+      <%= link_to a, class: "items-center" do %><i class="flaticon-growth mr15"></i>Wallet<% end %>
+      <% end %>
     </div>
 
     <div class="sidebar_list_item ">

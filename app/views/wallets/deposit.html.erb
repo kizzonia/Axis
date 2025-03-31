@@ -1,0 +1,42 @@
+<div class="dashboard__main pl0-md">
+  <div class="dashboard__content bgc-gmart-gray">
+<div class="row pb50">
+  <div class="col-lg-12">
+    <div class="dashboard_title_area">
+      <h2>Top Up Wallet</h2>
+      <p class="para">Make A Deposit</p>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-header">
+          <h2>Deposit Money</h2>
+        </div>
+        <div class="card-body">
+          <%= simple_form_for @transaction, url: process_deposit_wallet_path do |f| %>
+            <%= f.error_notification %>
+
+            <%= f.input :amount, label: 'Amount (XAF)', input_html: { min: 100, step: 100 } %>
+            <%= f.input :phone_number, label: 'Phone Number', placeholder: '237XXXXXXXXX' %>
+
+            <%= f.input :payment_method,
+                        as: :select,
+                        collection: [['Orange Money', 'orange_money'], ['MTN Mobile Money', 'mtn_momo']],
+                        include_blank: false %>
+
+            <div class="form-actions">
+              <%= f.button :submit, 'Deposit', class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+</div>

@@ -14,6 +14,7 @@ class AccountsController < InheritedResources::Base
             @orders = Order.where(user_id: current_user).order('created_at ASC')
             @orders_as_buyer = current_user.orders
             @orders_as_seller = Order.where(seller: current_user)
+            @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
 
       end
 
