@@ -25,11 +25,7 @@ Rails.application.configure do
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
-  Rails.application.config.session_store :cookie_store,
-    key: '_your_app_session',
-    secure: true,
-    same_site: :lax,
-    expire_after: 14.days
+
   # Do not fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
