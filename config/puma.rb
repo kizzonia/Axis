@@ -21,7 +21,7 @@
 # be configured to provide at least as many connections as the number of
 # threads. This includes Active Record's `pool` parameter in `database.yml`.
 
-workers Integer(ENV.fetch("WEB_CONCURRENCY") { 2 })
+workers Integer(ENV.fetch("WEB_CONCURRENCY") { 4 })
 
 
 threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
@@ -30,7 +30,7 @@ threads threads_count, threads_count
 preload_app!
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-rackup DefaultRackup
+# rackup DefaultRackup
 port ENV.fetch("PORT", 3000)
 environment ENV.fetch("RAILS_ENV") { "development" }
 
