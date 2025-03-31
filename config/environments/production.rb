@@ -74,9 +74,9 @@ Rails.application.configure do
   # config.active_job.queue_adapter = :resque
   # config.active_job.queue_name_prefix = "axis_production"
 
-  config.cache_store = :redis_cache, { url: ENV['REDIS_URL'] }
-  config.session_store = :redis_store, { url: ENV['REDIS_URL'] }
-  config.action_cable.connection_url = ENV['REDIS_URL']
+  # config.cache_store = :redis_cache, { url: ENV['REDIS_URL'] }
+  # config.session_store = :redis_store, { url: ENV['REDIS_URL'] }
+  # config.action_cable.connection_url = ENV['REDIS_URL']
 
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
