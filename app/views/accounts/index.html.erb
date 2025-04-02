@@ -17,21 +17,39 @@
 
     <div class="row">
       <div class="col-xl-8">
-        <div class="application_statics mb30">
-          <div class="report_widget d-block d-sm-flex justify-content-center justify-content-sm-between">
-            <h4 class="title pl30">Earning Statistics</h4>
-            <ul class="mb0 ml30-520">
-              <li class="list-inline-item report_export mb15-520"><a href="#">Export Report</a></li>
-              <li class="list-inline-item">
-                <select class="selectpicker show-tick">
-                  <option>This Week</option>
-                  <option>This Month</option>
-                  <option>This Year</option>
-                </select>
-              </li>
-            </ul>
-          </div>
-          <canvas id="myChartweave" style="height:230px;"></canvas>
+        <div class="order_table table-responsive">
+          <table class="table">
+            <thead class="table-light">
+              <tr>
+                <th>Date</th>
+             <th>Type</th>
+             <th>Amount</th>
+             <th>Status</th>
+             <th>Method</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <% if Transaction.where(user_id: current_user.id).exists? %>
+              <% @transactions.each do |transaction| %>
+                          <tr>
+                            <td><%= transaction.created_at.strftime('%d %b %Y %H:%M') %></td>
+                            <td><%= transaction.transaction_type.titleize %></td>
+                            <td><%= number_to_currency(transaction.amount, unit: 'XAF', precision: 0) %></td>
+                            <td><span class="badge bg-<%= transaction_status_class(transaction.status) %>"><%= transaction.status.titleize %></span></td>
+                            <td><%= transaction.payment_method.titleize %></td>
+                          </tr>
+                        <% end %>
+
+              <% else %>
+              <tr>
+                <td>No Transaction</td>
+
+              </tr>
+
+              <% end %>
+            </tbody>
+          </table>
         </div>
       </div>
       <div class="col-xl-4">

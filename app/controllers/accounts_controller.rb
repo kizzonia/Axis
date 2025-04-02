@@ -15,6 +15,7 @@ class AccountsController < InheritedResources::Base
             @orders_as_buyer = current_user.orders
             @orders_as_seller = Order.where(seller: current_user)
             @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
+            @transactions = current_user.transactions.includes(:user, :wallet)
 
       end
 
