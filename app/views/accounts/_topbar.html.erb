@@ -24,8 +24,8 @@
     <div class="d-flex justify-content-between statistics_funfact">
       <div class="details">
         <div class="subtitle1">Transactions</div>
-        <div class="title">0</div>
-        <div class="subtitle2"><span>90+</span> New Customer</div>
+        <div class="title"><%= Transaction.where(user_id: current_user.id).count %></div>
+        <div class="subtitle2"><%= link_to transactions_path do %><span>View Transactions </span> <% end %></div>
       </div>
       <div class="icon text-center mt-4"><i class="flaticon-customer"></i></div>
     </div>
@@ -35,7 +35,7 @@
       <div class="details">
         <div class="subtitle1">My Balance</div>
         <% @wallets.each do |a| %>
-        <div class="title">XAF<%= a.balance %> </div>
+        <div class="title">XAF <%= a.balance %> </div>
         <div class="subtitle2"><%= link_to a do %><span>View Wallet</span>/Top-up <% end %></div>
 
         <% end %>
