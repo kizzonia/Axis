@@ -1,4 +1,7 @@
 class WalletsController < ApplicationController
+
+      layout "accounts"
+      add_flash_types :success, :danger, :info, :notice
   before_action :authenticate_user!
 
   def show

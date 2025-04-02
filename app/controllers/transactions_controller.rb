@@ -1,4 +1,8 @@
 class TransactionsController < ApplicationController
+
+      layout "accounts"
+      add_flash_types :success, :danger, :info, :notice
+
   before_action :authenticate_user!
   before_action :set_wallet, only: [:new, :create, :index, :show]
   before_action :set_transaction, only: [:show]
