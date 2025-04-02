@@ -4,38 +4,92 @@
   <div class="col-lg-12">
     <div class="dashboard_title_area">
       <h2>Top Up Wallet</h2>
-      <p class="para">Make A Deposit</p>
+      <p class="para">Choose From Payment Methods Below</p>
     </div>
   </div>
 </div>
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-header">
-          <h2>Deposit Money</h2>
-        </div>
-        <div class="card-body">
-          <%= simple_form_for @transaction, url: process_deposit_wallet_path do |f| %>
-            <%= f.error_notification %>
 
-            <%= f.input :amount, label: 'Amount (XAF)', input_html: { min: 100, step: 100 } %>
-            <%= f.input :phone_number, label: 'Phone Number', placeholder: '237XXXXXXXXX' %>
 
-            <%= f.input :payment_method,
-                        as: :select,
-                        collection: [['Orange Money', 'orange_money'], ['MTN Mobile Money', 'mtn_momo']],
-                        include_blank: false %>
 
-            <div class="form-actions">
-              <%= f.button :submit, 'Deposit', class: 'btn btn-primary' %>
+
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="d-flex align-items-center bb1 mb30 pb30">
+            <div class="flex-shrink-0">
+              <img src="<%= asset_path "orange-logo.svg" %>" alt="avatar">
             </div>
-          <% end %>
+            </div>
+        </div>
+        <div class="col-md-8">
+          <p><strong>Pay instantly with Orange Money – a safe and convenient mobile payment option.Top up your wallet using Orange Money for quick and hassle-free deposits. Choose Orange Money to complete your payment via mobile</strong></p>
+          <button type="button" class="btn btn-dark waves-effect waves-light" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">Click here  to continue</button>
+
         </div>
       </div>
-    </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="d-flex align-items-center bb1 mb30 pb30">
+            <div class="flex-shrink-0">
+              <img src="<%= asset_path "mtnmomoLogo.svg" %>" alt="avatar">
+            </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+          <p><strong>Pay instantly with MTN Mobile Money – secure payments directly from your phone. Top up your wallet via MTN MoMo for fast and reliable transactions.</strong></p>
+          <button type="button" class="btn btn-dark waves-effect waves-light" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">Pay with MTN Mobile Money <small> Not Available </small></button>
+
+        </div>
+      </div>
+      </div>
+
+
   </div>
-</div>
+
+
+
+
+
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Deposit Money / Top Up</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+              <div class="row justify-content-center">
+                <div class="col-10">
+                  <%= simple_form_for @transaction, url: process_deposit_wallet_path do |f| %>
+                    <%= f.error_notification %>
+
+                    <%= f.input :amount, label: 'Amount (XAF)', input_html: { min: 100, step: 100 } %>
+                    <%= f.input :phone_number, label: 'Phone Number', placeholder: '237XXXXXXXXX' %>
+
+                    <%= f.input :payment_method,
+                                as: :select,
+                                collection: [['Orange Money', 'orange_money'], ['MTN Mobile Money', 'mtn_momo']],
+                                include_blank: false %>
+
+                      <div class="form-actions">
+                        <%= f.button :submit, 'Deposit', class: 'btn btn-primary' %>
+                      </div>
+                  <% end %>
+
+                </div>
+              </div>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
 
 
 </div>
