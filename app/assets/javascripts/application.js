@@ -10,12 +10,10 @@
 //= require snackbar.min
 //= require simplebar
 //= require parallax
-//= require scrollto
 //= require jquery-scrolltofixed-min
 //= require jquery.counterup
 //= require wow.min
 //= require progressbar
 //= require slider
 //= require timepicker
-//= require scrollbalance
 //= require toastr
