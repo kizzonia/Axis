@@ -22,7 +22,6 @@
     <link rel="icon" href="<%= asset_path'favicon.svg' %>" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <script src="https://cdn.tiny.cloud/1/gvolkikfqxjjg4s8w7xjrvcofajglg7wipp1wkp7gj4eueog/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -80,10 +79,11 @@
 
     </div>
 
-    <%= javascript_include_tag 'dashboard-script' %>
 
     <%= javascript_include_tag 'script' %>
-    <script>
+    <%= javascript_include_tag 'dashboard-script' %>
+
+    <!-- <script>
 
         document.addEventListener("DOMContentLoaded", function() {
           // Pie chart
@@ -113,7 +113,7 @@
             }
           });
         });
-    </script>
+    </script> -->
 
   </body>
 </html>

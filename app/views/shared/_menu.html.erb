@@ -4,10 +4,12 @@
         <div class="col-sm-4 col-xl-2">
           <div class="text-center text-lg-start d-flex mb15-520">
             <div class="fz20 me-4">
-              <a href="#" class="dashboard_sidebar_toggle_icon text-thm1 vam"><i class="fa-sharp fa-solid fa-bars-staggered"></i></a>
+              <a href="#" class="dashboard_sidebar_toggle_icon text-thm1 vam">
+                <i class="fa-sharp fa-solid fa-bars-staggered"></i></a>
             </div>
             <div class="dashboard_header_logo">
-              <a href="index.html" class="logo">My Axis<span class="text-thm">.</span></a>
+              <%= link_to root_path, class: "logo" do %>
+            My Axis<span class="text-thm">.</span><% end %>
             </div>
           </div>
         </div>
@@ -48,9 +50,9 @@
                       <%= link_to root_path, class: "dropdown-item" do %>
                           <i class="flaticon-growth mr10"></i>store
                           <% end %>
-                      <a class="dropdown-item" href="page-dashboard-categories.html"><i class="flaticon-folder mr10"></i>Categories</a>
+                      <!-- <a class="dropdown-item" href="page-dashboard-categories.html"><i class="flaticon-folder mr10"></i>Categories</a>
                       <a class="dropdown-item" href="page-dashboard-message.html"><i class="flaticon-mail-inbox-app mr10"></i>Message</a>
-                      <a class="dropdown-item" href="page-dashboard-setting.html"><i class="flaticon-settings mr10"></i>Settings</a>
+                      <a class="dropdown-item" href="page-dashboard-setting.html"><i class="flaticon-settings mr10"></i>Settings</a> -->
                     <%= link_to destroy_user_session_path, class: "dropdown-item", method: :delete  do %><i class="flaticon-exit mr10"></i>Logout<%end %>
                     </div>
                   </div>
