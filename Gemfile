@@ -20,12 +20,13 @@ gem "jbuilder"
  # gem "redis", ">= 4.0.1"
 gem 'ckeditor'
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
-gem "kredis"
+gem 'redis'
+gem 'redis-rails'
 gem 'omniauth'
 gem 'figaro'
 gem 'sidekiq'
 gem 'wicked_pdf'
-# gem 'wkhtmltopdf-binary'
+ # gem 'wkhtmltopdf-binary'
 gem 'pundit'
 gem "bootstrap"
 gem "sassc-rails"
@@ -86,6 +87,8 @@ group :production do
   gem 'redis'
   gem 'redis-rails'
   gem 'sidekiq'
+  gem 'sidekiq-failures', '~> 1.0' # Optional for failure tracking
+
   gem 'rails_12factor' # Helps with logging on Heroku
 end
 group :test do

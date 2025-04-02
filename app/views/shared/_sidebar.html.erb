@@ -16,8 +16,9 @@
       <% end %>
     </div>
 
+
     <div class="sidebar_list_item ">
-      <a href="#" class="items-center"><i class="flaticon-mail-inbox-app mr15"></i>Notifictaions </a>
+      <%= link_to transactions_path, class: "items-center" do %> <i class="flaticon-transaction mr15"></i>Orders<% end %>
     </div>
     <div class="sidebar_list_item ">
       <%= link_to edit_user_registration_path, class: "items-center" do %>

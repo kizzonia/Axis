@@ -12,10 +12,25 @@ class User < ApplicationRecord
   has_many :transactions, through: :wallet
   has_many :orders, dependent: :destroy
 
-  after_create :create_wallet
+  # after_create :create_wallet
+  #
+  # def create_wallet
+  #   Wallet.create(user: self, balance: 0.0)
+  # end
 
-  def create_wallet
-    Wallet.create(user: self, balance: 0.0)
-  end
+
+  after_create :create_wallet_async
+
+    def wallet
+      super || create_wallet_async
+    end
+
+    private
+
+    def create_wallet_async
+      WalletCreationJob.perform_later(id)
+    end
+
+    #After job and sidekiq
 
 end

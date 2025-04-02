@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
+  require 'sidekiq/web'
+authenticate :admin_user do
+  mount Sidekiq::Web => '/sidekiq'
+end
+
   get "carts/show"
 
   resources :cart_items, only: [:create, :destroy]
@@ -19,12 +24,19 @@ resources :sub_categories do
   resources :products
 
 end
-resource :wallet do
+resources :wallets do
    get 'deposit', on: :member
    post 'process_deposit', on: :member, as: 'process_deposit'
  end
- resources :transactions
- resources :wallets
+ resources :transactions, only: [:index, :show]  # Standalone transactions routes
+
+ resources :wallets, only: [:show] do
+  resources :transactions, only: [:new, :create] do
+    collection do
+      post 'orange_money_deposit', action: :create_orange_money_deposit
+    end
+  end
+end
 
  resources :orders do
    post 'pay_with_wallet', on: :member

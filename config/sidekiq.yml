@@ -1,4 +1,17 @@
+# :concurrency: 5
+# :queues:
+#   - default
+#   - mailers
+
+
+# config/sidekiq.yml
+:verbose: false
 :concurrency: 5
 :queues:
-  - default
+  - [transactions, 3]
+  - [notifications, 2]
+  - [default, 1]
   - mailers
+
+:max_retries: 3
+:pidfile: tmp/pids/sidekiq.pid

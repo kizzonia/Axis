@@ -1,0 +1,44 @@
+<%# app/views/transactions/show.html.erb %>
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h2>Transaction #<%= @transaction.reference %></h2>
+      <span class="badge bg-<%= transaction_status_class(@transaction.status) %>">
+        <%= @transaction.status.titleize %>
+      </span>
+    </div>
+
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h5>Transaction Details</h5>
+          <p><strong>Type:</strong> <%= @transaction.transaction_type.titleize %></p>
+          <p><strong>Amount:</strong> <%= number_to_currency(@transaction.amount, unit: 'XAF') %></p>
+          <p><strong>Method:</strong> <%= @transaction.payment_method.titleize %></p>
+        </div>
+        <div class="col-md-6">
+          <h5>Timing</h5>
+          <p><strong>Initiated:</strong> <%= @transaction.created_at.strftime('%B %d, %Y at %H:%M') %></p>
+          <% if @transaction.completed? %>
+            <p><strong>Completed:</strong> <%= @transaction.updated_at.strftime('%B %d, %Y at %H:%M') %></p>
+          <% end %>
+        </div>
+      </div>
+
+      <% if @transaction.phone_number.present? %>
+        <div class="alert alert-info">
+          <strong>Mobile Number:</strong> <%= @transaction.phone_number %>
+        </div>
+      <% end %>
+
+      <% if @transaction.failed? && @transaction.error_message.present? %>
+        <div class="alert alert-danger">
+          <h5>Failure Reason</h5>
+          <p><%= @transaction.error_message %></p>
+        </div>
+      <% end %>
+
+      <%= link_to 'Back to Transactions', transactions_path, class: 'btn btn-secondary' %>
+    </div>
+  </div>
+</div>
