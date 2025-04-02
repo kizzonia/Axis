@@ -8,6 +8,8 @@ class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:show]
 
   def index
+    @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
+
     @transactions = @wallet.transactions.order(created_at: :desc).page(params[:page]).per(10)
     # Optional: Filter by transaction type
     if params[:transaction_type].present?
@@ -16,10 +18,14 @@ class TransactionsController < ApplicationController
   end
 
   def show
+    @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
+
     authorize @transaction
   end
 
   def new
+    @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
+
     @transaction = @wallet.transactions.new(transaction_type: params[:type] || 'deposit')
   end
 
