@@ -1,0 +1,43 @@
+<%# app/views/transactions/new.html.erb %>
+<div class="container mt-4">
+  <h2>New <%= @transaction.transaction_type.titleize %></h2>
+
+  <% if @transaction.deposit? %>
+    <div class="card mt-3">
+      <div class="card-header">
+        <h4>Orange Money Deposit</h4>
+      </div>
+      <div class="card-body">
+        <%= form_with url: orange_money_deposit_wallet_transactions_path(@wallet), method: :post do |f| %>
+          <div class="mb-3">
+            <%= f.label :amount, 'Amount (XAF)', class: 'form-label' %>
+            <%= f.number_field :amount, class: 'form-control', min: 100, step: 100, required: true %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :phone_number, 'Orange Money Phone Number', class: 'form-label' %>
+            <%= f.telephone_field :phone_number, class: 'form-control', required: true, placeholder: '237XXXXXXXXX' %>
+          </div>
+
+          <div class="actions">
+            <%= f.submit 'Initiate Deposit', class: 'btn btn-primary' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="card mt-3">
+    <div class="card-header">
+      <h4>Other Payment Methods</h4>
+    </div>
+    <div class="card-body">
+      <%= simple_form_for [@wallet, @transaction] do |f| %>
+        <%= f.input :amount %>
+        <%= f.input :phone_number if @transaction.deposit? || @transaction.withdrawal? %>
+        <%= f.input :payment_method, collection: Transaction.payment_methods.keys.map { |m| [m.titleize, m] } %>
+        <%= f.button :submit, class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>
