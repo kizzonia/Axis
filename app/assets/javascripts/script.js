@@ -1747,7 +1747,7 @@
     $(document).on('ready', function() {
         // add your functions
         navbarScrollfixed();
-        scrollToTop();
+        // scrollToTop();
         wowAnimation();
         mobileNavToggle();
 
