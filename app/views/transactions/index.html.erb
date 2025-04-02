@@ -11,30 +11,71 @@
 <%= render "accounts/topbar" %>
 
 <div class="row">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-     <h2>Your Transaction History</h2>
-     <%= link_to 'New Transaction', new_wallet_transaction_path(current_user.wallet), class: 'btn btn-primary' %>
-   </div>
+  <div class="col-xl-12">
+    <div class="dashboard_product_list account_user_deails">
 
-     <div class="mb-3">
-    <%= form_with url: transactions_path, method: :get do |f| %>
-      <div class="row">
-        <div class="col-md-4">
-          <%= f.select :transaction_type,
-              options_for_select(
-                Transaction.transaction_types.keys.map { |t| [t.titleize, t] },
-                selected: params[:transaction_type]
-              ),
-              { include_blank: 'All Types' },
-              class: 'form-select',
-              onchange: 'this.form.submit()' %>
+      <div class="row d-block d-sm-flex justify-content-center justify-content-sm-between">
+        <!-- <div class="col-sm-6 col-lg-3">
+          <div class="dashboard_page header_search_widget mb30 mb15-520">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search product" aria-label="Recipient's username">
+              <div class="input-group-append">
+                <button class="btn" type="button"><span class="fa fa-search"></span></button>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="dashboard_page sidebar_location_filter mb30 mb5-520">
+            <div class="form-group">
+              <div class="checkout_country_form actegory">
+                <%= form_with url: transactions_path, method: :get do |f| %>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= f.select :transaction_type,
+                          options_for_select(
+                            Transaction.transaction_types.keys.map { |t| [t.titleize, t] },
+                            selected: params[:transaction_type]
+                          ),
+                          { include_blank: 'All Types' },
+                          class: 'form-select',
+                          onchange: 'this.form.submit()' %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="dashboard_page sidebar_location_filter mb30 mb5-520">
+            <!-- <div class="form-group">
+              <div class="checkout_country_form">
+                <select class="selectpicker show-tick">
+                  <option>Status</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancel">Cancel</option>
+                  <option value="InProgress">In Progress</option>
+                </select>
+              </div>
+            </div> -->
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <div class="dashboard_page_add_listing text-center text-lg-end mb30 mb15-520 d-grid">
+
+            <%= link_to new_wallet_transaction_path(current_user.wallet), class: "btn btn-new btn-lg btn-thm" do %>
+            New Transaction <% end %>
+          </div>
         </div>
       </div>
-    <% end %>
-  </div>
 
-  <table class="table table-striped">
-    <thead>
+
+
+      <div class="order_table table-responsive">
+        <table class="table">
+          <thead class="table-light">
       <tr>
         <th>Date</th>
         <th>Type</th>
@@ -61,7 +102,14 @@
     </tbody>
   </table>
 
-  <%= paginate @transactions %>
+  <div class="mbp_pagination mt30 text-center">
+    <ul class="page_navigation">
+      <%= paginate @transactions %>
+
+    </ul>
+  </div>
+</div>
+</div>
 </div>
 
 </div>
