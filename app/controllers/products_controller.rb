@@ -10,10 +10,13 @@ def index
     @accounts = Account.where(user_id: current_user).order('created_at ASC')
     @products = Product.where(user_id: current_user).order('created_at ASC')
     @products = current_user.products.includes(:category, :sub_category)
+    @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
 
 end
 
 def show
+  @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
+
   @headers = Header.all
   @blogs = Blog.all.order('created_at DESC')
   @feedbacks = Feedback.all.order('created_at DESC')

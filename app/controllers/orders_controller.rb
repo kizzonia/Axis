@@ -8,11 +8,15 @@ class OrdersController < ApplicationController
 
 
     def index
+      @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
+
       @orders_as_buyer = current_user.orders
       @orders_as_seller = Order.where(seller: current_user)
     end
 
     def show
+      @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
+
       @order = Order.find(params[:id])
      # Ensure the order belongs to the current user (for security)
      unless @order.user == current_user
