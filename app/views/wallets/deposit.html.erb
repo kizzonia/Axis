@@ -113,8 +113,6 @@
                                 step: 100,
                                 class: 'form-control form-control-lg',
                                 placeholder: '1000',
-                                required: true,
-                                oninput: "this.value = Math.abs(this.value)"
                               },
                               wrapper_html: { class: 'mb-3' } %>
                 </div>
@@ -127,8 +125,7 @@
                                 class: 'form-control form-control-lg',
                                 placeholder: '237XXXXXXXXX',
                                 pattern: '^237\d{9}$',
-                                title: 'Format: 237 followed by 9 digits',
-                                required: true
+                                title: 'Format: 237 followed by 9 digits'
                               },
                               wrapper_html: { class: 'mb-3' } %>
                 </div>
@@ -144,8 +141,7 @@
                               ],
                               include_blank: false,
                               input_html: {
-                                class: 'form-select form-select-lg',
-                                required: true
+                                class: 'form-select form-select-lg'
                               },
                               wrapper_html: { class: 'mb-3' } %>
                 </div>
