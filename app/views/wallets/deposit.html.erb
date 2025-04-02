@@ -14,8 +14,8 @@
 
 
 <div class="row justify-content-center">
-    <div class="col-md-10">
-      <div class="row">
+    <div class="col-lg-10">
+      <div class="row d-flex ">
         <div class="col-md-4">
           <div class="d-flex align-items-center bb1 mb30 pb30">
             <div class="flex-shrink-0">
@@ -25,12 +25,14 @@
         </div>
         <div class="col-md-8">
           <p><strong>Pay instantly with Orange Money – a safe and convenient mobile payment option.Top up your wallet using Orange Money for quick and hassle-free deposits. Choose Orange Money to complete your payment via mobile</strong></p>
-          <button type="button" class="btn btn-dark waves-effect waves-light" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">Click here  to continue</button>
-
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#depositModal">
+      <i class="bi bi-cash-coin me-2"></i> Make Deposit
+    </button>
         </div>
       </div>
 
-      <div class="row">
+      <div class="row mt-4">
         <div class="col-md-4">
           <div class="d-flex align-items-center bb1 mb30 pb30">
             <div class="flex-shrink-0">
@@ -53,44 +55,196 @@
 
 
 
+</div>
+</div>
 
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title mt-0" id="myLargeModalLabel">Deposit Money / Top Up</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-              <div class="row justify-content-center">
-                <div class="col-10">
-                  <%= simple_form_for @transaction, url: process_deposit_wallet_path do |f| %>
-                    <%= f.error_notification %>
-
-                    <%= f.input :amount, label: 'Amount (XAF)', input_html: { min: 100, step: 100 } %>
-                    <%= f.input :phone_number, label: 'Phone Number', placeholder: '237XXXXXXXXX' %>
-
-                    <%= f.input :payment_method,
-                                as: :select,
-                                collection: [['Orange Money', 'orange_money'], ['MTN Mobile Money', 'mtn_momo']],
-                                include_blank: false %>
-
-                      <div class="form-actions">
-                        <%= f.button :submit, 'Deposit', class: 'btn btn-primary' %>
-                      </div>
-                  <% end %>
-
+<!-- Enhanced Scrollable Deposit Modal -->
+<div class="modal fade" id="depositModal" tabindex="-1" aria-labelledby="depositModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="depositModalLabel">
+          <i class="bi bi-wallet2 me-2"></i> Deposit Funds
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                  <h5 class="card-title text-success">
+                    <i class="bi bi-info-circle-fill me-2"></i>Deposit Information
+                  </h5>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <i class="bi bi-currency-exchange me-2"></i>
+                      Minimum deposit: <strong>100 XAF</strong>
+                    </li>
+                    <li class="list-group-item">
+                      <i class="bi bi-lightning-charge me-2"></i>
+                      Processing time: <strong>Instant</strong>
+                    </li>
+                    <li class="list-group-item">
+                      <i class="bi bi-shield-lock me-2"></i>
+                      <strong>Secure</strong> payment processing
+                    </li>
+                  </ul>
                 </div>
               </div>
 
+              <div class="alert alert-info">
+                <i class="bi bi-exclamation-circle-fill me-2"></i>
+                You'll receive a confirmation SMS from your mobile money provider.
+              </div>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
+            <div class="col-md-6">
+              <%= simple_form_for @transaction, url: process_deposit_wallet_path, html: { class: 'needs-validation', novalidate: true } do |f| %>
+                <%= f.error_notification %>
 
+                <div class="mb-3">
+                  <%= f.input :amount,
+                              label: 'Amount (XAF)',
+                              required: true,
+                              input_html: {
+                                min: 100,
+                                step: 100,
+                                class: 'form-control form-control-lg',
+                                placeholder: '1000',
+                                required: true,
+                                oninput: "this.value = Math.abs(this.value)"
+                              },
+                              wrapper_html: { class: 'mb-3' } %>
+                </div>
 
+                <div class="mb-3">
+                  <%= f.input :phone_number,
+                              label: 'Mobile Money Number',
+                              required: true,
+                              input_html: {
+                                class: 'form-control form-control-lg',
+                                placeholder: '237XXXXXXXXX',
+                                pattern: '^237\d{9}$',
+                                title: 'Format: 237 followed by 9 digits',
+                                required: true
+                              },
+                              wrapper_html: { class: 'mb-3' } %>
+                </div>
 
+                <div class="mb-4">
+                  <%= f.input :payment_method,
+                              label: 'Payment Method',
+                              required: true,
+                              as: :select,
+                              collection: [
+                                ['Orange Money', 'orange_money', { 'data-icon': 'bi-phone-fill' }],
+                                ['MTN Mobile Money', 'mtn_momo', { 'data-icon': 'bi-phone-fill' }]
+                              ],
+                              include_blank: false,
+                              input_html: {
+                                class: 'form-select form-select-lg',
+                                required: true
+                              },
+                              wrapper_html: { class: 'mb-3' } %>
+                </div>
 
+                <div class="form-actions text-center mt-4">
+                  <%= f.button :submit,
+                              'Process Deposit',
+                              class: 'btn btn-success btn-lg w-100 py-3',
+                              data: { disable_with: 'Processing...' } %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer bg-light">
+        <small class="text-muted me-auto">
+          <i class="bi bi-lock-fill me-1"></i>Secure payment processing
+        </small>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-lg me-1"></i>Close
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
+
+<!-- Add this script for form validation -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Fetch form and apply custom validation
+  const form = document.querySelector('.needs-validation');
+
+  if (form) {
+    form.addEventListener('submit', function(event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      form.classList.add('was-validated');
+    }, false);
+  }
+
+  // Phone number formatting
+  const phoneInput = document.querySelector('input[name="transaction[phone_number]"]');
+  if (phoneInput) {
+    phoneInput.addEventListener('input', function(e) {
+      // Ensure it starts with 237
+      if (!this.value.startsWith('237')) {
+        this.value = '237' + this.value.replace(/^237/, '');
+      }
+      // Limit to 12 characters (237 + 9 digits)
+      if (this.value.length > 12) {
+        this.value = this.value.slice(0, 12);
+      }
+    });
+  }
+});
+</script>
+
+<style>
+/* Custom styles for the modal */
+#depositModal .modal-content {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+#depositModal .modal-header {
+  padding: 1.5rem;
+}
+
+#depositModal .modal-body {
+  padding: 2rem;
+}
+
+#depositModal .form-control-lg,
+#depositModal .form-select-lg {
+  padding: 0.75rem 1rem;
+  font-size: 1.05rem;
+}
+
+#depositModal .btn-lg {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Validation styles */
+.was-validated .form-control:valid,
+.was-validated .form-control:invalid {
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.was-validated .form-control:valid {
+  border-color: #198754;
+}
+
+.was-validated .form-control:invalid {
+  border-color: #dc3545;
+}
+</style>
