@@ -4,6 +4,9 @@ class Transaction < ApplicationRecord
   belongs_to :user
   belongs_to :transactionable, polymorphic: true, optional: true
 
+  validates :user, presence: true
+  validates :wallet, presence: true
+  
   enum transaction_type: { deposit: 'deposit', withdrawal: 'withdrawal', payment: 'payment' }
   enum status: { pending: 'pending', completed: 'completed', failed: 'failed' }
   enum payment_method: { orange_money: 'orange_money', mtn_momo: 'mtn_momo', wallet: 'wallet' }

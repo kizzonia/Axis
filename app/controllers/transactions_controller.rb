@@ -49,6 +49,8 @@ class TransactionsController < ApplicationController
   end
 
   def create_orange_money_deposit
+    @wallet = current_user.wallet
+
     service = OrangeMoneyService.new(current_user)
     result = service.deposit(
       params[:amount].to_f,
@@ -84,7 +86,8 @@ class TransactionsController < ApplicationController
       :amount,
       :transaction_type,
       :payment_method,
-      :phone_number
+      :phone_number,
+      :user_id
     )
   end
 end

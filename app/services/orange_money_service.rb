@@ -15,7 +15,10 @@ class OrangeMoneyService
       amount: amount,
       transaction_type: :deposit,
       status: :pending,
-      payment_method: :orange_money
+      payment_method: :orange_money,
+      phone_number: phone_number,
+      user: @user  # Explicitly set the user
+
     )
 
     # Call Orange Money API
