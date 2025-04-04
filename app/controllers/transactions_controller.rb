@@ -5,11 +5,17 @@ class TransactionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_wallet, only: [:new, :create, :index, :show]
   before_action :set_transaction, only: [:show]
-  before_action :set_user_wallets, only: [:index, :show, :new]
+  before_action :set_user_wallet, only: [:index, :show, :new]  # Changed from set_user_wallets
 
   def index
-    @transactions = @wallet.transactions.order(created_at: :desc).page(params[:page]).per(10)
-    @transactions = @transactions.where(transaction_type: params[:transaction_type]) if params[:transaction_type].present?
+    @transactions = @wallet.transactions
+                          .order(created_at: :desc)
+                          .page(params[:page])
+                          .per(10)
+
+    if params[:transaction_type].present?
+      @transactions = @transactions.where(transaction_type: params[:transaction_type])
+    end
   end
 
   def show
@@ -19,15 +25,17 @@ class TransactionsController < ApplicationController
   def new
     @transaction = @wallet.transactions.new(
       transaction_type: params[:type] || 'deposit',
-      user: current_user  # Set user explicitly
+      user: current_user
     )
   end
 
   def create
-    @transaction = @wallet.transactions.new(transaction_params.merge(
-      status: :pending,
-      user: current_user  # Ensure user is always set
-    ))
+    @transaction = @wallet.transactions.new(
+      transaction_params.merge(
+        status: :pending,
+        user: current_user
+      )
+    )
 
     if @transaction.save
       TransactionProcessingJob.perform_later(@transaction.id)
@@ -65,8 +73,8 @@ class TransactionsController < ApplicationController
     authorize @transaction
   end
 
-  def set_user_wallets
-    @wallets = current_user.wallets.order(created_at: :asc)
+  def set_user_wallet
+    @user_wallet = current_user.wallet  # Single wallet instead of collection
   end
 
   def transaction_params
@@ -75,6 +83,6 @@ class TransactionsController < ApplicationController
       :transaction_type,
       :payment_method,
       :phone_number
-    ).merge(user_id: current_user.id)  # Ensure user_id is always permitted and set
+    )
   end
 end
