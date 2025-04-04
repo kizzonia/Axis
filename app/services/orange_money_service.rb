@@ -22,45 +22,61 @@ class OrangeMoneyService
     )
 
     # Call Orange Money API
-    response = call_orange_money_api(amount, phone_number, transaction.reference)
+    # response = call_orange_money_api(amount, phone_number, transaction.reference)
 
-    if response.success?
-      transaction.update!(status: :completed)
-      @user.wallet.deposit(amount)
-      TransactionMailer.deposit_completed(@user, transaction).deliver_later
-      { success: true, message: 'Deposit successful' }
-    else
-      transaction.update!(status: :failed)
-      { success: false, message: 'Deposit failed' }
-    end
-  end
+    if transaction.save
+         response = call_orange_money_api(amount, phone_number, transaction.reference)
+
+         # Fix: Change response.success? to check the hash key
+         if response.is_a?(Hash) && response[:success]
+           transaction.update!(status: :completed)
+           @user.wallet.deposit(amount)
+           TransactionMailer.deposit_completed(@user, transaction).deliver_later
+           { success: true, message: 'Deposit successful', transaction: transaction }
+         else
+           error_msg = response[:error] || 'API request failed'
+           transaction.update!(status: :failed, error_message: error_msg)
+           { success: false, message: 'Deposit failed', error: error_msg }
+         end
+       else
+         { success: false, message: 'Transaction validation failed', error: transaction.errors.full_messages.join(', ') }
+       end
+     rescue => e
+       {
+         success: false,
+         error: "Service error: #{e.message}",
+         backtrace: Rails.env.development? ? e.backtrace : nil
+       }
+     end
 
   private
 
-  def call_orange_money_api(amount, phone_number, reference)
-    # This is a simplified version. You'll need to implement the actual API call
-    # according to Orange Money's API documentation
-    uri = URI("#{@api_url}/payment")
 
-    headers = {
-      'Content-Type' => 'application/json',
-      'X-AUTH-TOKEN' => @auth_token,
-      'Authorization' => "Basic #{Base64.strict_encode64("#{@username}:#{@password}")}"
-    }
+    def call_orange_money_api(amount, phone_number, reference)
+      uri = URI("#{@api_url}/payment")
+      # ... existing request setup ...
 
-    body = {
-      amount: amount,
-      customer_msisdn: phone_number,
-      merchant_msisdn: @msisdn,
-      pin: @pin,
-      reference: reference
-    }.to_json
+      response = Net::HTTP.post(uri, body, headers)
 
-    response = Net::HTTP.post(uri, body, headers)
-
-    # Parse response and return appropriate result
-    JSON.parse(response.body)
-  rescue => e
-    { success: false, error: e.message }
-  end
+      # Improved response parsing with error handling
+      begin
+        parsed_response = JSON.parse(response.body)
+        {
+          success: response.is_a?(Net::HTTPSuccess),
+          status: response.code,
+          data: parsed_response
+        }
+      rescue JSON::ParserError => e
+        {
+          success: false,
+          error: "Invalid API response: #{e.message}",
+          raw_response: response.body
+        }
+      end
+    rescue => e
+      {
+        success: false,
+        error: "API request failed: #{e.message}"
+      }
+    end
 end

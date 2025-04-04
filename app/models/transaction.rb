@@ -6,7 +6,7 @@ class Transaction < ApplicationRecord
 
   validates :user, presence: true
   validates :wallet, presence: true
-  
+
   enum transaction_type: { deposit: 'deposit', withdrawal: 'withdrawal', payment: 'payment' }
   enum status: { pending: 'pending', completed: 'completed', failed: 'failed' }
   enum payment_method: { orange_money: 'orange_money', mtn_momo: 'mtn_momo', wallet: 'wallet' }
@@ -18,9 +18,13 @@ class Transaction < ApplicationRecord
   after_commit :process_async, on: :create
 
   def process_async
-    TransactionProcessingJob.perform_later(id)
+    TransactionProcessingJob.set(wait: 5.seconds).perform_later(id)
   end
 
+
+   def mark_as_failed!(error_message)
+     update!(status: :failed, error_message: error_message)
+   end
   private
 
   def generate_reference
