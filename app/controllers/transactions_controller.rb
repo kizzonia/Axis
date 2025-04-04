@@ -8,6 +8,8 @@ class TransactionsController < ApplicationController
   before_action :set_user_wallet, only: [:index, :show, :new]  # Changed from set_user_wallets
 
   def index
+    @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
+
     @transactions = @wallet.transactions
                           .order(created_at: :desc)
                           .page(params[:page])
