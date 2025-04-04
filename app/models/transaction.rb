@@ -1,6 +1,7 @@
 # app/models/transaction.rb
 class Transaction < ApplicationRecord
   belongs_to :wallet
+  belongs_to :user
   belongs_to :transactionable, polymorphic: true, optional: true
 
   enum transaction_type: { deposit: 'deposit', withdrawal: 'withdrawal', payment: 'payment' }

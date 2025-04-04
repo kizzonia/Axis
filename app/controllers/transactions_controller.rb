@@ -1,42 +1,36 @@
 class TransactionsController < ApplicationController
-
-      layout "accounts"
-      add_flash_types :success, :danger, :info, :notice
+  layout "accounts"
+  add_flash_types :success, :danger, :info, :notice
 
   before_action :authenticate_user!
   before_action :set_wallet, only: [:new, :create, :index, :show]
   before_action :set_transaction, only: [:show]
+  before_action :set_user_wallets, only: [:index, :show, :new]
 
   def index
-    @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
-
     @transactions = @wallet.transactions.order(created_at: :desc).page(params[:page]).per(10)
-    # Optional: Filter by transaction type
-    if params[:transaction_type].present?
-     @transactions = @transactions.where(transaction_type: params[:transaction_type])
-    end
+    @transactions = @transactions.where(transaction_type: params[:transaction_type]) if params[:transaction_type].present?
   end
 
   def show
-    @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
-
     authorize @transaction
   end
 
   def new
-    @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
-
-    @transaction = @wallet.transactions.new(transaction_type: params[:type] || 'deposit')
+    @transaction = @wallet.transactions.new(
+      transaction_type: params[:type] || 'deposit',
+      user: current_user  # Set user explicitly
+    )
   end
 
   def create
-    @transaction = @wallet.transactions.new(transaction_params)
-    @transaction.status = :pending
+    @transaction = @wallet.transactions.new(transaction_params.merge(
+      status: :pending,
+      user: current_user  # Ensure user is always set
+    ))
 
     if @transaction.save
-      # Enqueue the processing job
       TransactionProcessingJob.perform_later(@transaction.id)
-
       redirect_to wallet_transaction_path(@wallet, @transaction),
                   notice: 'Transaction initiated successfully. Processing may take a few moments.'
     else
@@ -44,7 +38,6 @@ class TransactionsController < ApplicationController
     end
   end
 
-  # Special endpoint for Orange Money deposits
   def create_orange_money_deposit
     service = OrangeMoneyService.new(current_user)
     result = service.deposit(
@@ -53,12 +46,11 @@ class TransactionsController < ApplicationController
     )
 
     if result[:success]
-      transaction = result[:transaction]
-      redirect_to wallet_transaction_path(current_user.wallet, transaction),
+      redirect_to wallet_transaction_path(@wallet, result[:transaction]),
                   notice: 'Orange Money deposit initiated successfully.'
     else
       flash[:error] = result[:error] || 'Failed to initiate Orange Money deposit'
-      redirect_to new_wallet_transaction_path(current_user.wallet, type: 'deposit')
+      redirect_to new_wallet_transaction_path(@wallet, type: 'deposit')
     end
   end
 
@@ -73,12 +65,16 @@ class TransactionsController < ApplicationController
     authorize @transaction
   end
 
+  def set_user_wallets
+    @wallets = current_user.wallets.order(created_at: :asc)
+  end
+
   def transaction_params
     params.require(:transaction).permit(
       :amount,
       :transaction_type,
       :payment_method,
       :phone_number
-    )
+    ).merge(user_id: current_user.id)  # Ensure user_id is always permitted and set
   end
 end
