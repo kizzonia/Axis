@@ -1,7 +1,7 @@
 # app/jobs/transaction_processing_job.rb
 class TransactionProcessingJob < ApplicationJob
   queue_as :default
-  retry_on StandardError, wait: :exponentially_longer, attempts: 1
+  # retry_on StandardError, wait: :exponentially_longer, attempts: 1
 
   def perform(transaction_id)
     transaction = Transaction.find(transaction_id)
@@ -20,7 +20,7 @@ class TransactionProcessingJob < ApplicationJob
     Rails.logger.error "Transaction #{transaction_id} not found: #{e.message}"
   rescue => e
     Rails.logger.error "Transaction processing failed: #{e.message}"
-    raise  # Will trigger the retry mechanism
+    # raise  # Will trigger the retry mechanism
   end
 
   private

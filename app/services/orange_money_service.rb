@@ -17,7 +17,7 @@ class OrangeMoneyService
         transaction_type: :deposit,
         status: :pending,
         payment_method: :orange_money,
-        phone_number: phone_number.strip,
+        phone_number: phone_number,
         user: @user
       )
 
