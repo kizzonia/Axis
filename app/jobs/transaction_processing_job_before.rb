@@ -1,7 +1,7 @@
 # app/jobs/transaction_processing_job.rb
 class TransactionProcessingJob < ApplicationJob
   queue_as :default
-  retry_on StandardError, wait: :exponentially_longer, attempts: 1
+  retry_on StandardError, wait: :exponentially_longer, attempts: 3
 
   def perform(transaction_id)
     transaction = Transaction.find(transaction_id)

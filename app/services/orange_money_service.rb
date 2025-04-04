@@ -10,73 +10,129 @@ class OrangeMoneyService
   end
 
   def deposit(amount, phone_number)
-    # Create a pending transaction
-    transaction = @user.wallet.transactions.create!(
+    # Create transaction in a transaction block for atomicity
+    ActiveRecord::Base.transaction do
+      transaction = @user.wallet.transactions.build(
+        amount: amount,
+        transaction_type: :deposit,
+        status: :pending,
+        payment_method: :orange_money,
+        phone_number: phone_number.strip,
+        user: @user
+      )
+
+      unless transaction.save
+        return {
+          success: false,
+          error: transaction.errors.full_messages.join(', '),
+          transaction: transaction
+        }
+      end
+
+      api_response = call_orange_money_api(amount, phone_number, transaction.reference)
+
+      if api_response[:success]
+        # Update wallet balance and transaction status atomically
+        @user.wallet.lock!
+        @user.wallet.balance += amount
+        @user.wallet.save!
+
+        transaction.update!(
+          status: :completed,
+          processed_at: Time.current
+        )
+
+        TransactionMailer.deposit_completed(@user, transaction).deliver_later
+
+        {
+          success: true,
+          message: 'Deposit successful',
+          transaction: transaction
+        }
+      else
+        transaction.update!(
+          status: :failed,
+          error_message: api_response[:error]
+        )
+
+        {
+          success: false,
+          error: api_response[:error],
+          transaction: transaction
+        }
+      end
+    end
+  rescue => e
+    # Create failed transaction if we couldn't even save the initial one
+    transaction ||= @user.wallet.transactions.create!(
       amount: amount,
       transaction_type: :deposit,
-      status: :pending,
+      status: :failed,
       payment_method: :orange_money,
       phone_number: phone_number,
-      user: @user  # Explicitly set the user
-
+      user: @user,
+      error_message: "System error: #{e.message}"
     )
 
-    # Call Orange Money API
-    # response = call_orange_money_api(amount, phone_number, transaction.reference)
-
-    if transaction.save
-         response = call_orange_money_api(amount, phone_number, transaction.reference)
-
-         # Fix: Change response.success? to check the hash key
-         if response.is_a?(Hash) && response[:success]
-           transaction.update!(status: :completed)
-           @user.wallet.deposit(amount)
-           TransactionMailer.deposit_completed(@user, transaction).deliver_later
-           { success: true, message: 'Deposit successful', transaction: transaction }
-         else
-           error_msg = response[:error] || 'API request failed'
-           transaction.update!(status: :failed, error_message: error_msg)
-           { success: false, message: 'Deposit failed', error: error_msg }
-         end
-       else
-         { success: false, message: 'Transaction validation failed', error: transaction.errors.full_messages.join(', ') }
-       end
-     rescue => e
-       {
-         success: false,
-         error: "Service error: #{e.message}",
-         backtrace: Rails.env.development? ? e.backtrace : nil
-       }
-     end
+    {
+      success: false,
+      error: "Service error: #{e.message}",
+      transaction: transaction,
+      backtrace: Rails.env.development? ? e.backtrace : nil
+    }
+  end
 
   private
 
+  def call_orange_money_api(amount, phone_number, reference)
+    uri = URI("#{@api_url}/payment")
 
-    def call_orange_money_api(amount, phone_number, reference)
-      uri = URI("#{@api_url}/payment")
-      # ... existing request setup ...
+    body = {
+      amount: amount,
+      phone_number: phone_number,
+      reference: reference,
+      msisdn: @msisdn,
+      pin: @pin
+    }.to_json
 
-      response = Net::HTTP.post(uri, body, headers)
+    headers = {
+      'Content-Type' => 'application/json',
+      'Authorization' => "Bearer #{@auth_token}"
+    }
 
-      # Improved response parsing with error handling
-      begin
-        parsed_response = JSON.parse(response.body)
-        {
-          success: response.is_a?(Net::HTTPSuccess),
-          status: response.code,
-          data: parsed_response
-        }
-      rescue JSON::ParserError => e
+    response = Net::HTTP.post(uri, body, headers)
+
+    if response.is_a?(Net::HTTPSuccess)
+      parsed_response = JSON.parse(response.body)
+
+      # Check API-specific success indicators
+      if parsed_response['status'] == 'SUCCESS'
+        { success: true, data: parsed_response }
+      else
         {
           success: false,
-          error: "Invalid API response: #{e.message}",
-          raw_response: response.body
+          error: parsed_response['message'] || 'API returned unsuccessful status',
+          api_response: parsed_response
         }
       end
-    rescue => e
-      {
-        success: false,
-        error: "API request failed: #{e.message}"
-      }
+    else
+      begin
+        error_data = JSON.parse(response.body)
+        {
+          success: false,
+          error: error_data['error'] || "HTTP #{response.code}",
+          api_response: error_data
+        }
+      rescue JSON::ParserError
+        {
+          success: false,
+          error: "HTTP #{response.code}: #{response.body.truncate(100)}"
+        }
+      end
     end
+  rescue Timeout::Error, Errno::ECONNREFUSED => e
+    { success: false, error: "Connection error: #{e.message}" }
+  rescue => e
+    { success: false, error: "API request failed: #{e.message}" }
+  end
 end
