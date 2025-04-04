@@ -1,13 +1,83 @@
 <!-- Button triggers for different transaction types -->
-<div class="d-flex gap-2 mb-4">
-  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#depositModal">
-    <i class="bi bi-cash-coin me-2"></i> Make Deposit
-  </button>
 
-  <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#withdrawalModal">
-    <i class="bi bi-arrow-up-circle me-2"></i> Request Withdrawal
-  </button>
+
+
+
+
+
+
+
+
+
+
+<div class="dashboard__main pl0-md">
+  <div class="dashboard__content bgc-gmart-gray">
+<div class="row pb50">
+  <div class="col-lg-12">
+    <div class="dashboard_title_area">
+      <h2>Transactions</h2>
+      <p class="para">Top up wallet or request withdrawal</p>
+    </div>
+  </div>
 </div>
+
+
+
+
+
+<div class="row justify-content-center">
+    <div class="col-xl-10">
+      <div class="row  recent_activity_widget">
+        <div class="col-md-4">
+          <div class="d-flex align-items-center bb1  pb30">
+            <div class="flex-shrink-0 thu" >
+              <img src="https://www.logo.wine/a/logo/Orange_Money/Orange_Money-Logo.wine.svg" alt="avatar">
+            </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+          <p><strong>Pay instantly with Orange Money – a safe and convenient mobile payment option.Top up your wallet using Orange Money for quick and hassle-free deposits. Choose Orange Money to complete your payment via mobile</strong></p>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#depositModal">
+            <i class="bi bi-cash-coin me-2"></i> Make Deposit
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-4  recent_activity_widget">
+        <div class="col-md-4">
+          <div class="d-flex align-items-center bb1  ">
+            <div class="flex-shrink-0 thu ">
+              <!-- <img src="<%= asset_path "mtnmomoLogo.svg" %>" alt="avatar"> -->
+            </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+          <p><strong>Pay instantly with MTN Mobile Money – secure payments directly from your phone. Top up your wallet via MTN MoMo for fast and reliable transactions.</strong></p>
+          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#withdrawalModal">
+            <i class="bi bi-arrow-up-circle me-2"></i> Request Withdrawal
+          </button>
+        </div>
+      </div>
+      </div>
+
+
+  </div>
+
+
+
+
+
+</div>
+</div>
+
+
+
+
+
+
+
+
 
 <!-- Deposit Modal -->
 <div class="modal fade" id="depositModal" tabindex="-1" aria-labelledby="depositModalLabel" aria-hidden="true">
@@ -199,7 +269,7 @@
                       ],
                       selected: params[:payment_method]
                     ),
-                    
+
                     class: 'form-select form-select-lg',
                     required: true %>
               </div>
