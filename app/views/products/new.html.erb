@@ -12,13 +12,82 @@
       <div class="col-xl-12">
         <div class="dashboard_product_list account_user_deails">
           <div class="row">
+            <div class="card mb-4">
+              <div class="card-header bg-light">
+                <h5 class="mb-0">
+                  <i class="fas fa-info-circle me-2"></i>Product Upload Guidelines
+                </h5>
+              </div>
+              <div class="card-body">
+                <h6 class="text-primary mb-3"><i class="fas fa-check-circle me-2"></i>Required Information</h6>
+                <ul class="list-group list-group-flush mb-4">
+                  <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-check text-success me-2"></i>
+                    <span>Product name (3-100 characters)</span>
+                  </li>
+                  <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-check text-success me-2"></i>
+                    <span>Clear, high-quality main product image</span>
+                  </li>
+                  <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-check text-success me-2"></i>
+                    <span>Accurate product condition (New/Used)</span>
+                  </li>
+                  <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-check text-success me-2"></i>
+                    <span>Correct category and subcategory</span>
+                  </li>
+                  <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-check text-success me-2"></i>
+                    <span>Detailed description (minimum 50 characters)</span>
+                  </li>
+                </ul>
+
+                <h6 class="text-primary mb-3"><i class="fas fa-image me-2"></i>Image Requirements</h6>
+                <div class="alert alert-info mb-3">
+                  <ul class="mb-0">
+                    <li>Main image must be on white/neutral background</li>
+                    <li>Minimum size: 800×800 pixels</li>
+                    <li>Accepted formats: JPG, PNG (no HEIC/WebP)</li>
+                    <li>Max file size: 5MB per image</li>
+                    <li>No watermarks, logos or text overlays</li>
+                  </ul>
+                </div>
+
+                <h6 class="text-primary mb-3"><i class="fas fa-ban me-2"></i>Prohibited Content</h6>
+                <div class="alert alert-warning">
+                  <ul class="mb-0">
+                    <li>Counterfeit or replica items</li>
+                    <li>Weapons, drugs, or illegal products</li>
+                    <li>Adult or explicit content</li>
+                    <li>Listings with contact information</li>
+                    <li>Products that infringe on intellectual property</li>
+                  </ul>
+                </div>
+
+                <h6 class="text-primary mb-3"><i class="fas fa-lightbulb me-2"></i>Tips for Better Listings</h6>
+                <ul class="list-unstyled">
+                  <li class="mb-2"><i class="fas fa-angle-right text-muted me-2"></i>Use natural lighting for product photos</li>
+                  <li class="mb-2"><i class="fas fa-angle-right text-muted me-2"></i>Show multiple angles of the product</li>
+                  <li class="mb-2"><i class="fas fa-angle-right text-muted me-2"></i>Include size reference for physical products</li>
+                  <li class="mb-2"><i class="fas fa-angle-right text-muted me-2"></i>Mention all defects for used items</li>
+                  <li class="mb-2"><i class="fas fa-angle-right text-muted me-2"></i>Use bullet points for key features</li>
+                </ul>
+
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productUploadModal">
+                  <i class="fas fa-plus me-2"></i>Add New Product
+                </button>
+              </div>
+            </div>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
 
 <%= render "form", product: @product %>
-</div>
-
-</div>
-</div>
-</div>
-
-</div>
-</div>

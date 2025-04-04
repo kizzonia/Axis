@@ -1,0 +1,202 @@
+<style media="screen">
+  .image-preview {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+</style>
+<div class="ui_kit_tab style2">
+
+  <%= simple_form_for(@product, html: { class: "product-form" }) do |f| %>
+    <%= f.error_notification %>
+
+    <!-- Tabs Navigation -->
+    <ul class="nav nav-tabs mb15" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="media-tab" data-bs-toggle="tab" data-bs-target="#media" type="button" role="tab" aria-controls="media" aria-selected="true">
+          Basic Info & Media
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="false">
+          Description
+        </button>
+      </li>
+    </ul>
+
+    <!-- Tabs Content -->
+    <div class="tab-content pt20 row" id="myTab">
+      <!-- Basic Info & Media Tab -->
+      <div class="tab-pane fade show active col-lg-12" id="media" role="tabpanel" aria-labelledby="media-tab">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="d-flex align-items-center bb1 mb30 pb30">
+                  <div class="flex-shrink-0">
+                    <% if @product.prodimage? %>
+
+                      <%= image_tag @product.prodimage_url.to_s, alt: "avatar",  class: "thu" %>
+                    <% else %>
+                      <img src="<%= asset_path "resource/avatar.png" %>" alt="avatar" class="img-fluid">
+                    <% end %>
+                  </div>
+                  <div class="flex-grow-1 ms-4 editing_list">
+                    <h5 class="mb0">Your Product Image</h5>
+                    <p class="fz14 heading-color">PNG or JPG no bigger than 800px wide and tall.</p>
+                    <ul>
+                      <li class="list-inline-item mb-1">
+                        <%= f.input :prodimage, as: :file, label: false, wrapper: false, input_html: { class: "d-none", id: "image-upload", accept: "image/*" } %>
+                        <%= link_to "#", class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "View" }, title: "Upload Image/Edit", aria: { label: "View" }, onclick: "document.getElementById('image-upload').click();" do %>
+                          <span class="flaticon-cloud-computing"></span>
+                        <% end %>
+                      </li>
+                      <li class="list-inline-item mb-1">
+                        <%= link_to "#", class: "tooltip-toggle", data: { bs_toggle: "tooltip", bs_placement: "top", bs_original_title: "Edit" }, title: "Delete", aria: { label: "Edit" }, method: :delete, data: { confirm: "Are you sure?" } do %>
+                          <span class="flaticon-delete"></span>
+                        <% end %>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="d-flex">
+                  <div class="card-body1">
+                    <img id="image-preview" class="image-preview" style="display: none;" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group mb-4">
+              <%= f.input :name, label: "Product Name", placeholder: "Enter product name", required: true %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-4">
+              <%= f.input :title, label: "Product Condition", as: :select, collection: ["Brand New", "Used"], :include_blank => false %>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-4">
+              <%= f.input :price, label: "Price", input_html: { step: 0.01, placeholder: "Enter price" }, required: true %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-4">
+              <%= f.input :category_id,
+                          collection: Category.all,
+                          label_method: :name,
+                          value_method: :id,
+                          prompt: 'Select Category',
+                          input_html: { id: 'category-selector' },
+                          required: true %>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-4">
+              <%= f.input :sub_category_id,
+                          collection: [],
+                          label_method: :name,
+                          value_method: :id,
+                          prompt: 'Select Subcategory',
+                          input_html: { id: 'sub-category-selector' },
+                          required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <button type="button" class="btn btn-thm btn-lg" id="next-tab-button">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Tab -->
+      <div class="tab-pane fade col-xl-12" id="details" role="tabpanel" aria-labelledby="details-tab">
+        <div class="form-group mb-4">
+          <%= f.input :description, as: :rich_text_area, class: "form-control", label: "Product Description", placeholder: "Enter detailed description", class: 'tinymce' %>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions text-center">
+          <%= f.button :submit, "Create Product", class: "btn btn-thm btn-lg" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- JavaScript for Dynamic Subcategory Selection & Image Preview -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const categorySelector = document.getElementById('category-selector');
+    const subCategorySelector = document.getElementById('sub-category-selector');
+    const imageUpload = document.getElementById('image-upload');
+    const imagePreview = document.getElementById('image-preview');
+
+    if (categorySelector && subCategorySelector) {
+         categorySelector.addEventListener('change', function() {
+           const categoryId = this.value;
+
+           if (categoryId) {
+             // Fetch subcategories for the selected category
+             fetch(`/categories/${categoryId}/sub_categories`)
+               .then(response => response.json())
+               .then(data => {
+                 // Clear existing options
+                 subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+
+                 // Add new options
+                 data.forEach(subCategory => {
+                   const option = document.createElement('option');
+                   option.value = subCategory.id;
+                   option.textContent = subCategory.name;
+                   subCategorySelector.appendChild(option);
+                 });
+               })
+               .catch(error => console.error('Error fetching subcategories:', error));
+           } else {
+             // Clear subcategories if no category is selected
+             subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+           }
+         });
+       }
+
+    imageUpload.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Handle "Next" button click
+    const nextTabButton = document.getElementById('next-tab-button');
+    if (nextTabButton) {
+      nextTabButton.addEventListener('click', function() {
+        const detailsTab = new bootstrap.Tab(document.getElementById('details-tab'));
+        detailsTab.show();
+      });
+    }
+  });
+</script>
+
+<!-- TinyMCE Integration -->

@@ -21,7 +21,6 @@ class TransactionsController < ApplicationController
   end
 
   def show
-    authorize @transaction
   end
 
   def new
@@ -74,7 +73,7 @@ class TransactionsController < ApplicationController
 
   def set_transaction
     @transaction = Transaction.find(params[:id])
-    authorize @transaction
+    # authorize @transaction
   end
 
   def set_user_wallet
