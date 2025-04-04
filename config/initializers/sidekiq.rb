@@ -1,12 +1,12 @@
 if Rails.env.production?
   Sidekiq.configure_server do |config|
     config.redis = { url: ENV['REDISCLOUD_URL'] }
-    config.dead_letter_queues = 1
-config.dead_letter_max_retries = 3
-    config.server_middleware do |chain|
-    chain.add Sidekiq::Middleware::Server::RetryJobs, max_retries: 3
-
-  end
+#     config.dead_letter_queues = 1
+# config.dead_letter_max_retries = 3
+#     config.server_middleware do |chain|
+#     chain.add Sidekiq::Middleware::Server::RetryJobs, max_retries: 3
+#
+#   end
 
   end
 
