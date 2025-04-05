@@ -5,11 +5,11 @@ pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
 # pin_all_from "app/javascript/front", under: "front"
-pin "jquery-3.6.0", preload: true
+# pin "jquery-3.6.0", preload: true
 pin "application", preload: true
 
-pin "popper", to: 'popper.js', preload: true
-pin "bootstrap", to: 'bootstrap.min.js', preload: true
+# pin "popper", to: 'popper.js', preload: true
+# pin "bootstrap", to: 'bootstrap.min.js', preload: true
 # pin "front/bootstrap-select.min"
 # pin "front/jquery.mmenu.all"
 # pin "front/ace-responsive-menu"
@@ -26,4 +26,6 @@ pin "bootstrap", to: 'bootstrap.min.js', preload: true
 # pin "front/scrollbalance"
 # pin "front/script"
 pin "trix"
-pin "@rails/actiontext", to: "actiontext.esm.js"
+# pin "@rails/actiontext", to: "actiontext.esm.js"
+# pin "trix"
+pin "@rails/actiontext", to: "actiontext.js"
