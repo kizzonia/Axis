@@ -224,7 +224,7 @@
             <!-- Description Tab -->
             <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
               <div class="mb-3">
-                <%= f.input :description, as: :rich_text_area,
+                <%= f.input :description, as: :quill_editor,
                             label: "Product Description",
                             input_html: { rows: 10 } %>
               </div>
