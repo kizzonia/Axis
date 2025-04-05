@@ -31,7 +31,7 @@
             <tbody>
 
               <% if Transaction.where(user_id: current_user.id).exists? %>
-              <% @transactions.each do |transaction| %>
+              <% @transactions.take(15).each do |transaction| %>
                           <tr>
                             <td><%= transaction.created_at.strftime('%d %b %Y %H:%M') %></td>
                             <td><%= transaction.transaction_type.titleize %></td>
