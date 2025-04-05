@@ -1,0 +1,453 @@
+<style>
+  .image-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  .image-preview-wrapper {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+  }
+  .image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .remove-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgba(255,0,0,0.7);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    font-size: 12px;
+  }
+  .upload-area {
+    border: 2px dashed #ced4da;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 20px;
+  }
+  .upload-area:hover {
+    border-color: #0d6efd;
+    background-color: #f8f9fa;
+  }
+  .upload-icon {
+    font-size: 48px;
+    color: #6c757d;
+    margin-bottom: 10px;
+  }
+  .tab-pane {
+    padding: 20px;
+  }
+</style>
+
+<div class="modal fade" id="productUploadModal" tabindex="-1" aria-labelledby="productUploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productUploadModalLabel">Add New Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <%= simple_form_for(@product, html: { class: "product-form", multipart: true }) do |f| %>
+        <div class="modal-body">
+          <!-- Tabs Navigation -->
+          <ul class="nav nav-tabs mb-4" id="productTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab" aria-controls="basic" aria-selected="true">
+                <i class="fas fa-info-circle me-2"></i>Basic Info
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="media-tab" data-bs-toggle="tab" data-bs-target="#media" type="button" role="tab" aria-controls="media" aria-selected="false">
+                <i class="fas fa-images me-2"></i>Media
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="false">
+                <i class="fas fa-align-left me-2"></i>Description
+              </button>
+            </li>
+          </ul>
+
+          <!-- Tabs Content -->
+          <div class="tab-content" id="productTabsContent">
+            <!-- Basic Info Tab -->
+            <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <%= f.input :name, label: "Product Name", placeholder: "Enter product name",
+                                input_html: { class: "form-control-lg" }, required: true %>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <%= f.input :title, label: "Product Condition", as: :select,
+                                collection: ["Brand New", "Used", "Refurbished"],
+                                include_blank: false,
+                                input_html: { class: "form-select-lg" } %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <%= f.input :price, label: "Price", input_html: {
+                          class: "form-control-lg",
+                          step: 0.01,
+                          placeholder: "Enter price"
+                        }, required: true %>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <%= f.input :sku, label: "SKU", placeholder: "Product SKU" %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <%= f.input :category_id, collection: Category.all,
+                                label_method: :name, value_method: :id,
+                                prompt: 'Select Category',
+                                input_html: {
+                                  class: "form-select-lg",
+                                  id: 'category-selector'
+                                }, required: true %>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <%= f.input :sub_category_id, collection: [],
+                                label_method: :name, value_method: :id,
+                                prompt: 'Select Subcategory',
+                                input_html: {
+                                  class: "form-select-lg",
+                                  id: 'sub-category-selector'
+                                }, required: true %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Media Tab -->
+            <div class="tab-pane fade" id="media" role="tabpanel" aria-labelledby="media-tab">
+              <div class="mb-4">
+                <h5>Main Product Image</h5>
+                <div class="d-flex align-items-center mb-4">
+                  <div class="flex-shrink-0 me-3">
+                    <% if @product.prodimage? %>
+                      <%= image_tag @product.prodimage_url, class: "img-thumbnail", style: "width: 120px; height: 120px; object-fit: cover;" %>
+                    <% else %>
+                      <div class="bg-light d-flex align-items-center justify-content-center" style="width: 120px; height: 120px;">
+                        <i class="fas fa-camera fa-2x text-muted"></i>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="flex-grow-1">
+                    <%= f.input :prodimage, as: :file, label: false,
+                                input_html: {
+                                  class: "form-control",
+                                  id: "main-image-upload",
+                                  accept: "image/*"
+                                } %>
+                    <div class="form-text">Recommended size: 800x800px, JPG or PNG</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <h5>Additional Images</h5>
+                <div class="upload-area" id="dropzone">
+                  <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                  </div>
+                  <h6>Drag & Drop images here</h6>
+                  <p class="text-muted">or click to browse</p>
+                  <%= file_field_tag "product[images_attributes][][image]",
+                      type: :file,
+                      multiple: true,
+                      class: "d-none",
+                      id: "image-uploads",
+                      accept: "image/*" %>
+                  <button type="button" class="btn btn-outline-primary mt-2" onclick="document.getElementById('image-uploads').click()">
+                    <i class="fas fa-folder-open me-2"></i>Select Files
+                  </button>
+                </div>
+
+                <!-- Existing Images (only shown for persisted products) -->
+                <% if @product.persisted? %>
+                  <div id="existing-images" class="mb-4">
+                    <% if @product.images.any? %>
+                      <h6>Current Images</h6>
+                      <div class="image-preview-container">
+                        <% @product.images.each_with_index do |image, index| %>
+                          <div class="image-preview-wrapper">
+                            <%= image_tag image.image_url, class: "image-preview" %>
+                            <button type="button" class="remove-image-btn" data-index="<%= index %>">
+                              <i class="fas fa-times"></i>
+                            </button>
+                            <%= hidden_field_tag "product[images_attributes][#{index}][id]", image.id %>
+                            <%= hidden_field_tag "product[images_attributes][#{index}][_destroy]", "0", class: "destroy-image" %>
+                          </div>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+
+                <!-- New Image Previews -->
+                <div id="image-previews" class="image-preview-container"></div>
+              </div>
+            </div>
+
+            <!-- Description Tab -->
+            <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
+              <div class="mb-3">
+                <%= f.input :description, as: :rich_text_area,
+                            label: "Product Description",
+                            input_html: { rows: 10 } %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-outline-primary" id="prev-tab-btn">
+            <i class="fas fa-arrow-left me-2"></i>Previous
+          </button>
+          <button type="button" class="btn btn-primary" id="next-tab-btn">
+            Next<i class="fas fa-arrow-right ms-2"></i>
+          </button>
+          <%= f.button :submit, "Save Product", class: "btn btn-success", id: "submit-btn", style: "display: none;" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Tab navigation
+  const tabs = new bootstrap.Tab(document.querySelector('#basic-tab'));
+  const nextBtn = document.getElementById('next-tab-btn');
+  const prevBtn = document.getElementById('prev-tab-btn');
+  const submitBtn = document.getElementById('submit-btn');
+
+  const tabList = ['basic', 'media', 'details'];
+  let currentTab = 0;
+
+  function updateTabButtons() {
+    if (currentTab === 0) {
+      prevBtn.style.display = 'none';
+    } else {
+      prevBtn.style.display = 'inline-block';
+    }
+
+    if (currentTab === tabList.length - 1) {
+      nextBtn.style.display = 'none';
+      submitBtn.style.display = 'inline-block';
+    } else {
+      nextBtn.style.display = 'inline-block';
+      submitBtn.style.display = 'none';
+    }
+  }
+
+  nextBtn.addEventListener('click', function() {
+    if (validateCurrentTab()) {
+      currentTab++;
+      new bootstrap.Tab(document.querySelector(`#${tabList[currentTab]}-tab`)).show();
+      updateTabButtons();
+    }
+  });
+
+  prevBtn.addEventListener('click', function() {
+    currentTab--;
+    new bootstrap.Tab(document.querySelector(`#${tabList[currentTab]}-tab`)).show();
+    updateTabButtons();
+  });
+
+  function validateCurrentTab() {
+    // Basic tab validation
+    if (currentTab === 0) {
+      const name = document.querySelector('#product_name').value;
+      const price = document.querySelector('#product_price').value;
+      const category = document.querySelector('#product_category_id').value;
+
+      if (!name || name.length < 3) {
+        alert('Please enter a valid product name (minimum 3 characters)');
+        return false;
+      }
+
+      if (!price || isNaN(price) || parseFloat(price) <= 0) {
+        alert('Please enter a valid price (must be greater than 0)');
+        return false;
+      }
+
+      if (!category) {
+        alert('Please select a category');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  updateTabButtons();
+
+  // Dynamic subcategories
+  const categorySelector = document.getElementById('category-selector');
+  const subCategorySelector = document.getElementById('sub-category-selector');
+
+  if (categorySelector && subCategorySelector) {
+    categorySelector.addEventListener('change', function() {
+      const categoryId = this.value;
+
+      if (categoryId) {
+        fetch(`/categories/${categoryId}/sub_categories`)
+          .then(response => response.json())
+          .then(data => {
+            subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+            data.forEach(subCategory => {
+              const option = document.createElement('option');
+              option.value = subCategory.id;
+              option.textContent = subCategory.name;
+              subCategorySelector.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error fetching subcategories:', error));
+      } else {
+        subCategorySelector.innerHTML = '<option value="">Select Subcategory</option>';
+      }
+    });
+  }
+
+  // Main image preview
+  const mainImageUpload = document.getElementById('main-image-upload');
+  if (mainImageUpload) {
+    mainImageUpload.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const preview = document.querySelector('.flex-shrink-0 img') ||
+                         document.querySelector('.flex-shrink-0 .fa-camera').parentNode;
+          if (preview.tagName === 'IMG') {
+            preview.src = e.target.result;
+          } else {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'img-thumbnail';
+            img.style.width = '120px';
+            img.style.height = '120px';
+            img.style.objectFit = 'cover';
+            preview.replaceWith(img);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Multiple image uploads
+  const dropzone = document.getElementById('dropzone');
+  const imageUploads = document.getElementById('image-uploads');
+  const imagePreviews = document.getElementById('image-previews');
+
+  if (imageUploads) {
+    // Handle drag and drop
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+      dropzone.classList.add('border-primary');
+      dropzone.style.backgroundColor = 'rgba(13, 110, 253, 0.05)';
+    }
+
+    function unhighlight() {
+      dropzone.classList.remove('border-primary');
+      dropzone.style.backgroundColor = '';
+    }
+
+    dropzone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      handleFiles(files);
+    }
+
+    imageUploads.addEventListener('change', function() {
+      handleFiles(this.files);
+    });
+
+    function handleFiles(files) {
+      [...files].forEach(previewFile);
+    }
+
+    function previewFile(file) {
+      if (!file.type.match('image.*')) return;
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = function() {
+        const previewWrapper = document.createElement('div');
+        previewWrapper.className = 'image-preview-wrapper';
+
+        const img = document.createElement('img');
+        img.src = reader.result;
+        img.className = 'image-preview';
+
+        previewWrapper.appendChild(img);
+        imagePreviews.appendChild(previewWrapper);
+      };
+    }
+  }
+
+  // Remove existing images
+  document.querySelectorAll('.remove-image-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const index = this.getAttribute('data-index');
+      const destroyInput = document.querySelector(`.destroy-image[data-index="${index}"]`);
+      if (destroyInput) {
+        destroyInput.value = "1";
+        this.parentElement.style.display = 'none';
+      }
+    });
+  });
+});
+</script>
