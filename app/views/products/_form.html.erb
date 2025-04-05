@@ -275,11 +275,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   nextBtn.addEventListener('click', function() {
-    if (validateCurrentTab()) {
-      currentTab++;
-      new bootstrap.Tab(document.querySelector(`#${tabList[currentTab]}-tab`)).show();
-      updateTabButtons();
-    }
+    currentTab++;
+    new bootstrap.Tab(document.querySelector(`#${tabList[currentTab]}-tab`)).show();
+    updateTabButtons();
   });
 
   prevBtn.addEventListener('click', function() {
@@ -287,31 +285,6 @@ document.addEventListener('DOMContentLoaded', function() {
     new bootstrap.Tab(document.querySelector(`#${tabList[currentTab]}-tab`)).show();
     updateTabButtons();
   });
-
-  function validateCurrentTab() {
-    // Basic tab validation
-    if (currentTab === 0) {
-      const name = document.querySelector('#product_name').value;
-      const price = document.querySelector('#product_price').value;
-      const category = document.querySelector('#product_category_id').value;
-
-      if (!name || name.length < 3) {
-        alert('Please enter a valid product name (minimum 3 characters)');
-        return false;
-      }
-
-      if (!price || isNaN(price) || parseFloat(price) <= 0) {
-        alert('Please enter a valid price (must be greater than 0)');
-        return false;
-      }
-
-      if (!category) {
-        alert('Please select a category');
-        return false;
-      }
-    }
-    return true;
-  }
 
   updateTabButtons();
 
