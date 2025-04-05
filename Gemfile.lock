@@ -312,6 +312,7 @@ GEM
       nio4r (~> 2.0)
     pundit (2.5.0)
       activesupport (>= 3.0.0)
+    quill-editor-rails (0.1.2)
     racc (1.8.1)
     rack (2.2.11)
     rack-protection (3.2.0)
@@ -567,6 +568,7 @@ DEPENDENCIES
   postmark-rails
   puma (>= 5.0)
   pundit
+  quill-editor-rails
   rails (~> 7.2.2, >= 7.2.2.1)
   rails_12factor
   redis

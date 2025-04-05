@@ -224,9 +224,9 @@
             <!-- Description Tab -->
             <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
               <div class="mb-3">
-                <%= f.input :description, as: :quill_editor,
+                <%= f.input :description, as: :text,
                             label: "Product Description",
-                            input_html: { rows: 10 } %>
+                            input_html: { rows: 20 } %>
               </div>
             </div>
           </div>

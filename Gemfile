@@ -47,6 +47,7 @@ gem "fog-aws"
 gem 'arctic_admin'
 gem 'kaminari'
 gem 'trix'
+gem 'quill-editor-rails'
 #gem 'mini_racer', platforms: :ruby
 gem 'devise'
 gem 'activeadmin_quill_editor'
