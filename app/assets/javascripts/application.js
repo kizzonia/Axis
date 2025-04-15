@@ -16,7 +16,6 @@
 //= require progressbar
 //= require slider
 //= require timepicker
+//= require wow.min
 //= require toastr
 //= require scrollbalance
-//= require activeadmin/quill_editor/quill
-//= require activeadmin/quill_editor_input

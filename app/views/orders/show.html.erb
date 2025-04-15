@@ -13,7 +13,7 @@
           <div class="checkout_form style2">
             <div class="main-title mb50">
               <p>Message Chat Box <br>
-                <a class="signin-filter-btn" href="#">Please Note Shipping and delivery is handled by the seller? <br>Discuss with the seller to make sure you get everything you need </a></p>
+                <a class="signin-filter-btn" href="#"> <br>Discuss with the seller to make sure you get everything you need </a></p>
             </div>
             <div class="dashboard__content bgc-gmart-gray">
 
@@ -250,8 +250,12 @@
 
                   </ul>
                   <div class="ui_kit_button payment_widget_btn">
-                    <a href="#"  class="btn btn-thm btn-block mb0" >Pay Now </a>
-                  </div>
+      <%= button_to 'Pay with Wallet',
+          pay_with_wallet_order_path(@order),
+          method: :post,
+          class: 'btn btn-thm btn-block mb0',
+          data: { confirm: 'Confirm payment from your wallet?' } %>
+    </div>
                 </div>
             </div>
 

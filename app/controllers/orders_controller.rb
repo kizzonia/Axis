@@ -58,14 +58,27 @@ class OrdersController < ApplicationController
      render :new
    end
   end
+  # def pay_with_wallet
+  #     if current_user.wallet.balance >= @order.total_amount
+  #       @order.pay_with_wallet(current_user.wallet)
+  #       redirect_to @order, notice: 'Order paid successfully with wallet balance.'
+  #     else
+  #       redirect_to @order, alert: 'Insufficient wallet balance.'
+  #     end
+  #   end
+
   def pay_with_wallet
-      if current_user.wallet.balance >= @order.total_amount
-        @order.pay_with_wallet(current_user.wallet)
-        redirect_to @order, notice: 'Order paid successfully with wallet balance.'
-      else
-        redirect_to @order, alert: 'Insufficient wallet balance.'
-      end
+  begin
+    if current_user.wallet.balance >= @order.total_amount
+      @order.pay_with_wallet(current_user.wallet)
+      redirect_to @order, notice: 'Payment successful! Funds transferred to seller.'
+    else
+      redirect_to @order, alert: 'Insufficient wallet balance.'
     end
+  rescue => e
+    redirect_to @order, alert: "Payment failed: #{e.message}"
+  end
+end
 
   private
 

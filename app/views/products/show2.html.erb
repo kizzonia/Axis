@@ -1,0 +1,162 @@
+
+    <section class="inner_page_breadcrumb">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-6">
+            <div class="breadcrumb_content">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><%= link_to welcomes_path do %> Home <% end %></li>
+
+                <li class="breadcrumb-item active" aria-current="page"><a href="#"><%= @product.name %></a></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shop Single Content -->
+    <section class="shop-single-content pb80 pt0 ovh">
+      <div class="container">
+        <div class="row wrap">
+          <div class="col-xl-7">
+              <div class="row">
+                <div class="col-md-12">
+                  <img src="<%= @product.prodimage_url.to_s %>" alt="">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="shortcode_widget_accprdons shop_single_accordion px-0 mt-5">
+                    <div class="faq_according text-start">
+                      <div class="shop_single_description">
+                        <h4 class="title">Overview</h4>
+                        <p class="para"><%= raw(@product.description) %>.</p>
+                        <!-- <div class="accordion accordion-flush" id="accordionFlushExample">
+                          <div class="accordion-item">
+                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                              <div class="accordion-body px-0 pt-0"><p class="para">Placeholder content for this accordion, which is intended to demonstrate the class. This is the first item's accordion body you get groundbreaking performance and amazing battery life. Add to that a stunning Liquid Retina XDR display, the best camera and audio ever in a Mac notebook, and all the ports you need.</p></div>
+                            </div>
+                            <h2 class="accordion-header" id="flush-headingOne">
+                              <button class="accordion-button collapsed px-0 pt-3 text-thm1" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">See More <span class="fas fa-angle-down ml10"></span></button>
+                            </h2>
+                          </div>
+                        </div> -->
+                      </div>
+                      <hr>
+                      <!-- <div class="accordion" id="accordionExample">
+                        <div class="card">
+                          <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                              <button class="btn btn-link text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                More Information</button>
+                            </h2>
+                          </div>
+                          <div id="collapseOne" class="collapse show ps-1" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                              <h5 class="mt20">Powerful performance</h5>
+                              <div class="shop_item_list_features shop_single_style mb30">
+                                <ul class="mb0 order_list list-style-type-bullet">
+                                  <li><a href="#">English-language MacBook Pro</a></li>
+                                  <li><a href="#">10-core Apple M1 Pro chip for a giant leap in CPU, GPU, and machine learning performance</a></li>
+                                  <li><a href="#">16GB of RAM so everything you do is fast and fluid</a></li>
+                                  <li><a href="#">16-core Neural Engine for advanced machine learning</a></li>
+                                  <li><a href="#">16-core GPU</a></li>
+                                  <li><a href="#">Ultrafast 1TB solid state drive (SSD) is blazing fast, so you can take all your photos and videos with you no matter.</a></li>
+                                </ul>
+                              </div>
+                              <h5>Display and audio</h5>
+                              <div class="shop_item_list_features shop_single_style">
+                                <ul class="mb0 order_list list-style-type-bullet">
+                                  <li><a href="#">16.2-inch liquid retina XDR display delivers a responsive and natural viewing experience</a></li>
+                                  <li><a href="#">3456 x 2234 native resolution with support for millions of colours</a></li>
+                                  <li><a href="#">ProMotion technology for adaptive refresh rates up to 120Hz</a></li>
+                                  <li><a href="#">Studio-quality three-mic array with high signal-to-noise ratio and directional beamforming</a></li>
+                                  <li><a href="#">High fidelity six speaker sound system with forece-cancelling woofers</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        </div> -->
+                        </div>
+                        </div>
+                </div>
+              </div>
+          </div>
+
+    <div class="col-xl-4 offset-xl-1 d-none d-xl-block">
+      <div class="column">
+        <div class="shop_single_product_details sidebar mb-3 mb-xl-0">
+          <ul class="db-400 d-flex">
+            <li class="border-right heading-color fz14"><%= @product.sub_category.name %></li>
+            <li class="mx-3 ml0-400">
+              <div class="sspd_review mt-0">
+                <ul class="mb0">
+                  <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                  <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="color-light-green fz14">
+              <% if @product.status? %>
+              <span class="badge badge-success">In Stock </span>
+              <% else %>
+               <span class="badge badge-danger">Out Of Stock </span>
+               <% end %>
+             </li>
+          </ul>
+          <h4 class="title mb15">
+            <%= @product.name %> / <%= @product.title %></h4>
+          <hr>
+          <div class="sspd_price mb20 mt20">$<%= @product.price %></div>
+          <!-- <div class="shop_single_countdown mb-2">
+            <h5 class="title color-light-green">Hurry up ! Sale end in:</h5>
+            <div class="event_counter_plugin_container">
+              <div class="event_counter_plugin_content">
+                <ul>
+                  <li class="text-center text-uppercase"><span id="days"></span>days</li>
+                  <li class="text-center text-uppercase"><span id="hours"></span>Hours</li>
+                  <li class="text-center text-uppercase"><span id="minutes"></span>Minutes</li>
+                  <li class="text-center text-uppercase"><span id="seconds"></span>Seconds</li>
+                </ul>
+              </div>
+            </div>
+          </div> -->
+          <hr class="mt-0">
+          <ul class="cart_btn_widget shop_single3_style align-items-center mb-1">
+            <li class="list-inline-item me-3 mb-2">
+              <div class="cart_btn home_page_sidebar d-grid">
+                <div class="quantity-block home_page_sidebar">
+                  <button class="quantity-arrow-minus2 shop_single_page_sidebar"><img src="<%= asset_path "icons/minus.svg" %>" alt=""></button>
+                  <input class="quantity-num2 shop_single_page_sidebar" type="number" value="3">
+                  <button class="quantity-arrow-plus2 shop_single_page_sidebar"> <span class="flaticon-close"></span> </button>
+                </div>
+              </div>
+            </li>
+            <li class="list-inline-item me-3 mb-3">
+              <p>Product Shipping Conditions: <%= @product.state %></p>
+          </li>
+          </ul>
+          <div class="cart_btns d-grid mb-3">
+            <%= button_to 'Add to Cart', cart_items_path(product_id: @product.id), method: :post, class: 'btn btn-white bdr_thm ss_cart_btn' %>
+
+          </div>
+          <ul class="shop_single_wishlist_area d-block d-sm-flex align-items-center mb-0">
+            <!-- <li class="pe-2 ms-2 ms-sm-0"><a href="#"><span class="flaticon-heart me-2"></span>Wishlist</a></li>
+            <li class="pe-2 ms-2"><a href="#"><span class="flaticon-graph me-2"></span>Compare</a></li>
+            <li class="pe-2 ms-2"><a href="#"><span class="flaticon-question me-2"></span>Ask a Question</a></li>
+            <li class="ms-2"><a href="#"><span class="flaticon-share me-2"></span>Share</a></li>
+          </ul> -->
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+
+    </div>
+    </section>
