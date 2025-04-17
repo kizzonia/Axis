@@ -14,23 +14,10 @@ class Transaction < ApplicationRecord
             if: :orange_money?
 
   # Enums
-  enum transaction_type: {
-    deposit: 'deposit',
-    withdrawal: 'withdrawal',
-    payment: 'payment'
-  }, _suffix: :transaction
 
-  enum status: {
-    pending: 'pending',
-    completed: 'completed',
-    failed: 'failed'
-  }, _suffix: :status
-
-  enum payment_method: {
-    orange_money: 'orange_money',
-    # mtn_momo: 'mtn_momo',
-    wallet: 'wallet'
-  }, _suffix: :method
+    enum transaction_type: { deposit: 'deposit', withdrawal: 'withdrawal', payment: 'payment' }
+    enum status: { pending: 'pending', completed: 'completed', failed: 'failed' }
+    enum payment_method: { orange_money: 'orange_money', mtn_momo: 'mtn_momo', wallet: 'wallet' }
 
   # Callbacks
   before_create :generate_reference
