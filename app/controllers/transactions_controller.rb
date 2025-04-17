@@ -60,8 +60,11 @@ class TransactionsController < ApplicationController
       redirect_to wallet_transaction_path(@wallet, result[:transaction]),
                   notice: 'Orange Money deposit initiated successfully.'
     else
-      flash[:error] = result[:error] || 'Failed to initiate Orange Money deposit'
-      redirect_to new_wallet_transaction_path(@wallet, type: 'deposit')
+      error_message = result[:error]
+         error_message += ": #{result[:transaction].errors.full_messages.join(', ')}" if result[:transaction].errors.any?
+
+         redirect_to new_wallet_transaction_path(@wallet, type: 'deposit'),
+                     alert: error_message
     end
   end
 
