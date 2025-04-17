@@ -50,22 +50,25 @@ class TransactionsController < ApplicationController
   def create_orange_money_deposit
     @wallet = current_user.wallet
 
-    service = OrangeMoneyService.new(current_user)
-    result = service.deposit(
-      params[:amount].to_f,
-      params[:phone_number]
-    )
+     begin
+       service = OrangeMoneyService.new(current_user)
+       result = service.deposit(
+         params[:amount].to_f,
+         params[:phone_number]
+       )
 
-    if result[:success]
-      redirect_to wallet_transaction_path(@wallet, result[:transaction]),
-                  notice: 'Orange Money deposit initiated successfully.'
-    else
-      error_message = result[:error]
-         error_message += ": #{result[:transaction].errors.full_messages.join(', ')}" if result[:transaction].errors.any?
-
-         redirect_to new_wallet_transaction_path(@wallet, type: 'deposit'),
-                     alert: error_message
-    end
+       if result[:success]
+         redirect_to wallet_transaction_path(@wallet, result[:transaction]),
+                     notice: 'Orange Money deposit initiated successfully.'
+       else
+         flash[:alert] = result[:error].presence || 'Deposit failed'
+         redirect_to new_wallet_transaction_path(@wallet, type: 'deposit')
+       end
+     rescue => e
+       Rails.logger.error "Orange Money Deposit Error: #{e.message}"
+       flash[:alert] = "Deposit failed: #{e.message}"
+       redirect_to new_wallet_transaction_path(@wallet, type: 'deposit')
+     end
   end
 
   private
