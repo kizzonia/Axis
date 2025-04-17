@@ -47,4 +47,4 @@ class Transaction < ApplicationRecord
   def mark_as_failed!(error_message)
     update!(status: :failed, error_message: error_message)
     TransactionNotificationJob.perform_later(id)
-  end/
+  end
