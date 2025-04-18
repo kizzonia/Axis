@@ -25,15 +25,18 @@ class TransactionProcessingJob < ApplicationJob
   private
 
   def process_deposit(transaction)
-    service = OrangeMoneyService.new(transaction.user)
-    result = service.deposit(transaction.amount, transaction.phone_number)
+     return if transaction.completed? # Skip if already processed
 
-    if result[:success]
-      transaction.mark_as_completed!(result.dig(:data, 'txnid'))
-    else
-      transaction.mark_as_failed!(result[:error])
-    end
-  end
+     service = OrangeMoneyService.new(transaction.user)
+     result = service.deposit(transaction)
+
+     if result[:success]
+       transaction.reload # Ensure fresh state
+       TransactionNotificationJob.perform_later(transaction.id)
+     else
+       transaction.mark_as_failed!(result[:error])
+     end
+   end
 
   def process_withdrawal(transaction)
     if transaction.wallet.balance < transaction.amount
