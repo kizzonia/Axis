@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 authenticate :admin_user do
   mount Sidekiq::Web => '/sidekiq'
 end
+post '/pawapay/webhook', to: 'pawapay#webhook'
+post '/pawapay/callback', to: 'pawapay#callback', as: :pawapay_callback
 
   get "carts/show"
 
@@ -35,6 +37,13 @@ resources :wallets do
     collection do
       post 'orange_money_deposit', action: :create_orange_money_deposit
     end
+    member do
+     get 'awaiting_pin'
+     get 'payment_status'
+   end
+    member do
+        get :status
+      end
   end
 end
 

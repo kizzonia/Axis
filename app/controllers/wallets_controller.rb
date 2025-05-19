@@ -11,15 +11,44 @@ class WalletsController < ApplicationController
     @transactions = @wallet.transactions.order(created_at: :desc).limit(10)
   end
 
-  def deposit
-    @transaction = current_user.wallet.transactions.new(transaction_type: :deposit)
-  end
+
+
 
   def process_deposit
-    amount = params[:transaction][:amount].to_f
-    phone_number = params[:transaction][:phone_number]
-    payment_method = params[:transaction][:payment_method]
+    @transaction = current_user.wallet.transactions.new(transaction_params)
 
+    if @transaction.save
+      process_transaction
+    else
+      redirect_to deposit_wallet_path, alert: 'Invalid transaction parameters'
+    end
+  end
+
+  private
+
+  def process_transaction
+    case @transaction.payment_method
+    when 'pawapay'
+      process_pawapay_deposit
+    when 'orange_money', 'mtn_momo'
+      process_mobile_money_deposit
+    else
+      handle_invalid_payment_method
+    end
+  end
+
+  def process_pawapay_deposit
+    service = PawapayService.new(current_user)
+    response = service.create_deposit_session(@transaction)
+
+    if response['sessionUrl']
+      redirect_to response['sessionUrl'], allow_other_host: true
+    else
+      @transaction.update(status: :failed, error_message: response[:error])
+      redirect_to deposit_wallet_path, alert: 'Failed to initialize Pawapay deposit'
+    end
+  end
+  def   process_mobile_money_deposit
     if payment_method == 'orange_money'
       service = OrangeMoneyService.new(current_user)
       result = service.deposit(amount, phone_number)
@@ -27,13 +56,17 @@ class WalletsController < ApplicationController
       service = MtnMomoService.new(current_user)
       result = service.deposit(amount, phone_number)
     else
-      result = { success: false, message: 'Invalid payment method' }
+      @transaction.update(status: :failed, error_message: response[:error])
+      redirect_to deposit_wallet_path, alert: 'Failed to initialize  deposit'
     end
+  end
 
-    if result[:success]
-      redirect_to wallet_path, notice: 'Deposit was successful.'
-    else
-      redirect_to deposit_wallet_path, alert: result[:message]
-    end
+  def transaction_params
+    params.require(:transaction).permit(
+      :amount,
+      :phone_number,
+      :payment_method,
+      :user_id,
+    ).merge(transaction_type: :deposit)
   end
 end

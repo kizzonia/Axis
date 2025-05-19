@@ -17,15 +17,21 @@ class Transaction < ApplicationRecord
 
     enum transaction_type: { deposit: 'deposit', withdrawal: 'withdrawal', payment: 'payment' }
     enum status: { pending: 'pending', completed: 'completed', failed: 'failed' }
-    enum payment_method: { orange_money: 'orange_money', mtn_momo: 'mtn_momo', wallet: 'wallet' }
+
+    before_create :generate_deposit_id
+
+    # Add this enum if not already present
+    enum payment_method: { orange_money: 0, mtn_momo: 1, pawapay: 2 }
+
+
 
   # Callbacks
   before_create :generate_reference
   after_commit :process_async, on: :create
 
-  # Scopes
-  scope :orange_money_transactions, -> { where(payment_method: :orange_money) }
-  scope :recent, -> { order(created_at: :desc) }
+  # # Scopes
+  # scope :orange_money_transactions, -> { where(payment_method: :orange_money) }
+  # scope :recent, -> { order(created_at: :desc) }
 
   def process_async
     TransactionProcessingJob.perform_later(id)
@@ -46,6 +52,9 @@ class Transaction < ApplicationRecord
   end
 
   private
+  def generate_deposit_id
+    self.deposit_id ||= SecureRandom.uuid if deposit?
+  end
 
   def generate_reference
     self.reference ||= SecureRandom.alphanumeric(10).upcase

@@ -109,6 +109,16 @@ class TransactionsController < ApplicationController
     end
   end
 
+
+  def status
+    @transaction = Transaction.find(params[:id])
+    render json: {
+      status: @transaction.status,
+      error_message: @transaction.error_message
+    }
+  end
+
+  
   private
 
   def set_wallet

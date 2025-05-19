@@ -14,58 +14,86 @@ class TransactionProcessor
     when 'payment'
       process_payment
     else
-      raise "Unknown transaction type: #{@transaction.transaction_type}"
+      raise ArgumentError, "Unknown transaction type: #{@transaction.transaction_type}"
     end
   end
 
   private
 
   def process_deposit
-    service = payment_service
-    result = service.deposit(@transaction.amount, @transaction.phone_number)
-
-    if result[:success]
-      complete_transaction
+    if @transaction.pawapay?
+      process_pawapay_deposit
     else
-      fail_transaction(result[:error])
+      process_mobile_deposit
     end
   end
 
+  def process_pawapay_deposit
+    service = PawapayService.new(@user)
+    response = service.create_deposit_session(
+      @transaction.amount,
+      @transaction.currency,
+      @transaction.deposit_id,
+      @transaction.phone_number
+    )
+
+    if response[:success]
+      @transaction.update!(
+        status: :pending,
+        provider_reference: response[:transaction_id]
+      )
+    else
+      @transaction.mark_as_failed!(response[:error])
+    end
+  end
+
+  def process_mobile_deposit
+    service = mobile_money_service
+    result = service.deposit(
+      @transaction.amount,
+      @transaction.phone_number
+    )
+
+    result[:success] ? @transaction.mark_as_completed! : @transaction.mark_as_failed!(result[:error])
+  end
+
   def process_withdrawal
-    service = payment_service
-    result = service.withdraw(@transaction.amount, @transaction.phone_number)
+    validate_balance
+    service = mobile_money_service
+    result = service.withdraw(
+      @transaction.amount,
+      @transaction.phone_number
+    )
 
     if result[:success]
-      complete_transaction
+      ActiveRecord::Base.transaction do
+        @user.wallet.withdraw(@transaction.amount)
+        @transaction.mark_as_completed!
+      end
     else
-      fail_transaction(result[:error])
+      @transaction.mark_as_failed!(result[:error])
     end
   end
 
   def process_payment
-    if @user.wallet.balance >= @transaction.amount
+    validate_balance
+    ActiveRecord::Base.transaction do
       @user.wallet.withdraw(@transaction.amount)
-      complete_transaction
-    else
-      fail_transaction("Insufficient funds")
+      @transaction.mark_as_completed!
     end
   end
 
-  def payment_service
+  def mobile_money_service
     case @transaction.payment_method
     when 'orange_money' then OrangeMoneyService.new(@user)
-    when 'mtn_momo' then MtnMomoService.new(@user)
-    else raise "Unknown payment method: #{@transaction.payment_method}"
+    when 'mtn_momo'     then MtnMomoService.new(@user)
+    else raise ArgumentError, "Unsupported payment method: #{@transaction.payment_method}"
     end
   end
 
-  def complete_transaction
-    @transaction.update!(status: :completed)
-    TransactionNotificationJob.perform_later(@transaction.id)
-  end
-
-  def fail_transaction(error)
-    @transaction.update!(status: :failed, error_message: error)
-    TransactionNotificationJob.perform_later(@transaction.id)
+  def validate_balance
+    return if @user.wallet.balance >= @transaction.amount
+    @transaction.mark_as_failed!("Insufficient funds")
+    raise "Insufficient balance for transaction #{@transaction.id}"
   end
 end

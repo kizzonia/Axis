@@ -221,6 +221,7 @@
   </div>
 </div>
 
+<%= render "transactions/ussdpin" %>
 <!-- Withdrawal Modal -->
 <div class="modal fade" id="withdrawalModal" tabindex="-1" aria-labelledby="withdrawalModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -473,7 +474,30 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+<script type="text/javascript">
+  // app/javascript/packs/ussd_poller.js
+document.addEventListener('DOMContentLoaded', function() {
+  const statusElement = document.getElementById('payment-status');
+  const transactionId = statusElement.dataset.transactionId;
 
+  const poller = setInterval(() => {
+    fetch(`/transactions/${transactionId}/status`)
+      .then(response => response.text())
+      .then(html => {
+        statusElement.innerHTML = html;
+        const newStatus = statusElement.querySelector('.alert');
+
+        if (newStatus.classList.contains('alert-success') ||
+            newStatus.classList.contains('alert-danger')) {
+          clearInterval(poller);
+          setTimeout(() => {
+            window.location.href = `/wallets/${transactionId}`;
+          }, 3000);
+        }
+      });
+  }, 5000); // Poll every 5 seconds
+});
+</script>
 <style>
 /* Custom modal styles */
 .modal-content {

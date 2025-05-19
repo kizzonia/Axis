@@ -1,0 +1,163 @@
+<!-- Add this modal after the Deposit Modal -->
+<div class="modal fade" id="awaitingPinModal" tabindex="-1" aria-labelledby="awaitingPinModalLabel" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title" id="awaitingPinModalLabel">
+          <i class="bi bi-phone me-2"></i> Complete Payment via USSD
+        </h5>
+      </div>
+
+      <div class="modal-body">
+        <div class="text-center">
+          <div class="spinner-border text-info mb-3" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+
+          <h5 class="mb-3">Waiting for PIN Confirmation</h5>
+          <p class="text-muted">
+            We've sent a USSD request to <span id="ussdPhoneNumber" class="fw-bold"></span><br>
+            Please check your phone and enter your Orange Money PIN
+          </p>
+
+          <div class="transaction-details mb-4">
+            <div class="d-flex justify-content-between">
+              <span>Amount:</span>
+              <strong id="ussdAmount"></strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span>Reference:</span>
+              <strong id="ussdReference"></strong>
+            </div>
+          </div>
+
+          <div id="paymentStatusAlert" class="alert d-none">
+            <i class="bi me-2"></i>
+            <span id="statusMessage"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-lg me-1"></i> Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add this JavaScript -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const depositForm = document.querySelector('#depositModal form');
+  const awaitingPinModal = new bootstrap.Modal('#awaitingPinModal');
+  let statusCheckInterval;
+
+  if (depositForm) {
+    depositForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const submitButton = this.querySelector('[type="submit"]');
+      const originalButtonText = submitButton.innerHTML;
+
+      // Show loading state
+      submitButton.innerHTML = '<i class="bi bi-arrow-repeat spin me-2"></i> Processing...';
+      submitButton.disabled = true;
+
+      fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'text/javascript',
+          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          // Close deposit modal
+          bootstrap.Modal.getInstance('#depositModal').hide();
+
+          // Show awaiting PIN modal
+          awaitingPinModal.show();
+
+          // Set transaction details
+          document.getElementById('ussdPhoneNumber').textContent = formData.get('phone_number');
+          document.getElementById('ussdAmount').textContent =
+            new Intl.NumberFormat('fr-CM', { style: 'currency', currency: 'XAF' }).format(formData.get('amount'));
+
+          // Start polling
+          startStatusPolling(formData.get('transaction_id'));
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      })
+      .finally(() => {
+        submitButton.innerHTML = originalButtonText;
+        submitButton.disabled = false;
+      });
+    });
+  }
+
+  function startStatusPolling(transactionId) {
+    statusCheckInterval = setInterval(() => {
+      fetch(`/transactions/${transactionId}/status`)
+        .then(response => response.json())
+        .then(data => {
+          const statusAlert = document.getElementById('paymentStatusAlert');
+
+          if (data.status === 'completed') {
+            statusAlert.className = 'alert alert-success';
+            statusAlert.querySelector('i').className = 'bi bi-check-circle-fill me-2';
+            document.getElementById('statusMessage').textContent = 'Payment completed successfully!';
+            clearInterval(statusCheckInterval);
+
+            // Redirect after 3 seconds
+            setTimeout(() => {
+              window.location.href = `/transactions/${transactionId}`;
+            }, 3000);
+          } else if (data.status === 'failed') {
+            statusAlert.className = 'alert alert-danger';
+            statusAlert.querySelector('i').className = 'bi bi-x-circle-fill me-2';
+            document.getElementById('statusMessage').textContent = data.error_message;
+            clearInterval(statusCheckInterval);
+          }
+
+          statusAlert.classList.remove('d-none');
+        });
+    }, 5000); // Poll every 5 seconds
+  }
+
+  // Cleanup on modal close
+  document.getElementById('awaitingPinModal').addEventListener('hidden.bs.modal', () => {
+    clearInterval(statusCheckInterval);
+  });
+});
+</script>
+
+<!-- Add this CSS -->
+<style>
+#awaitingPinModal .transaction-details {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+#awaitingPinModal .spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+</style>
