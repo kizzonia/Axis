@@ -9,9 +9,7 @@ class Transaction < ApplicationRecord
   validates :user, :wallet, :amount, :transaction_type, :status, presence: true
   validates :amount, numericality: { greater_than: 0 }
   validates :phone_number,
-            presence: true,
-            format: { with: /\A(6|2)\d{8}\z/, message: "must be valid Orange Money number" },
-            if: :orange_money?
+            presence: true
 
   # Enums
 
@@ -21,8 +19,13 @@ class Transaction < ApplicationRecord
     before_create :generate_deposit_id
 
     # Add this enum if not already present
-    enum payment_method: { orange_money: 0, mtn_momo: 1, pawapay: 2 }
-
+    # enum payment_method: { orange_money: 0, mtn_momo: 1, pawapay: 2 }
+    enum payment_method: { 
+      orange_money: 'orange_money',
+      mtn_momo: 'mtn_momo',
+      pawapay: 'pawapay',
+      wallet: 'wallet'
+    }, _prefix: tru
 
 
   # Callbacks
