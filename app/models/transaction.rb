@@ -20,12 +20,12 @@ class Transaction < ApplicationRecord
 
     # Add this enum if not already present
     # enum payment_method: { orange_money: 0, mtn_momo: 1, pawapay: 2 }
-    enum payment_method: { 
+    enum payment_method: {
       orange_money: 'orange_money',
       mtn_momo: 'mtn_momo',
       pawapay: 'pawapay',
       wallet: 'wallet'
-    }, _prefix: tru
+    }, _prefix: true
 
 
   # Callbacks
