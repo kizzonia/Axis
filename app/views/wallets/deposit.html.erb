@@ -54,6 +54,21 @@
 
           <div class="row">
             <div class="col-md-6">
+
+                            <div class="mb-3" id="phoneField">
+                              <%= f.input :phone_number,
+                                          label: 'Mobile Number',
+                                          required: true,
+                                          input_html: {
+                                            class: 'form-control form-control-lg',
+                                            placeholder: '237XXXXXXXXX',
+                                            pattern: '^237\d{9}$',
+                                            title: 'Format: 237 followed by 9 digits (e.g. 237681234567)',
+                                            minlength: 12,
+                                            maxlength: 12
+                                          } %>
+                              <small class="form-text text-muted">Format: 237 followed by your 9-digit mobile number</small>
+                            </div>
               <div class="mb-4">
                 <%= f.input :payment_method,
                             label: 'Payment Method',
@@ -84,20 +99,6 @@
                 </small>
               </div>
 
-              <div class="mb-3" id="phoneField">
-                <%= f.input :phone_number,
-                            label: 'Mobile Number',
-                            required: true,
-                            input_html: {
-                              class: 'form-control form-control-lg',
-                              placeholder: '237XXXXXXXXX',
-                              pattern: '^237\d{9}$',
-                              title: 'Format: 237 followed by 9 digits (e.g. 237681234567)',
-                              minlength: 12,
-                              maxlength: 12
-                            } %>
-                <small class="form-text text-muted">Format: 237 followed by your 9-digit mobile number</small>
-              </div>
             </div>
 
             <div class="col-md-6">
