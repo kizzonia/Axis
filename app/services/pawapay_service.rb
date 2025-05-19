@@ -13,7 +13,10 @@ class PawapayService
 
     payload = {
       depositId: transaction.deposit_id,
-      returnUrl: Rails.application.routes.url_helpers.pawapay_callback_url(host: ENV['APP_HOST']),
+      returnUrl: Rails.application.routes.url_helpers.pawapay_callback_url(
+        host: ENV['APP_HOST'],
+        protocol: Rails.env.production? ? 'https' : 'http'
+      ),
       statementDescription: "Wallet deposit #{@user.id}",
       amount: transaction.amount.to_s,
       msisdn: transaction.phone_number,
@@ -33,10 +36,16 @@ class PawapayService
 
     response = HTTParty.post(endpoint, body: payload.to_json, headers: headers)
 
+    handle_response(response)
+  end
+
+  private
+
+  def handle_response(response)
     if response.success?
       JSON.parse(response.body)
     else
-      { success: false, error: "Pawapay API Error: #{response.code} - #{response.body}" }
+      { success: false, error: "API Error: #{response.code} - #{response.body}" }
     end
   rescue => e
     { success: false, error: e.message }

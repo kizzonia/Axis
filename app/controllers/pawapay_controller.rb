@@ -4,56 +4,54 @@ class PawapayController < ApplicationController
 
   def callback
     transaction = Transaction.find_by(deposit_id: params[:depositId])
-    if valid_callback?(transaction)
-       process_callback(transaction)
-       head :ok
-     else
-       head :unprocessable_entity
-     end
-   rescue => e
-     Rails.logger.error "Pawapay Callback Error: #{e.message}"
-     head :unprocessable_entity
-   end
 
-   private
+    if transaction && valid_deposit?(transaction, params)
+      process_deposit(transaction, params)
+      head :ok
+    else
+      head :unprocessable_entity
+    end
+  rescue => e
+    Rails.logger.error "Pawapay Callback Error: #{e.message}"
+    head :unprocessable_entity
+  end
 
-   def valid_callback?(transaction)
-     transaction.present? &&
-     transaction.amount.to_d == params[:amount].to_d &&
-     transaction.currency == params[:currency]
-   end
+  private
 
-   def process_callback(transaction)
-     case params[:status].upcase
-     when 'SUCCESS'
-       handle_success(transaction)
-     when 'FAILED'
-       handle_failure(transaction)
-     when 'CANCELLED'
-       handle_cancellation(transaction)
-     end
-   end
+  def valid_deposit?(transaction, params)
+    transaction.amount.to_d == params[:amount].to_d &&
+    transaction.currency == params[:currency]
+  end
 
-   def handle_success(transaction)
-     return if transaction.completed?
+  def process_deposit(transaction, params)
+    case params[:status].upcase
+    when 'SUCCESS'
+      handle_success(transaction, params)
+    when 'FAILED'
+      handle_failure(transaction, params)
+    end
+  end
 
-     ActiveRecord::Base.transaction do
-       transaction.update!(
-         status: :completed,
-         pawapay_reference: params[:transactionId]
-       )
-       transaction.wallet.deposit(transaction.amount) if transaction.operation_type_deposit?
-     end
-   end
+  def handle_success(transaction, params)
+    return if transaction.completed?
 
-   def handle_failure(transaction)
-     transaction.update!(
-       status: :failed,
-       error_message: params[:failureReason] || 'Payment failed'
-     )
-   end
+    ActiveRecord::Base.transaction do
+      # Update transaction first
+      transaction.update!(
+        status: :completed,
+        pawapay_reference: params[:transactionId],
+        processed_at: Time.current
+      )
 
-   def handle_cancellation(transaction)
-     transaction.update!(status: :cancelled)
-   end
- end
+      # Then update wallet balance
+      transaction.wallet.deposit(transaction.amount)
+    end
+  end
+
+  def handle_failure(transaction, params)
+    transaction.update!(
+      status: :failed,
+      error_message: params[:failureReason] || 'Payment failed'
+    )
+  end
+end
