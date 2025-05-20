@@ -56,83 +56,50 @@
         </div>
       <% end %>
 
-      <%= simple_form_for @transaction,
-            url: process_deposit_wallet_path(@wallet),
-            html: { class: 'needs-validation', novalidate: true, id: 'depositForm' } do |f| %>
+      <h2>Deposit Funds</h2>
 
-        <div class="row g-4">
-          <!-- LEFT -->
-          <div class="col-md-6">
-            <div class="mb-3">
-              <%= f.input :payment_method,
-                          label: 'Payment Method',
-                          collection: [
-                            ['Pawapay',     'pawapay'],
-                            ['Orange Money','orange_money'],
-                            ['MTN Mobile Money','mtn_momo']
-                          ],
-                          include_blank: 'Select method',
-                          input_html: { class: 'form-select form-select-lg', id: 'paymentMethod' } %>
-            </div>
+  <%= form_with model: @transaction, url: process_deposit_wallet_path, local: true do |f| %>
+    <% if @transaction.errors.any? %>
+      <div class="alert alert-danger">
+        <ul>
+          <% @transaction.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-            <div class="mb-3">
-              <%= f.input :amount,
-                          label: 'Amount (XAF)',
-                          required: true,
-                          input_html: {
-                            class: 'form-control form-control-lg',
-                            id: 'amountInput',
-                            placeholder: 'e.g. 5000',
-                            min: 100,
-                            step: 100
-                          } %>
-              <div class="form-text">Minimum deposit: 100 XAF</div>
-            </div>
+    <!-- Amount -->
+    <div class="mb-3">
+      <%= f.label :amount, 'Amount (XAF)' %>
+      <%= f.number_field :amount, step: 1, class: 'form-control', required: true %>
+    </div>
 
-            <div class="mb-3">
-              <%= f.input :phone_number,
-                          label: 'Phone Number (incl. country code)',
-                          required: true,
-                          input_html: {
-                            class: 'form-control form-control-lg',
-                            id: 'phoneInput',
-                            placeholder: 'e.g. 237681234567',
-                            maxlength: 16
-                          } %>
-              <div class="form-text" id="phoneHint">Start with country code (e.g. 237…)</div>
-            </div>
-          </div>
+    <!-- Phone Number -->
+    <div class="mb-3">
+      <%= f.label :phone_number, 'Phone Number (e.g. 2376XXXXXXXX)' %>
+      <%= f.telephone_field :phone_number, class: 'form-control', required: true %>
+    </div>
 
-          <!-- RIGHT (Summary) -->
-          <div class="col-md-6">
-            <div class="card bg-light border-0 p-4 h-100 shadow-sm">
-              <h5 class="mb-3"><i class="bi bi-receipt me-2"></i>Transaction Summary</h5>
-              <dl class="row mb-0">
-                <dt class="col-6">Method</dt>
-                <dd class="col-6" id="summaryMethod">–</dd>
+    <!-- Payment Method -->
+    <div class="mb-3">
+      <%= f.label :payment_method, 'Select Payment Method' %>
+      <%= f.select :payment_method,
+            options_for_select([['PawaPay', 'pawapay'], ['MTN MoMo', 'mtn_momo'], ['Orange Money', 'orange_money']]),
+            {}, class: 'form-select', required: true %>
+    </div>
 
-                <dt class="col-6">Amount</dt>
-                <dd class="col-6" id="summaryAmount">–</dd>
+    <!-- Optional: Currency -->
+    <%= f.hidden_field :currency, value: 'XAF' %>
 
-                <dt class="col-6">Phone</dt>
-                <dd class="col-6" id="summaryPhone">–</dd>
-              </dl>
-              <div class="alert alert-info mt-4 mb-0">
-                <i class="bi bi-clock me-2"></i>
-                <span id="processingNote">Processing time: Instant</span>
-              </div>
-            </div>
-          </div>
+    <!-- Hidden deposit_id (auto-generated in controller if not present) -->
+    <%= f.hidden_field :deposit_id, value: @transaction.deposit_id %>
 
-          <!-- SUBMIT -->
-          <div class="col-12 mt-4">
-            <%= f.button :submit,
-                         'Proceed to Payment',
-                         class: 'btn btn-primary btn-lg w-100 py-3',
-                         id: 'submitButton' %>
-          </div>
-        </div>
-      <% end %>
+    <div class="mt-3">
+      <%= f.submit 'Proceed to Payment', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+
     </div>
 
     </div>
