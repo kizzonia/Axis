@@ -100,7 +100,7 @@
                                   class: 'form-control form-control-lg',
                                   placeholder: 'xxxxxxxxx',
                                   # pattern: '^237\d{9}$',
-                                  minlength: 14,
+                                  minlength: 8,
                                   maxlength: 16
                                 } %>
                     <small class="form-text text-muted" id="phoneHelp">
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const digitCount = maxLength - code.length;
 
     phoneInput.pattern = pattern;
-    phoneInput.minLength = maxLength;
+    phoneInput.minLength = minLength;
     phoneInput.maxLength = maxLength;
     phoneInput.placeholder = `${'X'.repeat(digitCount)}`;
     phoneHelp.textContent = `Format: ${code} followed by ${digitCount} digits`;
@@ -173,9 +173,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let numbers = phoneInput.value.replace(/\D/g, '');
 
     // Prepend country code if missing
-    // if (!numbers.startsWith(code)) {
-    //   numbers = code + numbers.replace(new RegExp(`^${code}`), '');
-    // }
+    if (!numbers.startsWith(code)) {
+      numbers = code + numbers.replace(new RegExp(`^${code}`), '');
+    }
 
     // Trim to max length
     const maxLength = parseInt(countryCode.options[countryCode.selectedIndex].dataset.length);
