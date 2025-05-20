@@ -22,92 +22,92 @@ class TransactionsController < ApplicationController
 
   def show
   end
-
-  def new
-    @transaction = @wallet.transactions.new(
-      transaction_type: params[:type] || 'deposit',
-      user: current_user
-    )
-  end
-
-  def create
-    @transaction = @wallet.transactions.new(
-      transaction_params.merge(
-        status: :pending,
-        user: current_user
-      )
-    )
-
-    if @transaction.save
-      TransactionProcessingJob.perform_later(@transaction.id)
-      redirect_to wallet_transaction_path(@wallet, @transaction),
-                  notice: 'Transaction initiated successfully. Processing may take a few moments.'
-    else
-      render :new
-    end
-  end
-
+  #
+  # def new
+  #   @transaction = @wallet.transactions.new(
+  #     transaction_type: params[:type] || 'deposit',
+  #     user: current_user
+  #   )
+  # end
+  #
+  # def create
+  #   @transaction = @wallet.transactions.new(
+  #     transaction_params.merge(
+  #       status: :pending,
+  #       user: current_user
+  #     )
+  #   )
+  #
+  #   if @transaction.save
+  #     TransactionProcessingJob.perform_later(@transaction.id)
+  #     redirect_to wallet_transaction_path(@wallet, @transaction),
+  #                 notice: 'Transaction initiated successfully. Processing may take a few moments.'
+  #   else
+  #     render :new
+  #   end
+  # end
+  #
+  # # def create_orange_money_deposit
+  # #   @wallet = current_user.wallet
+  # #
+  # #    begin
+  # #      service = OrangeMoneyService.new(current_user)
+  # #      result = service.deposit(
+  # #        params[:amount].to_f,
+  # #        params[:phone_number]
+  # #      )
+  # #
+  # #      if result[:success]
+  # #        redirect_to wallet_transaction_path(@wallet, result[:transaction]),
+  # #                    notice: 'Orange Money deposit initiated successfully.'
+  # #      else
+  # #        flash[:alert] = result[:error].presence || 'Deposit failed'
+  # #        redirect_to new_wallet_transaction_path(@wallet, type: 'deposit')
+  # #      end
+  # #    rescue => e
+  # #      Rails.logger.error "Orange Money Deposit Error: #{e.message}"
+  # #      flash[:alert] = "Deposit failed: #{e.message}"
+  # #      redirect_to new_wallet_transaction_path(@wallet, type: 'deposit')
+  # #    end
+  # # end
+  #
+  #
   # def create_orange_money_deposit
   #   @wallet = current_user.wallet
   #
-  #    begin
-  #      service = OrangeMoneyService.new(current_user)
-  #      result = service.deposit(
-  #        params[:amount].to_f,
-  #        params[:phone_number]
-  #      )
+  #   @transaction = @wallet.transactions.new(
+  #     amount: params[:amount],
+  #     phone_number: params[:phone_number],
+  #     transaction_type: 'deposit',
+  #     status: :pending,
+  #     user: current_user,
+  #     payment_method: :orange_money
+  #   )
   #
-  #      if result[:success]
-  #        redirect_to wallet_transaction_path(@wallet, result[:transaction]),
-  #                    notice: 'Orange Money deposit initiated successfully.'
-  #      else
-  #        flash[:alert] = result[:error].presence || 'Deposit failed'
-  #        redirect_to new_wallet_transaction_path(@wallet, type: 'deposit')
-  #      end
-  #    rescue => e
-  #      Rails.logger.error "Orange Money Deposit Error: #{e.message}"
-  #      flash[:alert] = "Deposit failed: #{e.message}"
-  #      redirect_to new_wallet_transaction_path(@wallet, type: 'deposit')
-  #    end
+  #   if @transaction.save
+  #     begin
+  #       service = OrangeMoneyService.new(current_user)
+  #       result = service.deposit(@transaction)
+  #
+  #       if result[:success]
+  #         TransactionProcessingJob.perform_later(@transaction.id)
+  #         redirect_to wallet_transaction_path(@wallet, @transaction),
+  #                     notice: 'Orange Money deposit initiated successfully.'
+  #       else
+  #         @transaction.mark_as_failed!(result[:error])
+  #         redirect_to new_wallet_transaction_path(@wallet, type: 'deposit'),
+  #                     alert: result[:error]
+  #       end
+  #     rescue => e
+  #       @transaction.mark_as_failed!(e.message)
+  #       redirect_to new_wallet_transaction_path(@wallet, type: 'deposit'),
+  #                   alert: "Deposit failed: #{e.message}"
+  #     end
+  #   else
+  #     redirect_to new_wallet_transaction_path(@wallet, type: 'deposit'),
+  #                 alert: @transaction.errors.full_messages.join(', ')
+  #   end
   # end
-
-
-  def create_orange_money_deposit
-    @wallet = current_user.wallet
-
-    @transaction = @wallet.transactions.new(
-      amount: params[:amount],
-      phone_number: params[:phone_number],
-      transaction_type: 'deposit',
-      status: :pending,
-      user: current_user,
-      payment_method: :orange_money
-    )
-
-    if @transaction.save
-      begin
-        service = OrangeMoneyService.new(current_user)
-        result = service.deposit(@transaction)
-
-        if result[:success]
-          TransactionProcessingJob.perform_later(@transaction.id)
-          redirect_to wallet_transaction_path(@wallet, @transaction),
-                      notice: 'Orange Money deposit initiated successfully.'
-        else
-          @transaction.mark_as_failed!(result[:error])
-          redirect_to new_wallet_transaction_path(@wallet, type: 'deposit'),
-                      alert: result[:error]
-        end
-      rescue => e
-        @transaction.mark_as_failed!(e.message)
-        redirect_to new_wallet_transaction_path(@wallet, type: 'deposit'),
-                    alert: "Deposit failed: #{e.message}"
-      end
-    else
-      redirect_to new_wallet_transaction_path(@wallet, type: 'deposit'),
-                  alert: @transaction.errors.full_messages.join(', ')
-    end
-  end
 
 
   def status
@@ -118,7 +118,7 @@ class TransactionsController < ApplicationController
     }
   end
 
-  
+
   private
 
   def set_wallet

@@ -80,7 +80,8 @@ class WalletsController < ApplicationController
     params.require(:transaction).permit(
       :amount,
       :phone_number,
-      :payment_method
+      :payment_method,
+      :deposit_id
     ).merge(transaction_type: :deposit)
   end
 end
