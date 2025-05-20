@@ -1,21 +1,21 @@
 class WalletsController < ApplicationController
-
-      layout "accounts"
-      add_flash_types :success, :danger, :info, :notice
+  layout "accounts"
+  add_flash_types :success, :danger, :info, :notice
   before_action :authenticate_user!
 
   def show
-    @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
-
     @wallet = current_user.wallet
     @transactions = @wallet.transactions.order(created_at: :desc).limit(10)
   end
 
-
-
+  def deposit
+    @wallet = current_user.wallet
+    @transaction = @wallet.transactions.new
+  end
 
   def process_deposit
-    @transaction = current_user.wallet.transactions.new(transaction_params)
+    @wallet = current_user.wallet
+    @transaction = @wallet.transactions.new(transaction_params)
 
     if @transaction.save
       process_transaction
@@ -38,35 +38,49 @@ class WalletsController < ApplicationController
   end
 
   def process_pawapay_deposit
+    @transaction.update(deposit_id: SecureRandom.uuid)
     service = PawapayService.new(current_user)
     response = service.create_deposit_session(@transaction)
 
     if response['sessionUrl']
       redirect_to response['sessionUrl'], allow_other_host: true
     else
-      @transaction.update(status: :failed, error_message: response[:error])
-      redirect_to deposit_wallet_path, alert: 'Failed to initialize Pawapay deposit'
+      handle_deposit_failure(response[:error])
     end
   end
-  def   process_mobile_money_deposit
-    if payment_method == 'orange_money'
-      service = OrangeMoneyService.new(current_user)
-      result = service.deposit(amount, phone_number)
-    elsif payment_method == 'mtn_momo'
-      service = MtnMomoService.new(current_user)
-      result = service.deposit(amount, phone_number)
+
+  def process_mobile_money_deposit
+    service = case @transaction.payment_method
+              when 'orange_money' then OrangeMoneyService.new(current_user)
+              when 'mtn_momo' then MtnMomoService.new(current_user)
+              end
+
+    result = service.deposit(@transaction.amount, @transaction.phone_number)
+
+    if result[:success]
+      @transaction.update(status: :completed)
+      @wallet.deposit(@transaction.amount)
+      redirect_to wallet_path, notice: 'Deposit successful!'
     else
-      @transaction.update(status: :failed, error_message: response[:error])
-      redirect_to deposit_wallet_path, alert: 'Failed to initialize  deposit'
+      handle_deposit_failure(result[:error])
     end
+  end
+
+  def handle_deposit_failure(error)
+    @transaction.update(status: :failed, error_message: error)
+    redirect_to deposit_wallet_path, alert: "Deposit failed: #{error}"
+  end
+
+  def handle_invalid_payment_method
+    @transaction.update(status: :failed, error_message: 'Invalid payment method')
+    redirect_to deposit_wallet_path, alert: 'Selected payment method is invalid'
   end
 
   def transaction_params
     params.require(:transaction).permit(
       :amount,
       :phone_number,
-      :payment_method,
-      :user_id,
+      :payment_method
     ).merge(transaction_type: :deposit)
   end
 end

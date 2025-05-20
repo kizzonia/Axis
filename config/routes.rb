@@ -29,6 +29,8 @@ end
 resources :wallets do
    get 'deposit', on: :member
    post 'process_deposit', on: :member, as: 'process_deposit'
+
+
  end
  resources :transactions, only: [:index, :show]  # Standalone transactions routes
 
