@@ -44,70 +44,134 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <%= simple_form_for @transaction, url: process_deposit_wallet_path, html: { class: 'row g-3' } do |f| %>
-
-    <div class="col-md-6">
-      <%= f.input :payment_method,
-                  label: 'Payment Method',
-                  collection: [
-                    ['Pawapay', 'pawapay'],
-                    ['Orange Money', 'orange_money'],
-                    ['MTN Mobile Money', 'mtn_momo']
-                  ],
-                  include_blank: 'Select a method',
-                  input_html: { class: 'form-select form-select-lg' } %>
-
-      <%= f.input :amount,
-                  label: 'Amount (XAF)',
-                  required: true,
-                  input_html: {
-                    class: 'form-control form-control-lg',
-                    placeholder: 'e.g. 1000',
-                    min: 100,
-                    step: 100
-                  } %>
-      <small class="form-text text-muted">Minimum deposit: 100 XAF</small>
-
-      <%= f.input :phone_number,
-                  label: 'Mobile Number (Include Country Code)',
-                  required: true,
-                  input_html: {
-                    class: 'form-control form-control-lg',
-                    placeholder: 'e.g. 237681234567',
-                    maxlength: 16
-                  } %>
-      <small class="form-text text-muted">Use full international format, e.g., 237681234567</small>
-    </div>
-
-    <div class="col-md-6">
-      <div class="card bg-light border-0 p-4 h-100">
-        <h5 class="mb-3"><i class="bi bi-info-circle me-2"></i>Transaction Summary</h5>
-        <dl class="row">
-          <dt class="col-6">Payment Method</dt>
-          <dd class="col-6 text-muted">Selected at left</dd>
-          <dt class="col-6">Amount</dt>
-          <dd class="col-6 text-muted">Entered at left</dd>
-        </dl>
-        <div class="alert alert-info mt-3 mb-0">
-          <i class="bi bi-clock-history me-2"></i>
-          Processing time: Instant
+      <%# Display server‑side validation errors %>
+      <% if @transaction.errors.any? %>
+        <div class="alert alert-danger">
+          <h6 class="alert-heading">Please fix the following:</h6>
+          <ul class="mb-0">
+            <% @transaction.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
         </div>
-      </div>
+      <% end %>
+
+      <%= simple_form_for @transaction,
+            url: process_deposit_wallet_path(@wallet),
+            html: { class: 'needs-validation', novalidate: true, id: 'depositForm' } do |f| %>
+
+        <div class="row g-4">
+          <!-- LEFT -->
+          <div class="col-md-6">
+            <div class="mb-3">
+              <%= f.input :payment_method,
+                          label: 'Payment Method',
+                          collection: [
+                            ['Pawapay',     'pawapay'],
+                            ['Orange Money','orange_money'],
+                            ['MTN Mobile Money','mtn_momo']
+                          ],
+                          include_blank: 'Select method',
+                          input_html: { class: 'form-select form-select-lg', id: 'paymentMethod' } %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.input :amount,
+                          label: 'Amount (XAF)',
+                          required: true,
+                          input_html: {
+                            class: 'form-control form-control-lg',
+                            id: 'amountInput',
+                            placeholder: 'e.g. 5000',
+                            min: 100,
+                            step: 100
+                          } %>
+              <div class="form-text">Minimum deposit: 100 XAF</div>
+            </div>
+
+            <div class="mb-3">
+              <%= f.input :phone_number,
+                          label: 'Phone Number (incl. country code)',
+                          required: true,
+                          input_html: {
+                            class: 'form-control form-control-lg',
+                            id: 'phoneInput',
+                            placeholder: 'e.g. 237681234567',
+                            maxlength: 16
+                          } %>
+              <div class="form-text" id="phoneHint">Start with country code (e.g. 237…)</div>
+            </div>
+          </div>
+
+          <!-- RIGHT (Summary) -->
+          <div class="col-md-6">
+            <div class="card bg-light border-0 p-4 h-100 shadow-sm">
+              <h5 class="mb-3"><i class="bi bi-receipt me-2"></i>Transaction Summary</h5>
+              <dl class="row mb-0">
+                <dt class="col-6">Method</dt>
+                <dd class="col-6" id="summaryMethod">–</dd>
+
+                <dt class="col-6">Amount</dt>
+                <dd class="col-6" id="summaryAmount">–</dd>
+
+                <dt class="col-6">Phone</dt>
+                <dd class="col-6" id="summaryPhone">–</dd>
+              </dl>
+              <div class="alert alert-info mt-4 mb-0">
+                <i class="bi bi-clock me-2"></i>
+                <span id="processingNote">Processing time: Instant</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBMIT -->
+          <div class="col-12 mt-4">
+            <%= f.button :submit,
+                         'Proceed to Payment',
+                         class: 'btn btn-primary btn-lg w-100 py-3',
+                         id: 'submitButton' %>
+          </div>
+        </div>
+      <% end %>
     </div>
 
-    <div class="col-12 mt-4">
-      <%= f.button :submit, 'Proceed to Payment', class: 'btn btn-primary btn-lg w-100 py-3' %>
-    </div>
-
-  <% end %>
-
-      </div>
     </div>
   </div>
 </div>
 
+<script type="text/javascript">
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const amountEl   = document.getElementById('amountInput');
+    const phoneEl    = document.getElementById('phoneInput');
+    const methodEl   = document.getElementById('paymentMethod');
 
+    const sumAmt     = document.getElementById('summaryAmount');
+    const sumPhone   = document.getElementById('summaryPhone');
+    const sumMethod  = document.getElementById('summaryMethod');
+    const note       = document.getElementById('processingNote');
 
+    function updateSummary() {
+      sumAmt.textContent    = amountEl.value ? `${amountEl.value} XAF` : '–';
+      sumPhone.textContent  = phoneEl.value    || '–';
+      const sel = methodEl.options[methodEl.selectedIndex];
+      sumMethod.textContent = sel && sel.value ? sel.text : '–';
+
+      note.textContent = methodEl.value === 'pawapay'
+        ? 'Processing time: 2–5 minutes'
+        : 'Processing time: Instant';
+    }
+
+    [amountEl, phoneEl, methodEl].forEach(el => {
+      el.addEventListener('input', updateSummary);
+      el.addEventListener('change', updateSummary);
+    });
+
+    updateSummary();
+  });
+</script>
+
+</script>
 <style>
 .form-control-lg {
   padding: 0.8rem 1rem;

@@ -26,12 +26,13 @@ resources :sub_categories do
   resources :products
 
 end
-resources :wallets do
-   get 'deposit', on: :member
-   post 'process_deposit', on: :member, as: 'process_deposit'
+resources :wallets, only: [:show] do
+  member do
+    get  :deposit
+    post :process_deposit
+  end
+end
 
-
- end
  resources :transactions, only: [:index, :show]  # Standalone transactions routes
 
  resources :wallets, only: [:show] do
