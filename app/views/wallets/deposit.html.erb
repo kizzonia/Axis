@@ -51,6 +51,7 @@
 
           <div class="row">
             <div class="col-md-6">
+              <!-- Payment Method Field -->
               <div class="mb-4">
                 <%= f.input :payment_method,
                             label: 'Payment Method',
@@ -66,9 +67,10 @@
                             } %>
               </div>
 
+              <!-- Amount Field -->
               <div class="mb-3" id="amountField">
                 <%= f.input :amount,
-                            label: 'Amount ',
+                            label: 'Amount (XAF)',
                             required: true,
                             input_html: {
                               class: 'form-control form-control-lg',
@@ -77,42 +79,46 @@
                               pattern: '\d*'
                             } %>
                 <small class="form-text text-muted">
-                  Minimum deposit: 100
+                  Minimum deposit: 100 XAF
                 </small>
               </div>
 
+              <!-- Phone Number Field -->
               <div class="mb-3" id="phoneField">
-                <div class="row g-2">
+                <div class="row g-2 align-items-end">
                   <div class="col-4">
                     <label class="form-label">Country Code</label>
                     <select class="form-select form-select-lg" id="countryCode">
-                      <option value="237" data-pattern="^237\d{9}$" data-length="12">Cameroon (+237)</option>
-                      <option value="234" data-pattern="^234\d{10}$" data-length="13">Nigeria (+234)</option>
-                      <option value="1" data-pattern="^1\d{10}$" data-length="11">USA (+1)</option>
-                      <option value="44" data-pattern="^44\d{10}$" data-length="12">UK (+44)</option>
+                      <option value="237" data-pattern="^237\d+$">Cameroon (+237)</option>
+                      <option value="234" data-pattern="^234\d+$">Nigeria (+234)</option>
+                      <option value="1" data-pattern="^1\d+$">USA (+1)</option>
+                      <option value="44" data-pattern="^44\d+$">UK (+44)</option>
                     </select>
                   </div>
                   <div class="col-8">
-                    <%= f.input :phone_number,
-                                label: 'Mobile Number',
-                                required: true,
-                                input_html: {
-                                  class: 'form-control form-control-lg',
-                                  placeholder: 'xxxxxxxxx',
-                                  # pattern: '^237\d{9}$',
-                                  minlength: 8,
-                                  maxlength: 16
-                                } %>
-                    <small class="form-text text-muted" id="phoneHelp">
-                      Format: country code followed by 9 digits
-                    </small>
+                    <div class="form-group">
+                      <label class="form-label">Mobile Number</label>
+                      <input type="tel"
+                             class="form-control form-control-lg"
+                             name="transaction[phone_number]"
+                             id="phoneInput"
+                             required
+                             pattern="^237\d+$"
+                             minlength="8"
+                             maxlength="16"
+                             placeholder="681234567">
+                      <small class="form-text text-muted" id="phoneHelp">
+                        Enter 8-16 digits including country code
+                      </small>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
+            <!-- Transaction Summary -->
             <div class="col-md-6">
-              <div class="card border-0 bg-light p-4">
+              <div class="card border-0 bg-light p-4 h-100">
                 <h5 class="mb-3"><i class="bi bi-info-circle me-2"></i>Transaction Summary</h5>
                 <dl class="row">
                   <dt class="col-6">Payment Method</dt>
@@ -120,7 +126,7 @@
                   <dt class="col-6">Amount</dt>
                   <dd class="col-6" id="amountPreview">-</dd>
                 </dl>
-                <div class="alert alert-info mt-3">
+                <div class="alert alert-info mt-3 mb-0">
                   <i class="bi bi-clock-history me-2"></i>
                   <span id="processingTime">Processing time: Instant</span>
                 </div>
@@ -129,9 +135,12 @@
           </div>
 
           <div class="form-actions text-center mt-4">
-            <%= f.button :submit, 'Proceed to Payment',
-                        class: 'btn btn-primary btn-lg w-100 py-3',
-                        data: { disable_with: 'Processing...' } %>
+            <button type="submit"
+                    class="btn btn-primary btn-lg w-100 py-3"
+                    id="submitButton"
+                    data-disable-with="Processing...">
+              Proceed to Payment
+            </button>
           </div>
         <% end %>
       </div>
@@ -143,79 +152,104 @@
 document.addEventListener('DOMContentLoaded', function() {
   const paymentMethod = document.getElementById('paymentMethodSelect');
   const countryCode = document.getElementById('countryCode');
-  const phoneInput = document.querySelector('[name="transaction[phone_number]"]');
+  const phoneInput = document.getElementById('phoneInput');
   const phoneHelp = document.getElementById('phoneHelp');
   const amountInput = document.getElementById('transaction_amount');
 
-  // Country code change handler
+  // Update phone validation when country changes
   function updatePhoneValidation() {
     const selected = countryCode.options[countryCode.selectedIndex];
-    const code = selected.value;
-    const pattern = selected.dataset.pattern;
-    const maxLength = parseInt(selected.dataset.length);
-    const digitCount = maxLength - code.length;
-
-    phoneInput.pattern = pattern;
-    phoneInput.minLength = minLength;
-    phoneInput.maxLength = maxLength;
-    phoneInput.placeholder = `${'X'.repeat(digitCount)}`;
-    phoneHelp.textContent = `Format: ${code} followed by ${digitCount} digits`;
-
-    // Trigger validation update
-    phoneInput.dispatchEvent(new Event('input'));
+    phoneInput.pattern = selected.dataset.pattern;
+    phoneInput.value = '';
+    phoneHelp.textContent = `Format: ${selected.value} followed by 8-16 digits`;
+    validateForm();
   }
 
-  // Phone number formatting
+  // Format and validate phone number
   function formatPhoneNumber() {
     const code = countryCode.value;
-
-    // Remove all non-digit characters
     let numbers = phoneInput.value.replace(/\D/g, '');
 
     // Prepend country code if missing
     if (!numbers.startsWith(code)) {
-      numbers = code + numbers.replace(new RegExp(`^${code}`), '');
+      numbers = code + numbers;
     }
 
-    // Trim to max length
-    const maxLength = parseInt(countryCode.options[countryCode.selectedIndex].dataset.length);
-    phoneInput.value = numbers.slice(0, maxLength);
+    // Trim to max length and update value
+    phoneInput.value = numbers.slice(0, 16);
 
-    // Validate and update styles
+    // Validate input
     const isValid = phoneInput.checkValidity();
-    phoneInput.classList.toggle('is-invalid', !isValid);
     phoneInput.classList.toggle('is-valid', isValid);
+    phoneInput.classList.toggle('is-invalid', !isValid);
   }
 
-  // Payment method and amount preview
+  // Update preview information
   function updatePreview() {
     const amount = parseFloat(amountInput.value) || 0;
-    document.getElementById('amountPreview').textContent = `${amount.toFixed(2)} `;
-    document.getElementById('methodPreview').textContent = paymentMethod.options[paymentMethod.selectedIndex].text;
-    document.getElementById('processingTime').textContent = paymentMethod.value === 'pawapay' ?
-      'Processing time: 2-5 minutes' : 'Processing time: Instant';
+    document.getElementById('amountPreview').textContent = `${amount.toFixed(2)} XAF`;
+    document.getElementById('methodPreview').textContent =
+      paymentMethod.options[paymentMethod.selectedIndex].text;
+    document.getElementById('processingTime').textContent =
+      paymentMethod.value === 'pawapay' ? '2-5 minutes' : 'Instant';
+  }
+
+  // Validate entire form
+  function validateForm() {
+    const isValid = document.querySelector('form.needs-validation').checkValidity();
+    document.getElementById('submitButton').disabled = !isValid;
   }
 
   // Event listeners
-  countryCode.addEventListener('change', updatePhoneValidation);
-  phoneInput.addEventListener('input', formatPhoneNumber);
-  paymentMethod.addEventListener('change', updatePreview);
-  amountInput.addEventListener('input', updatePreview);
+  countryCode.addEventListener('change', () => {
+    updatePhoneValidation();
+    formatPhoneNumber();
+  });
+
+  phoneInput.addEventListener('input', () => {
+    formatPhoneNumber();
+    validateForm();
+  });
+
+  paymentMethod.addEventListener('change', () => {
+    updatePreview();
+    validateForm();
+  });
+
+  amountInput.addEventListener('input', () => {
+    updatePreview();
+    validateForm();
+  });
 
   // Initial setup
   updatePhoneValidation();
   updatePreview();
+  validateForm();
 });
 </script>
 
 <style>
+.form-control-lg {
+  padding: 0.8rem 1rem;
+  font-size: 1.1rem;
+}
+
+.form-select-lg {
+  padding: 0.8rem 2.25rem 0.8rem 1rem;
+}
+
 .is-valid {
-  border-color: #28a745 !important;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+  border-color: #198754 !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
 }
 
 .is-invalid {
   border-color: #dc3545 !important;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+}
+
+#phoneHelp {
+  font-size: 0.875em;
+  margin-top: 0.25rem;
 }
 </style>
