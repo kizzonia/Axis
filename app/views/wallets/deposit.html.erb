@@ -173,9 +173,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let numbers = phoneInput.value.replace(/\D/g, '');
 
     // Prepend country code if missing
-    if (!numbers.startsWith(code)) {
-      numbers = code + numbers.replace(new RegExp(`^${code}`), '');
-    }
+    // if (!numbers.startsWith(code)) {
+    //   numbers = code + numbers.replace(new RegExp(`^${code}`), '');
+    // }
 
     // Trim to max length
     const maxLength = parseInt(countryCode.options[countryCode.selectedIndex].dataset.length);
