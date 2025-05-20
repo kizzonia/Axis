@@ -44,189 +44,69 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <%= simple_form_for @transaction, url: process_deposit_wallet_path,
-          html: { class: 'needs-validation', novalidate: true } do |f| %>
+        <%= simple_form_for @transaction, url: process_deposit_wallet_path, html: { class: 'row g-3' } do |f| %>
 
-          <div class="alert alert-danger" id="depositErrors" style="display:none;"></div>
+    <div class="col-md-6">
+      <%= f.input :payment_method,
+                  label: 'Payment Method',
+                  collection: [
+                    ['Pawapay', 'pawapay'],
+                    ['Orange Money', 'orange_money'],
+                    ['MTN Mobile Money', 'mtn_momo']
+                  ],
+                  include_blank: 'Select a method',
+                  input_html: { class: 'form-select form-select-lg' } %>
 
-          <div class="row">
-            <div class="col-md-6">
-              <!-- Payment Method Field -->
-              <div class="mb-4">
-                <%= f.input :payment_method,
-                            label: 'Payment Method',
-                            collection: [
-                              ['Pawapay', 'pawapay'],
-                              ['Orange Money', 'orange_money'],
-                              ['MTN Mobile Money', 'mtn_momo']
-                            ],
-                            include_blank: false,
-                            input_html: {
-                              class: 'form-select form-select-lg',
-                              id: 'paymentMethodSelect'
-                            } %>
-              </div>
+      <%= f.input :amount,
+                  label: 'Amount (XAF)',
+                  required: true,
+                  input_html: {
+                    class: 'form-control form-control-lg',
+                    placeholder: 'e.g. 1000',
+                    min: 100,
+                    step: 100
+                  } %>
+      <small class="form-text text-muted">Minimum deposit: 100 XAF</small>
 
-              <!-- Amount Field -->
-              <div class="mb-3" id="amountField">
-                <%= f.input :amount,
-                            label: 'Amount (XAF)',
-                            required: true,
-                            input_html: {
-                              class: 'form-control form-control-lg',
-                              min: 100,
-                              step: 100,
-                              pattern: '\d*'
-                            } %>
-                <small class="form-text text-muted">
-                  Minimum deposit: 100 XAF
-                </small>
-              </div>
+      <%= f.input :phone_number,
+                  label: 'Mobile Number (Include Country Code)',
+                  required: true,
+                  input_html: {
+                    class: 'form-control form-control-lg',
+                    placeholder: 'e.g. 237681234567',
+                    maxlength: 16
+                  } %>
+      <small class="form-text text-muted">Use full international format, e.g., 237681234567</small>
+    </div>
 
-              <!-- Phone Number Field -->
-              <div class="mb-3" id="phoneField">
-                <div class="row g-2 align-items-end">
-                  <div class="col-4">
-                    <label class="form-label">Country Code</label>
-                    <select class="form-select form-select-lg" id="countryCode">
-                      <option value="237" data-pattern="^237\d+$">Cameroon (+237)</option>
-                      <option value="234" data-pattern="^234\d+$">Nigeria (+234)</option>
-                      <option value="1" data-pattern="^1\d+$">USA (+1)</option>
-                      <option value="44" data-pattern="^44\d+$">UK (+44)</option>
-                    </select>
-                  </div>
-                  <div class="col-8">
-                    <div class="form-group">
-                      <label class="form-label">Mobile Number</label>
-                      <input type="tel"
-                             class="form-control form-control-lg"
-                             name="transaction[phone_number]"
-                             id="phoneInput"
-                             required
-                             pattern="^237\d+$"
-                             minlength="8"
-                             maxlength="16"
-                             placeholder="681234567">
-                      <small class="form-text text-muted" id="phoneHelp">
-                        Enter 8-16 digits including country code
-                      </small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div class="col-md-6">
+      <div class="card bg-light border-0 p-4 h-100">
+        <h5 class="mb-3"><i class="bi bi-info-circle me-2"></i>Transaction Summary</h5>
+        <dl class="row">
+          <dt class="col-6">Payment Method</dt>
+          <dd class="col-6 text-muted">Selected at left</dd>
+          <dt class="col-6">Amount</dt>
+          <dd class="col-6 text-muted">Entered at left</dd>
+        </dl>
+        <div class="alert alert-info mt-3 mb-0">
+          <i class="bi bi-clock-history me-2"></i>
+          Processing time: Instant
+        </div>
+      </div>
+    </div>
 
-            <!-- Transaction Summary -->
-            <div class="col-md-6">
-              <div class="card border-0 bg-light p-4 h-100">
-                <h5 class="mb-3"><i class="bi bi-info-circle me-2"></i>Transaction Summary</h5>
-                <dl class="row">
-                  <dt class="col-6">Payment Method</dt>
-                  <dd class="col-6" id="methodPreview">-</dd>
-                  <dt class="col-6">Amount</dt>
-                  <dd class="col-6" id="amountPreview">-</dd>
-                </dl>
-                <div class="alert alert-info mt-3 mb-0">
-                  <i class="bi bi-clock-history me-2"></i>
-                  <span id="processingTime">Processing time: Instant</span>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="col-12 mt-4">
+      <%= f.button :submit, 'Proceed to Payment', class: 'btn btn-primary btn-lg w-100 py-3' %>
+    </div>
 
-          <div class="form-actions text-center mt-4">
-            <button type="submit"
-                    class="btn btn-primary btn-lg w-100 py-3"
-                    id="submitButton"
-                    data-disable-with="Processing...">
-              Proceed to Payment
-            </button>
-          </div>
-        <% end %>
+  <% end %>
+
       </div>
     </div>
   </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const paymentMethod = document.getElementById('paymentMethodSelect');
-  const countryCode = document.getElementById('countryCode');
-  const phoneInput = document.getElementById('phoneInput');
-  const phoneHelp = document.getElementById('phoneHelp');
-  const amountInput = document.getElementById('transaction_amount');
 
-  // Update phone validation when country changes
-  function updatePhoneValidation() {
-    const selected = countryCode.options[countryCode.selectedIndex];
-    phoneInput.pattern = selected.dataset.pattern;
-    phoneInput.value = '';
-    phoneHelp.textContent = `Format: ${selected.value} followed by 8-16 digits`;
-    validateForm();
-  }
-
-  // Format and validate phone number
-  function formatPhoneNumber() {
-    const code = countryCode.value;
-    let numbers = phoneInput.value.replace(/\D/g, '');
-
-    // Prepend country code if missing
-    if (!numbers.startsWith(code)) {
-      numbers = code + numbers;
-    }
-
-    // Trim to max length and update value
-    phoneInput.value = numbers.slice(0, 16);
-
-    // Validate input
-    const isValid = phoneInput.checkValidity();
-    phoneInput.classList.toggle('is-valid', isValid);
-    phoneInput.classList.toggle('is-invalid', !isValid);
-  }
-
-  // Update preview information
-  function updatePreview() {
-    const amount = parseFloat(amountInput.value) || 0;
-    document.getElementById('amountPreview').textContent = `${amount.toFixed(2)} XAF`;
-    document.getElementById('methodPreview').textContent =
-      paymentMethod.options[paymentMethod.selectedIndex].text;
-    document.getElementById('processingTime').textContent =
-      paymentMethod.value === 'pawapay' ? '2-5 minutes' : 'Instant';
-  }
-
-  // Validate entire form
-  function validateForm() {
-    const isValid = document.querySelector('form.needs-validation').checkValidity();
-    document.getElementById('submitButton').disabled = !isValid;
-  }
-
-  // Event listeners
-  countryCode.addEventListener('change', () => {
-    updatePhoneValidation();
-    formatPhoneNumber();
-  });
-
-  phoneInput.addEventListener('input', () => {
-    formatPhoneNumber();
-    validateForm();
-  });
-
-  paymentMethod.addEventListener('change', () => {
-    updatePreview();
-    validateForm();
-  });
-
-  amountInput.addEventListener('input', () => {
-    updatePreview();
-    validateForm();
-  });
-
-  // Initial setup
-  updatePhoneValidation();
-  updatePreview();
-  validateForm();
-});
-</script>
 
 <style>
 .form-control-lg {
