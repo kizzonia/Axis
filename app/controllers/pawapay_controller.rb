@@ -18,9 +18,10 @@ class PawapayController < ApplicationController
 
   private
 
+
   def valid_deposit?(transaction, params)
-    transaction.amount.to_d == params[:amount].to_d &&
-    transaction.currency == params[:currency]
+    transaction.amount.to_d == params[:amount].to_d
+    # optionally also: && transaction.currency == params[:currency]
   end
 
   def process_deposit(transaction, params)

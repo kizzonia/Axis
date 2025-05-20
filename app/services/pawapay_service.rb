@@ -12,22 +12,22 @@ class PawapayService
     endpoint = "#{BASE_URL}/widget/sessions"
 
     payload = {
-      depositId: transaction.deposit_id,
-      returnUrl: Rails.application.routes.url_helpers.pawapay_callback_url(
-        host: ENV['APP_HOST'],
-        protocol: Rails.env.production? ? 'https' : 'http'
-      ),
-      statementDescription: "Wallet deposit #{@user.id}",
-      amount: transaction.amount.to_s,
-      msisdn: transaction.phone_number,
-      language: 'EN',
-      # country: 'ZMB', # Update based on user's country
-      reason: "Wallet funding",
-      metadata: [
-        { fieldName: "userId", fieldValue: @user.id.to_s },
-        { fieldName: "transactionId", fieldValue: transaction.id.to_s }
-      ]
-    }
+     depositId:            transaction.deposit_id,
+     returnUrl:            Rails.application.routes.url_helpers.pawapay_callback_url(
+                             host: ENV['APP_HOST'],
+                             protocol: Rails.env.production? ? 'https' : 'http'
+                           ),
+     statementDescription: "Deposit #{@user.id}",      # ≤22 chars
+     amount:               transaction.amount.to_s,
+     msisdn:               transaction.phone_number,
+     language:             'EN',
+     country:              'CMR',                     # ← ISO‑3 for Cameroon :contentReference[oaicite:0]{index=0}
+     reason:               "Wallet funding",
+     metadata: [
+       { fieldName: "userId",        fieldValue: @user.id.to_s },
+       { fieldName: "transactionId", fieldValue: transaction.id.to_s }
+     ]
+   }
 
     headers = {
       'Authorization' => "Bearer #{@secret_key}",
