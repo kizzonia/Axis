@@ -68,7 +68,7 @@
 
               <div class="mb-3" id="amountField">
                 <%= f.input :amount,
-                            label: 'Amount (XAF)',
+                            label: 'Amount ',
                             required: true,
                             input_html: {
                               class: 'form-control form-control-lg',
@@ -77,7 +77,7 @@
                               pattern: '\d*'
                             } %>
                 <small class="form-text text-muted">
-                  Minimum deposit: 100 XAF
+                  Minimum deposit: 100
                 </small>
               </div>
 
@@ -98,13 +98,13 @@
                                 required: true,
                                 input_html: {
                                   class: 'form-control form-control-lg',
-                                  placeholder: '681234567',
-                                  pattern: '^237\d{9}$',
+                                  placeholder: 'xxxxxxxxx',
+                                  # pattern: '^237\d{9}$',
                                   minlength: 9,
                                   maxlength: 12
                                 } %>
                     <small class="form-text text-muted" id="phoneHelp">
-                      Format: 237 followed by 9 digits
+                      Format: country code followed by 9 digits
                     </small>
                   </div>
                 </div>
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Payment method and amount preview
   function updatePreview() {
     const amount = parseFloat(amountInput.value) || 0;
-    document.getElementById('amountPreview').textContent = `${amount.toFixed(2)} XAF`;
+    document.getElementById('amountPreview').textContent = `${amount.toFixed(2)} `;
     document.getElementById('methodPreview').textContent = paymentMethod.options[paymentMethod.selectedIndex].text;
     document.getElementById('processingTime').textContent = paymentMethod.value === 'pawapay' ?
       'Processing time: 2-5 minutes' : 'Processing time: Instant';
