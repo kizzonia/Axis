@@ -6,10 +6,8 @@ class Transaction < ApplicationRecord
   belongs_to :order, optional: true
 
   # Validations
-  validates :user, :wallet, :amount, :transaction_type, :status, presence: true
   validates :amount, numericality: { greater_than: 0 }
-  validates :phone_number,
-            presence: true
+  validates :phone_number, presence: true
 
   # Enums
 
