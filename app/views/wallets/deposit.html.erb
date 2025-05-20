@@ -28,9 +28,6 @@
             </button>
           </div>
         </div>
-
-        <!-- Existing Mobile Money Options -->
-        <!-- ... (keep your existing orange_money and mtn_momo sections) ... -->
       </div>
     </div>
   </div>
@@ -54,21 +51,6 @@
 
           <div class="row">
             <div class="col-md-6">
-
-                            <div class="mb-3" id="phoneField">
-                              <%= f.input :phone_number,
-                                          label: 'Mobile Number',
-                                          required: true,
-                                          input_html: {
-                                            class: 'form-control form-control-lg',
-                                            placeholder: '237XXXXXXXXX',
-                                            pattern: '^237\d{9}$',
-                                            title: 'Format: 237 followed by 9 digits (e.g. 237681234567)',
-                                            minlength: 12,
-                                            maxlength: 12
-                                          } %>
-                              <small class="form-text text-muted">Format: 237 followed by your 9-digit mobile number</small>
-                            </div>
               <div class="mb-4">
                 <%= f.input :payment_method,
                             label: 'Payment Method',
@@ -99,6 +81,34 @@
                 </small>
               </div>
 
+              <div class="mb-3" id="phoneField">
+                <div class="row g-2">
+                  <div class="col-4">
+                    <label class="form-label">Country Code</label>
+                    <select class="form-select form-select-lg" id="countryCode">
+                      <option value="237" data-pattern="^237\d{9}$" data-length="12">Cameroon (+237)</option>
+                      <option value="234" data-pattern="^234\d{10}$" data-length="13">Nigeria (+234)</option>
+                      <option value="1" data-pattern="^1\d{10}$" data-length="11">USA (+1)</option>
+                      <option value="44" data-pattern="^44\d{10}$" data-length="12">UK (+44)</option>
+                    </select>
+                  </div>
+                  <div class="col-8">
+                    <%= f.input :phone_number,
+                                label: 'Mobile Number',
+                                required: true,
+                                input_html: {
+                                  class: 'form-control form-control-lg',
+                                  placeholder: '681234567',
+                                  pattern: '^237\d{9}$',
+                                  minlength: 9,
+                                  maxlength: 12
+                                } %>
+                    <small class="form-text text-muted" id="phoneHelp">
+                      Format: 237 followed by 9 digits
+                    </small>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="col-md-6">
@@ -107,11 +117,9 @@
                 <dl class="row">
                   <dt class="col-6">Payment Method</dt>
                   <dd class="col-6" id="methodPreview">-</dd>
-
                   <dt class="col-6">Amount</dt>
                   <dd class="col-6" id="amountPreview">-</dd>
                 </dl>
-
                 <div class="alert alert-info mt-3">
                   <i class="bi bi-clock-history me-2"></i>
                   <span id="processingTime">Processing time: Instant</span>
@@ -131,64 +139,71 @@
   </div>
 </div>
 
-<!-- JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const paymentMethod = document.getElementById('paymentMethodSelect');
-  const phoneField = document.getElementById('phoneField');
+  const countryCode = document.getElementById('countryCode');
+  const phoneInput = document.querySelector('[name="transaction[phone_number]"]');
+  const phoneHelp = document.getElementById('phoneHelp');
   const amountInput = document.getElementById('transaction_amount');
 
+  // Country code change handler
+  function updatePhoneValidation() {
+    const selected = countryCode.options[countryCode.selectedIndex];
+    const code = selected.value;
+    const pattern = selected.dataset.pattern;
+    const maxLength = parseInt(selected.dataset.length);
+    const digitCount = maxLength - code.length;
+
+    phoneInput.pattern = pattern;
+    phoneInput.minLength = maxLength;
+    phoneInput.maxLength = maxLength;
+    phoneInput.placeholder = `${'X'.repeat(digitCount)}`;
+    phoneHelp.textContent = `Format: ${code} followed by ${digitCount} digits`;
+
+    // Trigger validation update
+    phoneInput.dispatchEvent(new Event('input'));
+  }
+
   // Phone number formatting
-  const phoneInput = document.querySelector('[name="transaction[phone_number]"]');
-  if (phoneInput) {
-    phoneInput.addEventListener('input', function(e) {
-      // Ensure it starts with 237
-      if (!this.value.startsWith('237')) {
-        this.value = '237' + this.value.replace(/^237/, '');
-      }
+  function formatPhoneNumber() {
+    const code = countryCode.value;
 
-      // Remove non-numeric characters
-      this.value = this.value.replace(/\D/g, '');
+    // Remove all non-digit characters
+    let numbers = phoneInput.value.replace(/\D/g, '');
 
-      // Limit to 12 characters (237 + 9 digits)
-      if (this.value.length > 12) {
-        this.value = this.value.slice(0, 12);
-      }
+    // Prepend country code if missing
+    if (!numbers.startsWith(code)) {
+      numbers = code + numbers.replace(new RegExp(`^${code}`), '');
+    }
 
-      // Validate pattern in real-time
-      const isValid = this.checkValidity();
-      this.classList.toggle('is-invalid', !isValid);
-      this.classList.toggle('is-valid', isValid);
-    });
+    // Trim to max length
+    const maxLength = parseInt(countryCode.options[countryCode.selectedIndex].dataset.length);
+    phoneInput.value = numbers.slice(0, maxLength);
+
+    // Validate and update styles
+    const isValid = phoneInput.checkValidity();
+    phoneInput.classList.toggle('is-invalid', !isValid);
+    phoneInput.classList.toggle('is-valid', isValid);
   }
 
-  function updateForm() {
-    const method = paymentMethod.value;
-    document.getElementById('methodPreview').textContent =
-      paymentMethod.options[paymentMethod.selectedIndex].text;
-  }
-
+  // Payment method and amount preview
   function updatePreview() {
     const amount = parseFloat(amountInput.value) || 0;
-    document.getElementById('amountPreview').textContent =
-      `${amount.toFixed(2)} XAF`;
-
-    // Update processing time
-    const processingTime = paymentMethod.value === 'pawapay'
-      ? 'Processing time: 2-5 minutes'
-      : 'Processing time: Instant';
-    document.getElementById('processingTime').textContent = processingTime;
+    document.getElementById('amountPreview').textContent = `${amount.toFixed(2)} XAF`;
+    document.getElementById('methodPreview').textContent = paymentMethod.options[paymentMethod.selectedIndex].text;
+    document.getElementById('processingTime').textContent = paymentMethod.value === 'pawapay' ?
+      'Processing time: 2-5 minutes' : 'Processing time: Instant';
   }
 
-  paymentMethod.addEventListener('change', () => {
-    updateForm();
-    updatePreview();
-  });
-
+  // Event listeners
+  countryCode.addEventListener('change', updatePhoneValidation);
+  phoneInput.addEventListener('input', formatPhoneNumber);
+  paymentMethod.addEventListener('change', updatePreview);
   amountInput.addEventListener('input', updatePreview);
 
   // Initial setup
-  updateForm();
+  updatePhoneValidation();
   updatePreview();
 });
 </script>
