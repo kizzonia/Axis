@@ -6,7 +6,7 @@ class Transaction < ApplicationRecord
   belongs_to :order, optional: true
 
   # Validations
-  validates :amount, numericality: { greater_than: 0 }
+  validates :amount
   validates :phone_number, presence: true
 
   # Enums
@@ -34,9 +34,9 @@ class Transaction < ApplicationRecord
   # scope :orange_money_transactions, -> { where(payment_method: :orange_money) }
   # scope :recent, -> { order(created_at: :desc) }
 
-  def process_async
-    TransactionProcessingJob.perform_later(id)
-  end
+  # def process_async
+  #   TransactionProcessingJob.perform_later(id)
+  # end
 
   def mark_as_failed!(error_message)
     update!(status: :failed, error_message: error_message)

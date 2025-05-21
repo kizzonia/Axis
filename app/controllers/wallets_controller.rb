@@ -44,11 +44,11 @@ class WalletsController < ApplicationController
 
   def transaction_params
     params.require(:transaction).permit(
-      :amount,
-      :phone_number,
-      :payment_method,
-      :currency,     # if you need to handle currency
-      :deposit_id    # allows passing a pre‑generated UUID
-    ).merge(transaction_type: :deposit)
+  :amount,
+  :phone_number,
+  :payment_method,
+  :currency,           # <-- Add this
+  :deposit_id          # <-- And this
+).merge(transaction_type: :deposit)
   end
 end
