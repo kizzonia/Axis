@@ -1,57 +1,62 @@
-# app/services/pawapay_service.rb
 class PawapayService
   BASE_URL = 'https://api.pawapay.io/v1'.freeze
 
   def initialize(user)
-    @user       = user
-    @merchant_id = ENV.fetch('PAWAPAY_MERCHANT_ID')
-    @secret_key  = ENV.fetch('PAWAPAY_SECRET_KEY')
+    @user = user
+     @secret_key = ENV['PAWAPAY_SECRET_KEY']
   end
 
-  # Creates a Payment‑Page session and returns the parsed JSON.
-  # On error, returns { success: false, error: "…" }
   def create_deposit_session(transaction)
-    url     = "#{BASE_URL}/widget/sessions"
+    endpoint = "#{BASE_URL}/widget/sessions"
+
     payload = {
-      depositId:            transaction.deposit_id,
-      returnUrl:            Rails.application.routes.url_helpers.pawapay_callback_url(
-                              host: ENV.fetch('APP_HOST'),
-                              protocol: Rails.env.production? ? 'https' : 'http'
-                            ),
-      statementDescription: truncate_desc("Wallet deposit #{@user.id}"),
-      amount:               transaction.amount.to_s,
-      msisdn:               transaction.phone_number,
-      language:             'EN',
-      country:              transaction.country || 'CMR',    # ISO‑3 code (e.g. 'CMR' or 'ZMB')
-      reason:               'Wallet funding',
+      depositId: transaction.deposit_id,
+      returnUrl: Rails.application.routes.url_helpers.pawapay_callback_url(
+        host: ENV['APP_HOST'],
+        protocol: Rails.env.production? ? 'https' : 'http'
+      ),
+      statementDescription: "Wallet deposit #{@user.id}",
+      amount: transaction.amount.to_s,
+      currency: transaction.currency || 'XAF', # fallback if nil
+      msisdn: transaction.phone_number,
+      language: 'EN',
+      reason: 'Wallet funding',
       metadata: [
-        { fieldName:  'userId',        fieldValue: @user.id.to_s },
-        { fieldName:  'transactionId', fieldValue: transaction.id.to_s }
+        { fieldName: 'userId', fieldValue: @user.id.to_s },
+        { fieldName: 'transactionId', fieldValue: transaction.id.to_s }
       ]
     }
+
     headers = {
       'Authorization' => "Bearer #{@secret_key}",
-      'Content-Type'  => 'application/json'
+      'Content-Type' => 'application/json'
     }
 
-    resp = HTTParty.post(url, body: payload.to_json, headers: headers)
-    parse_response(resp)
+    begin
+      response = HTTParty.post(endpoint, body: payload.to_json, headers: headers)
+      log_request_and_response(payload, response)
+
+      if response.success?
+        body = JSON.parse(response.body)
+        if body['sessionUrl'].present?
+          return { success: true, session_url: body['sessionUrl'] }
+        else
+          return { success: false, error: "Missing sessionUrl in response: #{body}" }
+        end
+      else
+        return { success: false, error: "API Error #{response.code}: #{response.body}" }
+      end
+    rescue => e
+      Rails.logger.error "[PawapayService] Exception: #{e.message}"
+      return { success: false, error: "Exception: #{e.message}" }
+    end
   end
 
   private
 
-  # Pawapay requires statementDescription be 4–22 characters
-  def truncate_desc(str)
-    str.truncate(22, omission: '')
-  end
-
-  def parse_response(response)
-    if response.success?
-      JSON.parse(response.body)       # => { "sessionUrl" => "...", ... }
-    else
-      { success: false, error: "API #{response.code}: #{response.body}" }
-    end
-  rescue StandardError => e
-    { success: false, error: e.message }
+  def log_request_and_response(payload, response)
+    Rails.logger.debug "[PawapayService] Payload: #{payload.to_json}"
+    Rails.logger.debug "[PawapayService] Response Code: #{response.code}"
+    Rails.logger.debug "[PawapayService] Response Body: #{response.body}"
   end
 end
