@@ -4,8 +4,10 @@ Rails.application.routes.draw do
 authenticate :admin_user do
   mount Sidekiq::Web => '/sidekiq'
 end
-post '/pawapay/webhook', to: 'pawapay#webhook'
-post '/pawapay/callback', to: 'pawapay#callback', as: :pawapay_callback
+# post '/pawapay/webhook', to: 'pawapay#webhook'
+# post '/pawapay/callback', to: 'pawapay#callback', as: :pawapay_callback
+post '/pawapay/callback', to: 'pawapay#callback'
+get '/pawapay/return', to: 'pawapay#return', as: :pawapay_return_url
 
   get "carts/show"
 

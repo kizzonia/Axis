@@ -1,4 +1,3 @@
-# app/controllers/pawapay_controller.rb
 class PawapayController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -16,12 +15,25 @@ class PawapayController < ApplicationController
     head :unprocessable_entity
   end
 
-  private
+  def return
+    deposit_id = params[:depositId]
+    transaction = Transaction.find_by(deposit_id: deposit_id)
 
+    if transaction&.completed?
+      flash[:success] = "Deposit successful!"
+    elsif transaction&.failed?
+      flash[:danger] = "Deposit failed: #{transaction.error_message}"
+    else
+      flash[:notice] = "Deposit is being processed..."
+    end
+
+    redirect_to wallet_path(current_user.wallet)
+  end
+
+  private
 
   def valid_deposit?(transaction, params)
     transaction.amount.to_d == params[:amount].to_d
-    # optionally also: && transaction.currency == params[:currency]
   end
 
   def process_deposit(transaction, params)
@@ -37,14 +49,11 @@ class PawapayController < ApplicationController
     return if transaction.completed?
 
     ActiveRecord::Base.transaction do
-      # Update transaction first
       transaction.update!(
         status: :completed,
         pawapay_reference: params[:transactionId],
         processed_at: Time.current
       )
-
-      # Then update wallet balance
       transaction.wallet.deposit(transaction.amount)
     end
   end
