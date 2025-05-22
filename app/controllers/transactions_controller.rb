@@ -108,27 +108,108 @@ class TransactionsController < ApplicationController
   #                 alert: @transaction.errors.full_messages.join(', ')
   #   end
   # end
+  # def initiate_pawapay
+  #   wallet = current_user.wallet
+  #
+  #   transaction = wallet.transactions.create(
+  #     deposit_id: params[:deposit_id],
+  #     amount: params[:amount],
+  #     phone_number: params[:phone_number],
+  #     currency: params[:currency],
+  #     transaction_type: params[:transaction_type],
+  #     status: :pending,
+  #     payment_method: "pawapay",
+  #     user: current_user
+  #   )
+  #
+  #   if transaction.save?
+  #     response = HTTParty.post("https://api.pawapay.io/v1/widget/sessions",
+  #       headers: {
+  #         "Authorization" => "Bearer #{ENV['PAWAPAY_SECRET_KEY']}",
+  #         "Content-Type" => "application/json"
+  #       },
+  #       body: {
+  #         depositId: transaction.deposit_id,
+  #         returnUrl: pawapay_return_url(depositId: transaction.deposit_id),
+  #         statementDescription: "Wallet deposit",
+  #         amount: transaction.amount.to_s,
+  #         msisdn: transaction.phone_number,
+  #         language: "EN",
+  #         country: "CMR",
+  #         reason: "Wallet funding",
+  #         metadata: [
+  #           { fieldName: "userId", fieldValue: current_user.id.to_s },
+  #           { fieldName: "depositId", fieldValue: transaction.deposit_id }
+  #         ]
+  #       }.to_json
+  #     )
+  #
+  #     json = JSON.parse(response.body)
+  #     if json["sessionUrl"]
+  #       render json: { status: "ok", session_url: json["sessionUrl"] }
+  #     else
+  #       render json: { status: "error", message: json["error"] || "Could not create session" }, status: :unprocessable_entity
+  #     end
+  #   else
+  #     render json: { status: "error", message: transaction.errors.full_messages.to_sentence }, status: :unprocessable_entity
+  #   end
+  # end
+  #
+
   def initiate_pawapay
     wallet = current_user.wallet
-    transaction = wallet.transactions.create(
-      deposit_id: params[:deposit_id],
-      amount: params[:amount],
-      phone_number: params[:phone_number],
-      currency: params[:currency],
-      transaction_type: params[:transaction_type],
-      status: :pending,
+    deposit_id = params[:deposit_id]
+    amount = params[:amount]
+    phone_number = params[:phone_number]
+    currency = params[:currency] || "XAF"
+    transaction_type = params[:transaction_type] || "deposit"
+
+    transaction = wallet.transactions.new(
+      deposit_id: deposit_id,
+      amount: amount,
+      phone_number: phone_number,
+      currency: currency,
+      transaction_type: transaction_type,
       payment_method: "pawapay",
+      status: :pending,
       user: current_user
     )
 
-    if transaction.persisted?
-      render json: { status: "ok" }
+    if transaction.save
+      # Call Pawapay from the backend
+      payload = {
+        depositId: deposit_id,
+        returnUrl: pawapay_return_url(depositId: deposit_id),
+        statementDescription: "Wallet deposit",
+        amount: amount.to_f,
+        msisdn: phone_number,
+        language: "EN",
+        country: "CMR",
+        reason: "Wallet funding",
+        metadata: [
+          { fieldName: "userId", fieldValue: current_user.id.to_s },
+          { fieldName: "depositId", fieldValue: deposit_id }
+        ]
+      }
+
+      response = HTTParty.post("https://api.pawapay.io/v1/widget/sessions",
+        headers: {
+          "Authorization" => "Bearer #{ENV["PAWAPAY_SECRET_KEY"]}",
+          "Content-Type" => "application/json"
+        },
+        body: payload.to_json
+      )
+
+      if response.code == 200 && response.parsed_response["sessionUrl"]
+        render json: { status: "ok", session_url: response.parsed_response["sessionUrl"] }
+      else
+        transaction.mark_as_failed!("Pawapay error: #{response.parsed_response["error"]}")
+        render json: { status: "error", message: "Pawapay session creation failed." }, status: :unprocessable_entity
+      end
     else
       render json: { status: "error", message: transaction.errors.full_messages.to_sentence }, status: :unprocessable_entity
     end
   end
-
-
 
   private
 

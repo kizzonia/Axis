@@ -13,7 +13,6 @@
 
     <div class="row justify-content-center">
       <div class="col-xl-10">
-        <!-- Pawapay Option -->
         <div class="row recent_activity_widget">
           <div class="col-md-4">
             <div class="d-flex align-items-center bb1 pb30">
@@ -45,21 +44,18 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h4>Deposit Funds</h4>
-
         <form id="deposit-form">
-          <input type="hidden" id="deposit_id" value="<%= SecureRandom.uuid %>">
           <input type="hidden" id="currency" value="XAF">
           <input type="hidden" id="transaction_type" value="deposit">
 
           <div class="mb-3">
             <label for="amount" class="form-label">Amount (XAF)</label>
-            <input type="number" class="form-control" id="amount" required>
+            <input type="number" class="form-control" id="amount" required min="100">
           </div>
 
           <div class="mb-3">
             <label for="msisdn" class="form-label">Phone Number (e.g. 2376xxxxxxx)</label>
-            <input type="text" class="form-control" id="msisdn" required>
+            <input type="text" class="form-control" id="msisdn" required pattern="^237[6-9]\d{7}$" title="Enter a valid Cameroonian phone number starting with 237">
           </div>
 
           <button type="submit" class="btn btn-success w-100">
@@ -71,75 +67,82 @@
   </div>
 </div>
 
-<!-- JS to call /transactions/initiate_pawapay and then redirect to Pawapay -->
+<!-- Loading Overlay -->
+<div id="loading-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:1050; align-items:center; justify-content:center;">
+  <div class="spinner-border text-light" role="status" style="width: 3rem; height: 3rem;">
+    <span class="visually-hidden">Processing...</span>
+  </div>
+</div>
+
+<!-- JavaScript: handle deposit flow -->
 <script>
-  document.getElementById("deposit-form").addEventListener("submit", function(e) {
-    e.preventDefault();
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("deposit-form");
+    const overlay = document.getElementById("loading-overlay");
 
-    const depositId = document.getElementById("deposit_id").value;
-    const amount = document.getElementById("amount").value;
-    const msisdn = document.getElementById("msisdn").value;
-    const currency = document.getElementById("currency").value;
-    const transactionType = document.getElementById("transaction_type").value;
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
 
-    // First: Call your backend to create the transaction record
-    fetch("/transactions/initiate_pawapay", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").getAttribute("content")
-      },
-      body: JSON.stringify({
-        deposit_id: depositId,
-        amount: amount,
-        phone_number: msisdn,
-        currency: currency,
-        transaction_type: transactionType
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status !== "ok") {
-        alert("Transaction failed: " + (data.message || "Unknown error."));
-        return;
+      const depositId = crypto.randomUUID();
+      const amount = document.getElementById("amount").value;
+      const msisdn = document.getElementById("msisdn").value;
+      const currency = document.getElementById("currency").value;
+      const transactionType = document.getElementById("transaction_type").value;
+
+      overlay.style.display = "flex";
+
+      try {
+        // Step 1: Create transaction in your Rails backend
+        const initResponse = await fetch("/transactions/initiate_pawapay", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").getAttribute("content")
+          },
+          body: JSON.stringify({
+            deposit_id: depositId,
+            amount: amount,
+            phone_number: msisdn,
+            currency: currency,
+            transaction_type: transactionType
+          })
+        });
+
+        const initData = await initResponse.json();
+
+        if (initData.status !== "ok") {
+          alert("Transaction failed: " + (initData.message || "Unknown error."));
+          return;
+        }
+
+        // Step 2: Create Pawapay session from your backend (secure)
+        const sessionResponse = await fetch("/pawapay/create_session", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").getAttribute("content")
+          },
+          body: JSON.stringify({
+            deposit_id: depositId,
+            amount: amount,
+            msisdn: msisdn
+          })
+        });
+
+        const sessionData = await sessionResponse.json();
+
+        if (sessionData.session_url) {
+          window.location.href = sessionData.session_url;
+        } else {
+          alert("Pawapay session error: " + (sessionData.error || "Could not create session."));
+        }
+
+      } catch (err) {
+        console.error("Error:", err);
+        alert("An unexpected error occurred.");
+      } finally {
+        overlay.style.display = "none";
       }
-
-      // Next: Call Pawapay session API
-      const payload = {
-        depositId: depositId,
-        returnUrl: "<%= pawapay_return_url_url %>?depositId=" + depositId,
-        statementDescription: "Wallet deposit",
-        amount: amount,
-        msisdn: msisdn,
-        language: "EN",
-        country: "CMR",
-        reason: "Wallet funding",
-        metadata: [
-          { fieldName: "userId", fieldValue: "<%= current_user.id %>" },
-          { fieldName: "depositId", fieldValue: depositId }
-        ]
-      };
-
-      return fetch("https://api.pawapay.io/v1/widget/sessions", {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer <%= ENV['PAWAPAY_SECRET_KEY'] %>",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-    })
-    .then(response => response.json())
-    .then(pawaRes => {
-      if (pawaRes.sessionUrl) {
-        window.location.href = pawaRes.sessionUrl;
-      } else {
-        alert("Pawapay session error: " + (pawaRes.error || "Could not create session."));
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert("An unexpected error occurred.");
     });
   });
 </script>

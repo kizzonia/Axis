@@ -9,6 +9,9 @@ end
 post '/pawapay/callback', to: 'pawapay#callback'
 get '/pawapay/return', to: 'pawapay#return', as: :pawapay_return_url
 # config/routes.rb
+# config/routes.rb
+post "/pawapay/create_session", to: "pawapay#create_session"
+
 post "transactions/initiate_pawapay", to: "transactions#initiate_pawapay"
 
   get "carts/show"
