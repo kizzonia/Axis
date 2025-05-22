@@ -110,17 +110,15 @@ class TransactionsController < ApplicationController
   # end
   def initiate_pawapay
     wallet = current_user.wallet
-    deposit_id = params[:deposit_id]
-
     transaction = wallet.transactions.create(
-      deposit_id: deposit_id,
+      deposit_id: params[:deposit_id],
       amount: params[:amount],
-      phone_number: params[:msisdn],
-      currency: 'XAF',
-      transaction_type: 'deposit',
+      phone_number: params[:phone_number],
+      currency: params[:currency],
+      transaction_type: params[:transaction_type],
       status: :pending,
-      user: current_user,
-      payment_method: "pawapay"
+      payment_method: "pawapay",
+      user: current_user
     )
 
     if transaction.persisted?
@@ -129,6 +127,7 @@ class TransactionsController < ApplicationController
       render json: { status: "error", message: transaction.errors.full_messages.to_sentence }, status: :unprocessable_entity
     end
   end
+
 
 
   private

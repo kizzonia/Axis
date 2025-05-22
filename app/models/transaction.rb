@@ -4,12 +4,6 @@ class Transaction < ApplicationRecord
   belongs_to :transactionable, polymorphic: true, optional: true
   belongs_to :order, optional: true
 
-  # Validations
-  validates :phone_number, presence: true
-  validates :amount, numericality: { greater_than: 0 }
-  validates :currency, presence: true
-  validates :payment_method, presence: true
-  validates :transaction_type, presence: true
 
   # Enums
   enum transaction_type: {
