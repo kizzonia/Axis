@@ -109,29 +109,25 @@ class TransactionsController < ApplicationController
   #   end
   # end
   def initiate_pawapay
-     wallet = current_user.wallet
-     deposit_id = params[:deposit_id]
+    wallet = current_user.wallet
+    deposit_id = params[:deposit_id]
 
-     transaction = wallet.transactions.create(
-       deposit_id: deposit_id,
-       amount: params[:amount],
-       status: :pending,
-       payment_method: "pawapay"
-     )
+    transaction = wallet.transactions.create(
+      deposit_id: deposit_id,
+      amount: params[:amount],
+      phone_number: params[:msisdn],
+      currency: 'XAF',
+      transaction_type: 'deposit',
+      status: :pending,
+      user: current_user,
+      payment_method: "pawapay"
+    )
 
-     if transaction.persisted?
-       render json: { status: "ok" }
-     else
-       render json: { status: "error", message: transaction.errors.full_messages.to_sentence }, status: :unprocessable_entity
-     end
-   end
-
-  def status
-    @transaction = Transaction.find(params[:id])
-    render json: {
-      status: @transaction.status,
-      error_message: @transaction.error_message
-    }
+    if transaction.persisted?
+      render json: { status: "ok" }
+    else
+      render json: { status: "error", message: transaction.errors.full_messages.to_sentence }, status: :unprocessable_entity
+    end
   end
 
 

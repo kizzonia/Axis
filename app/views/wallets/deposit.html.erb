@@ -1,4 +1,5 @@
 <!-- app/views/wallets/deposit.html.erb -->
+
 <div class="dashboard__main pl0-md">
   <div class="dashboard__content bgc-gmart-gray">
     <div class="row pb50">
@@ -44,129 +45,101 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <%# Display server‑side validation errors %>
-      <% if @transaction.errors.any? %>
-        <div class="alert alert-danger">
-          <h6 class="alert-heading">Please fix the following:</h6>
-          <ul class="mb-0">
-            <% @transaction.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+        <h4>Deposit Funds</h4>
 
-      <h2>Deposit Funds</h2>
-      <!-- Add inside your modal form (same location) -->
-  <form id="deposit-form">
-    <input type="hidden" name="deposit_id" id="deposit_id" value="<%= SecureRandom.uuid %>">
+        <form id="deposit-form">
+          <input type="hidden" id="deposit_id" value="<%= SecureRandom.uuid %>">
+          <input type="hidden" id="currency" value="XAF">
+          <input type="hidden" id="transaction_type" value="deposit">
 
-    <div class="mb-3">
-      <label class="form-label">Amount (XAF):</label>
-      <input type="number" class="form-control" name="amount" id="amount" required>
-    </div>
+          <div class="mb-3">
+            <label for="amount" class="form-label">Amount (XAF)</label>
+            <input type="number" class="form-control" id="amount" required>
+          </div>
 
-    <div class="mb-3">
-      <label class="form-label">Phone Number (e.g. 2376xxxxxxx):</label>
-      <input type="text" class="form-control" name="msisdn" id="msisdn" required>
-      <div id="phoneHelp" class="form-text">Include country code.</div>
-    </div>
+          <div class="mb-3">
+            <label for="msisdn" class="form-label">Phone Number (e.g. 2376xxxxxxx)</label>
+            <input type="text" class="form-control" id="msisdn" required>
+          </div>
 
-    <button type="submit" class="btn btn-success w-100">Deposit with Pawapay</button>
-  </form>
-
-    </div>
-
+          <button type="submit" class="btn btn-success w-100">
+            <i class="bi bi-arrow-up-right-circle me-2"></i> Deposit with Pawapay
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
 
-
+<!-- JS to call /transactions/initiate_pawapay and then redirect to Pawapay -->
 <script>
-document.getElementById("deposit-form").addEventListener("submit", async function(e) {
-  e.preventDefault();
+  document.getElementById("deposit-form").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-  const depositId = document.getElementById("deposit_id").value;
-  const amount = document.getElementById("amount").value;
-  const msisdn = document.getElementById("msisdn").value;
+    const depositId = document.getElementById("deposit_id").value;
+    const amount = document.getElementById("amount").value;
+    const msisdn = document.getElementById("msisdn").value;
+    const currency = document.getElementById("currency").value;
+    const transactionType = document.getElementById("transaction_type").value;
 
-  // Step 1: Create transaction on your Rails server
-  const res = await fetch("/transactions/initiate_pawapay", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
-    },
-    body: JSON.stringify({
-      deposit_id: depositId,
-      amount: amount,
-      msisdn: msisdn
-    })
-  });
-
-  const json = await res.json();
-
-  if (json.status === "ok") {
-    // Step 2: Create session with Pawapay
-    const sessionPayload = {
-      depositId: depositId,
-      returnUrl: "<%= pawapay_return_url_url %>?depositId=" + depositId,
-      statementDescription: "Wallet deposit",
-      amount: amount,
-      msisdn: msisdn,
-      language: "EN",
-      country: "CMR",
-      reason: "Wallet funding",
-      metadata: [
-        { fieldName: "userId", fieldValue: "<%= current_user.id %>" },
-        { fieldName: "depositId", fieldValue: depositId }
-      ]
-    };
-
-    const pawapayRes = await fetch("https://api.pawapay.io/v1/widget/sessions", {
+    // First: Call your backend to create the transaction record
+    fetch("/transactions/initiate_pawapay", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer <%= ENV['PAWAPAY_SECRET_KEY'] %>",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").getAttribute("content")
       },
-      body: JSON.stringify(sessionPayload)
+      body: JSON.stringify({
+        deposit_id: depositId,
+        amount: amount,
+        phone_number: msisdn,
+        currency: currency,
+        transaction_type: transactionType
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status !== "ok") {
+        alert("Transaction failed: " + (data.message || "Unknown error."));
+        return;
+      }
+
+      // Next: Call Pawapay session API
+      const payload = {
+        depositId: depositId,
+        returnUrl: "<%= pawapay_return_url_url %>?depositId=" + depositId,
+        statementDescription: "Wallet deposit",
+        amount: amount,
+        msisdn: msisdn,
+        language: "EN",
+        country: "CMR",
+        reason: "Wallet funding",
+        metadata: [
+          { fieldName: "userId", fieldValue: "<%= current_user.id %>" },
+          { fieldName: "depositId", fieldValue: depositId }
+        ]
+      };
+
+      return fetch("https://api.pawapay.io/v1/widget/sessions", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer <%= ENV['PAWAPAY_SECRET_KEY'] %>",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+    })
+    .then(response => response.json())
+    .then(pawaRes => {
+      if (pawaRes.sessionUrl) {
+        window.location.href = pawaRes.sessionUrl;
+      } else {
+        alert("Pawapay session error: " + (pawaRes.error || "Could not create session."));
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("An unexpected error occurred.");
     });
-
-    const sessionData = await pawapayRes.json();
-
-    if (sessionData.sessionUrl) {
-      window.location.href = sessionData.sessionUrl;
-    } else {
-      alert("Pawapay error: " + (sessionData.error || "Session failed."));
-    }
-  } else {
-    alert("Backend error: " + json.message);
-  }
-});
+  });
 </script>
-
-<style>
-.form-control-lg {
-  padding: 0.8rem 1rem;
-  font-size: 1.1rem;
-}
-
-.form-select-lg {
-  padding: 0.8rem 2.25rem 0.8rem 1rem;
-}
-
-.is-valid {
-  border-color: #198754 !important;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
-}
-
-.is-invalid {
-  border-color: #dc3545 !important;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
-}
-
-#phoneHelp {
-  font-size: 0.875em;
-  margin-top: 0.25rem;
-}
-</style>
