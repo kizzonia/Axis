@@ -15,7 +15,7 @@ class PawapayController < ApplicationController
       depositId: deposit_id,
       returnUrl: pawapay_return_url_url + "?depositId=#{deposit_id}",
       statementDescription: "Wallet deposit",
-      amount: amount.to_i,
+      amount: amount.to_s,
       msisdn: msisdn,
       language: "EN",
       country: "CMR",
