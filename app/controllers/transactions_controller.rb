@@ -248,4 +248,3 @@ class TransactionsController < ApplicationController
       :user_id
     )
   end
-end
