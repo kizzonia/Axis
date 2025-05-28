@@ -19,13 +19,15 @@ class Transaction < ApplicationRecord
   }
 
   enum payment_method: {
+    orange_money: 'orange_money',
+    mtn_momo: 'mtn_momo',
     pawapay: 'pawapay',
     wallet: 'wallet'
   }, _prefix: true
 
   # Callbacks
   before_create :generate_deposit_id
-  # before_create :generate_reference
+  before_create :generate_reference
   after_commit :process_async, on: :create
 
   # Methods
