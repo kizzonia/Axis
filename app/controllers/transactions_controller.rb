@@ -161,7 +161,7 @@ class TransactionsController < ApplicationController
   def initiate_pawapay
   transaction = current_user.wallet.transactions.new(
     deposit_id:       params[:deposit_id],
-    amount:           params[:amount].to_s,
+    amount:           params[:amount].to_i,
     phone_number:     params[:phone_number],
     currency:         params[:currency] || "XAF",
     transaction_type: params[:transaction_type] || "deposit",
