@@ -158,70 +158,69 @@ class TransactionsController < ApplicationController
   # end
   #
 
-    def initiate_pawapay
-      wallet         = current_user.wallet
-      deposit_id     = params[:deposit_id]
-      amount         = params[:amount].to_s
-      phone_number   = params[:phone_number]
-      currency       = params[:currency] || "XAF"
-      transaction_type = params[:transaction_type] || "deposit"
+  def initiate_pawapay
+  transaction = current_user.wallet.transactions.new(
+    deposit_id:       params[:deposit_id],
+    amount:           params[:amount].to_s,
+    phone_number:     params[:phone_number],
+    currency:         params[:currency] || "XAF",
+    transaction_type: params[:transaction_type] || "deposit",
+    payment_method:   "pawapay",
+    status:           :pending,
+    user:             current_user
+  )
 
-      transaction = wallet.transactions.new(
-        deposit_id:       deposit_id,
-        amount:           amount,
-        phone_number:     phone_number,
-        currency:         currency,
-        transaction_type: transaction_type,
-        payment_method:   "pawapay",
-        status:           :pending,
-        user:             current_user
-      )
+  unless transaction.save
+    return render json: { error: transaction.errors.full_messages.to_sentence }, status: :unprocessable_entity
+  end
 
-      unless transaction.save
-        return render json: { error: transaction.errors.full_messages.to_sentence }, status: :unprocessable_entity
-      end
+  payload = {
+    depositId:            transaction.deposit_id,
+    returnUrl:            "#{pawapay_return_url_url}?depositId=#{transaction.deposit_id}",
+    statementDescription: "Wallet deposit",
+    amount:               transaction.amount.to_s,
+    msisdn:               transaction.phone_number,
+    language:             "EN",
+    country:              "CMR",
+    reason:               "Wallet funding",
+    metadata: [
+      { fieldName: "userId",    fieldValue: current_user.id.to_s },
+      { fieldName: "depositId", fieldValue: transaction.deposit_id }
+    ]
+  }
 
-      # Build the payload for Pawapay
-      payload = {
-        depositId:            deposit_id,
-        returnUrl:            "#{pawapay_return_url_url}?depositId=#{deposit_id}",
-        statementDescription: "Wallet deposit",
-        amount:               amount,
-        msisdn:               phone_number,
-        language:             "EN",
-        country:              "CMR",
-        reason:               "Wallet funding",
-        metadata: [
-          { fieldName: "userId",    fieldValue: current_user.id.to_s },
-          { fieldName: "depositId", fieldValue: deposit_id }
-        ]
-      }
+  response = HTTParty.post("https://api.pawapay.io/v1/widget/sessions",
+    headers: {
+      "Authorization" => "Bearer #{ENV['PAWAPAY_SECRET_KEY']}",
+      "Content-Type"  => "application/json"
+    },
+    body: payload.to_json
+  )
 
-      # Call Pawapay
-      response = HTTParty.post("https://api.pawapay.io/v1/widget/sessions",
-        headers: {
-          "Authorization" => "Bearer #{ENV['PAWAPAY_SECRET_KEY']}",
-          "Content-Type"  => "application/json"
-        },
-        body: payload.to_json
-      )
+  Rails.logger.info "[Pawapay] Response code: #{response.code}"
+  Rails.logger.info "[Pawapay] Response body: #{response.body}"
 
-      Rails.logger.info "[Pawapay] Response code: #{response.code}"
-      Rails.logger.info "[Pawapay] Response body: #{response.body}"
+  # Pawapay returns 201 with "redirectUrl"
+  if [200, 201].include?(response.code.to_i)
+    data = response.parsed_response
+    redirect_url = data["redirectUrl"] || data["sessionUrl"]
 
-      if response.code == 200 && (data = response.parsed_response)["sessionUrl"].present?
-        render json: { sessionUrl: data["sessionUrl"] }
-      else
-        err = response.parsed_response["error"] || "Unknown error"
-        transaction.update(status: :failed, error_message: err)
-        render json: { error: "Pawapay session creation failed: #{err}" }, status: :unprocessable_entity
-      end
-    rescue => e
-      Rails.logger.error "[Pawapay] Exception: #{e.message}"
-      transaction.update(status: :failed, error_message: e.message) if defined?(transaction)
-      render json: { error: "Unexpected error: #{e.message}" }, status: :internal_server_error
+    if redirect_url.present?
+      return render json: { sessionUrl: redirect_url }
     end
   end
+
+  # Otherwise, error out
+  error = response.parsed_response["error"] || "Unknown error"
+  transaction.update(status: :failed, error_message: error)
+  render json: { error: "Pawapay session creation failed: #{error}" }, status: :unprocessable_entity
+rescue => e
+  Rails.logger.error "[Pawapay] Exception: #{e.message}"
+  transaction.update(status: :failed, error_message: e.message)
+  render json: { error: "Unexpected error: #{e.message}" }, status: :internal_server_error
+end
+
+
 
   private
 
@@ -248,3 +247,4 @@ class TransactionsController < ApplicationController
       :user_id
     )
   end
+end
