@@ -55,7 +55,7 @@ class TransactionsController < ApplicationController
   # #    begin
   # #      service = OrangeMoneyService.new(current_user)
   # #      result = service.deposit(
-  # #        params[:amount].to_f,
+  # #        params[:amounts].to_f,
   # #        params[:phone_number]
   # #      )
   # #
@@ -78,7 +78,7 @@ class TransactionsController < ApplicationController
   #   @wallet = current_user.wallet
   #
   #   @transaction = @wallet.transactions.new(
-  #     amount: params[:amount],
+  #     amounts: params[:amounts],
   #     phone_number: params[:phone_number],
   #     transaction_type: 'deposit',
   #     status: :pending,
@@ -115,7 +115,7 @@ class TransactionsController < ApplicationController
   #
   #   transaction = wallet.transactions.create(
   #     deposit_id: params[:deposit_id],
-  #     amount: params[:amount],
+  #     amounts: params[:amounts],
   #     phone_number: params[:phone_number],
   #     currency: params[:currency],
   #     transaction_type: params[:transaction_type],
@@ -134,7 +134,7 @@ class TransactionsController < ApplicationController
   #         depositId: transaction.deposit_id,
   #         returnUrl: pawapay_return_url(depositId: transaction.deposit_id),
   #         statementDescription: "Wallet deposit",
-  #         amount: transaction.amount.to_s,
+  #         amounts: transaction.amounts.to_s,
   #         msisdn: transaction.phone_number,
   #         language: "EN",
   #         country: "CMR",
@@ -161,7 +161,7 @@ class TransactionsController < ApplicationController
   def initiate_pawapay
   transaction = current_user.wallet.transactions.new(
     deposit_id:       params[:deposit_id],
-    amount:           params[:amount].to_i,
+    amounts:           params[:amounts],
     phone_number:     params[:phone_number],
     currency:         params[:currency] || "XAF",
     transaction_type: params[:transaction_type] || "deposit",
@@ -178,7 +178,7 @@ class TransactionsController < ApplicationController
     depositId:            transaction.deposit_id,
     returnUrl:            "#{pawapay_return_url_url}?depositId=#{transaction.deposit_id}",
     statementDescription: "Wallet deposit",
-    amount:               transaction.amount.to_s,
+    amounts:               transaction.amounts.to_s,
     msisdn:               transaction.phone_number,
     language:             "EN",
     country:              "CMR",
@@ -220,7 +220,6 @@ rescue => e
   render json: { error: "Unexpected error: #{e.message}" }, status: :internal_server_error
 end
 
-end
 
   private
 
@@ -239,7 +238,7 @@ end
 
   def transaction_params
     params.require(:transaction).permit(
-      :amount,
+      :amounts,
       :transaction_type,
       :payment_method,
       :deposit_id,
@@ -247,3 +246,4 @@ end
       :user_id
     )
   end
+end

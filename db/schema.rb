@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_15_051323) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_18_175334) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -234,6 +234,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_15_051323) do
     t.index ["slug"], name: "index_helps_on_slug"
   end
 
+  create_table "images", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_images_on_product_id"
+  end
+
   create_table "order_items", force: :cascade do |t|
     t.bigint "order_id", null: false
     t.bigint "product_id", null: false
@@ -324,6 +332,29 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_15_051323) do
     t.index ["help_id"], name: "index_supports_on_help_id"
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "wallet_id", null: false
+    t.decimal "amount"
+    t.string "transaction_type"
+    t.string "status"
+    t.string "reference"
+    t.string "payment_method"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "phone_number"
+    t.datetime "processed_at"
+    t.string "error_message"
+    t.string "description"
+    t.string "deposit_id"
+    t.string "pawapay_reference"
+    t.string "merchant_reference"
+    t.integer "operation_type"
+    t.string "currency"
+    t.index ["user_id"], name: "index_transactions_on_user_id"
+    t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -342,6 +373,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_15_051323) do
     t.string "phone"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "wallets", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.decimal "balance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_wallets_on_user_id"
   end
 
   create_table "welcomes", force: :cascade do |t|
@@ -370,6 +409,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_15_051323) do
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"
+  add_foreign_key "images", "products"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
@@ -378,4 +418,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_15_051323) do
   add_foreign_key "products", "users"
   add_foreign_key "sub_categories", "categories"
   add_foreign_key "supports", "helps"
+  add_foreign_key "transactions", "users"
+  add_foreign_key "transactions", "wallets"
+  add_foreign_key "wallets", "users"
 end
