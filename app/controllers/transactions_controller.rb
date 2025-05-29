@@ -178,7 +178,7 @@ class TransactionsController < ApplicationController
     depositId:            transaction.deposit_id,
     returnUrl:            "#{pawapay_return_url_url}?depositId=#{transaction.deposit_id}",
     statementDescription: "Wallet deposit",
-    amount:               transaction.amount,
+    amount:               transaction.amount.to_f,
     msisdn:               transaction.phone_number,
     language:             "EN",
     country:              "CMR",
