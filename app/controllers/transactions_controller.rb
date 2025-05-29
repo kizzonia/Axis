@@ -161,7 +161,7 @@ class TransactionsController < ApplicationController
   def initiate_pawapay
   transaction = current_user.wallet.transactions.new(
     deposit_id:       params[:deposit_id],
-    amount:           params[:amount],
+    amount:           params[:amount].to_i,
     phone_number:     params[:phone_number],
     currency:         params[:currency] || "XAF",
     transaction_type: params[:transaction_type] || "deposit",
@@ -178,7 +178,7 @@ class TransactionsController < ApplicationController
     depositId:            transaction.deposit_id,
     returnUrl:            "#{pawapay_return_url_url}?depositId=#{transaction.deposit_id}",
     statementDescription: "Wallet deposit",
-    amount:               transaction.amount.to_f,
+    amount:               transaction.amount.to_s,
     msisdn:               transaction.phone_number,
     language:             "EN",
     country:              "CMR",
@@ -220,7 +220,7 @@ rescue => e
   render json: { error: "Unexpected error: #{e.message}" }, status: :internal_server_error
 end
 
-
+end
 
   private
 
@@ -247,4 +247,3 @@ end
       :user_id
     )
   end
-end
