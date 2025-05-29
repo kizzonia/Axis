@@ -3,7 +3,9 @@ class WalletsController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @wallet = current_user.wallet
+    @wallets = current_user.wallet
+    @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
+
     @transactions = @wallet.transactions.order(created_at: :desc).limit(10)
   end
 

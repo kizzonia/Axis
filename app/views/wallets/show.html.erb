@@ -52,7 +52,7 @@
                                   <tr>
                                     <td><%= transaction.created_at.strftime('%d %b %Y %H:%M') %></td>
                                     <td><%= transaction.transaction_type.titleize %></td>
-                                    <td><%= number_to_currency(transaction.amount, unit: 'XAF', precision: 0) %></td>
+                                    <td><%= number_to_currency(transaction.amounts, unit: 'XAF', precision: 0) %></td>
                                     <td><span class="badge bg-<%= transaction_status_class(transaction.status) %>"><%= transaction.status.titleize %></span></td>
                                     <td><%= transaction.payment_method.titleize %></td>
                                   </tr>
