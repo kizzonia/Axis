@@ -13,8 +13,8 @@ end
 def transaction_status_class(status)
   case status
   when 'completed' then 'success'
-  when 'failed' then 'danger'
-  when 'pending' then 'warning'
+  when 'failed' then 'danger' || 'alert'
+  when 'pending' then 'warning' || 'alert'
   else 'secondary'
   end
 end
