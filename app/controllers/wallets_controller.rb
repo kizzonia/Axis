@@ -48,5 +48,14 @@ class WalletsController < ApplicationController
       :currency,
       :deposit_id
     ).merge(transaction_type: :deposit)
+
+  end
+
+  def wallet_params
+    params.require(:transaction).permit(
+      :balance,
+      :user_id
+    )
+
   end
 end

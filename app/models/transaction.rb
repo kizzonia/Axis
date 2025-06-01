@@ -13,7 +13,7 @@ class Transaction < ApplicationRecord
   }
 
   enum status: {
-    # pending: 'pending',
+     pending: 'pending',
     completed: 'completed',
     failed: 'failed'
   }
