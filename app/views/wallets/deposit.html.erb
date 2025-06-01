@@ -57,40 +57,70 @@
   </div>
   </div>
 <!-- Deposit Modal -->
+<!-- Deposit Modal -->
 <div class="modal fade" id="depositModal" tabindex="-1" aria-labelledby="depositModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg">
-    <div class="modal-content">
+    <div class="modal-content shadow border-0 rounded-3">
       <div class="modal-header bg-primary text-white">
         <h5 id="depositModalLabel" class="modal-title">
-          <i class="bi bi-wallet2 me-2"></i> Deposit Funds
+          <i class="bi bi-wallet2 me-2"></i> Fund Your Wallet
         </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
+
       <div class="modal-body">
+        <p class="text-muted mb-4">
+          Deposit funds using <strong>Pawapay Network</strong>. Mobile Money providers supported:
+          <img src="<%= asset_path "mtnmomoLogo.svg" %>" alt="MTN" height="24" class="mx-1" />
+          <img src="https://www.logo.wine/a/logo/Orange_Money/Orange_Money-Logo.wine.svg" alt="Orange" height="24" class="mx-1" />
+        </p>
 
         <div id="deposit-error" class="alert alert-danger d-none"></div>
 
         <form id="deposit-form">
           <input type="hidden" id="deposit_id" value="<%= SecureRandom.uuid %>">
-          <input type="hidden" id="currency"    value="XAF">
+          <input type="hidden" id="currency" value="XAF">
           <input type="hidden" id="transaction_type" value="deposit">
 
-          <div class="mb-3">
-            <label for="amounts" class="form-label">amounts (XAF)</label>
-            <input type="number" class="form-control" id="amounts" required>
+          <div class="mb-4">
+            <label for="amounts" class="form-label fw-semibold">Deposit Amount (XAF)</label>
+            <input type="number" class="form-control form-control-lg" id="amounts" placeholder="e.g. 5000" required>
+            <small class="form-text text-muted">Enter the amount you wish to deposit (whole numbers only).</small>
           </div>
 
-          <div class="mb-3">
-            <label for="phone_number" class="form-label">Phone Number (e.g. 2376xxxxxxx)</label>
-            <input type="tel" class="form-control" id="phone_number"
-
-                   title="Enter a valid Cameroonian number starting with 237" required>
+          <div class="mb-4">
+            <label for="phone_number" class="form-label fw-semibold">Mobile Money Number</label>
+            <input type="tel" class="form-control form-control-lg" id="phone_number" placeholder="e.g. 2376XXXXXXXX" required>
+            <div id="provider-hint" class="d-flex align-items-center mt-2 small text-secondary"></div>
           </div>
 
-          <button type="submit" class="btn btn-success w-100">
-            <i class="bi bi-arrow-up-right-circle me-2"></i> Deposit with Pawapay
-          </button>
+          <div id="amount-preview" class="alert alert-info d-none fw-semibold text-center py-2 mb-4"></div>
+
+          <div class="d-grid">
+            <button type="button" class="btn btn-success btn-lg" id="review-btn">
+              <i class="bi bi-arrow-up-right-circle me-2"></i> Review & Proceed
+            </button>
+          </div>
         </form>
+
+        <!-- Deposit Summary Card (shown before actual submission) -->
+        <div id="deposit-summary" class="card mt-4 d-none border-success shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title text-success mb-3">Confirm Deposit</h5>
+            <p><strong>Amount:</strong> <span id="summary-amount">-</span> XAF</p>
+            <p><strong>Phone:</strong> <span id="summary-phone">-</span></p>
+            <p><strong>Provider:</strong> <span id="summary-provider">-</span></p>
+
+            <div class="d-flex gap-2">
+              <button id="confirm-deposit-btn" class="btn btn-primary w-100">
+                <i class="bi bi-check2-circle me-1"></i> Confirm & Deposit
+              </button>
+              <button class="btn btn-outline-secondary w-100" onclick="document.getElementById('deposit-summary').classList.add('d-none');">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -106,7 +136,108 @@
   </div>
 </div>
 
-<script>
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", () => {
+  const form           = document.getElementById("deposit-form");
+  const errorEl        = document.getElementById("deposit-error");
+  const overlay        = document.getElementById("loading-overlay");
+  const phoneInput     = document.getElementById("phone_number");
+  const amountInput    = document.getElementById("amounts");
+  const providerHint   = document.getElementById("provider-hint");
+  const amountPreview  = document.getElementById("amount-preview");
+
+  const summaryCard    = document.getElementById("deposit-summary");
+  const reviewBtn      = document.getElementById("review-btn");
+  const confirmBtn     = document.getElementById("confirm-deposit-btn");
+  const summaryAmount  = document.getElementById("summary-amount");
+  const summaryPhone   = document.getElementById("summary-phone");
+  const summaryProvider= document.getElementById("summary-provider");
+
+  const getProvider = (phone) => {
+    if (/^2376(7|8)/.test(phone)) {
+      return {
+        name: "MTN Mobile Money",
+        logo: "/assets/mtn-logo.png"
+      };
+    } else if (/^23769/.test(phone)) {
+      return {
+        name: "Orange Money",
+        logo: "/assets/orange-logo.png"
+      };
+    }
+    return { name: "Unknown Provider", logo: "" };
+  };
+
+  phoneInput.addEventListener("input", () => {
+    const phone = phoneInput.value.trim();
+    const { name, logo } = getProvider(phone);
+    providerHint.innerHTML = phone.length >= 9 ? `${logo ? `<img src="${logo}" height="20" class="me-2" />` : ""}${name}` : "";
+  });
+
+  amountInput.addEventListener("input", () => {
+    const val = amountInput.value;
+    if (val && parseInt(val) > 0) {
+      amountPreview.textContent = `You are depositing: ${val} XAF`;
+      amountPreview.classList.remove("d-none");
+    } else {
+      amountPreview.classList.add("d-none");
+    }
+  });
+
+  reviewBtn.addEventListener("click", () => {
+    const phone = phoneInput.value.trim();
+    const amount = amountInput.value.trim();
+    const { name } = getProvider(phone);
+
+    if (!phone || !amount) return;
+
+    summaryAmount.textContent = amount;
+    summaryPhone.textContent = phone;
+    summaryProvider.textContent = name;
+    summaryCard.classList.remove("d-none");
+  });
+
+  confirmBtn.addEventListener("click", async () => {
+    const payload = {
+      deposit_id:       document.getElementById("deposit_id").value,
+      amounts:          amountInput.value,
+      phone_number:     phoneInput.value,
+      currency:         document.getElementById("currency").value,
+      transaction_type: document.getElementById("transaction_type").value
+    };
+
+    overlay.style.display = "flex";
+    summaryCard.classList.add("d-none");
+
+    try {
+      const res = await fetch("/transactions/initiate_pawapay", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token":  document.querySelector("meta[name='csrf-token']").content
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const json = await res.json();
+
+      if (res.ok && json.sessionUrl) {
+        window.location.href = json.sessionUrl;
+      } else {
+        errorEl.textContent = json.error || "Failed to initiate deposit.";
+        errorEl.classList.remove("d-none");
+      }
+    } catch (err) {
+      errorEl.textContent = "Unexpected error: " + err.message;
+      errorEl.classList.remove("d-none");
+    } finally {
+      overlay.style.display = "none";
+    }
+  });
+});
+
+</script>
+<!-- <script>
 document.addEventListener("DOMContentLoaded", () => {
   const form      = document.getElementById("deposit-form");
   const errorEl   = document.getElementById("deposit-error");
@@ -153,4 +284,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-</script>
+</script> -->
