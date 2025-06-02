@@ -4,9 +4,9 @@ class Wallet < ApplicationRecord
 
     validates :balance, numericality: { greater_than_or_equal_to: 0 }
 
-    def deposit(amounts)
-      update!(balance: balance + amounts)
-    end
+    def deposit(amount_decimal)
+    update!(balance: balance + amount_decimal)
+  end
 
     def withdraw(amounts)
       update!(balance: balance - amounts)
