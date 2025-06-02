@@ -46,7 +46,7 @@ class PawapayController < ApplicationController
 
   # Compare returned amount to the stored `amounts`
   def valid_deposit?(tx, params)
-    tx.amounts.to_d == params[:amounts].to_d
+    tx.amounts == params[:amounts]
   rescue
     false
   end
