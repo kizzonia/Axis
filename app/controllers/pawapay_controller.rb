@@ -5,7 +5,7 @@ class PawapayController < ApplicationController
 
   # POST /pawapay/callback
   def callback
-    deposit_id  = params[:depositId]
+    deposit_id  = params["depositId"]
     transaction = Transaction.find_by(deposit_id: deposit_id)
 
     if transaction.nil?
@@ -14,8 +14,9 @@ class PawapayController < ApplicationController
     end
 
     unless valid_deposit?(transaction, params)
-      Rails.logger.warn "Pawapay Callback: Amount mismatch for deposit_id=#{deposit_id}. " \
-                        "Expected #{transaction.amounts}, got #{params[:amounts]}"
+      returned = params["requestedAmount"].presence || params["depositedAmount"]
+      Rails.logger.warn "Pawapay Callback: Amount mismatch for deposit_id=#{deposit_id}. "\
+                        "Expected #{transaction.amounts}, got #{returned}"
       return head :unprocessable_entity
     end
 
@@ -29,7 +30,7 @@ class PawapayController < ApplicationController
 
   # GET /pawapay/return?depositId=...
   def return
-    deposit_id  = params[:depositId]
+    deposit_id  = params["depositId"]
     transaction = Transaction.find_by(deposit_id: deposit_id)
 
     if transaction&.completed?
@@ -45,22 +46,27 @@ class PawapayController < ApplicationController
 
   private
 
-  # Compare stored string 'amounts' to incoming string 'params[:amounts]'
+  # Compare stored string `amounts` to incoming string "requestedAmount" (or fallback to "depositedAmount")
   def valid_deposit?(transaction, params)
-    transaction.amounts == params[:amounts]
+    returned_amount_str = params["requestedAmount"].presence || params["depositedAmount"]
+    return false if returned_amount_str.blank?
+
+    transaction.amounts.to_d == returned_amount_str.to_d
   rescue
     false
   end
 
-  # Dispatch based on Pawapay’s status
+  # Dispatch based on Pawapay’s returned status
   def process_deposit(transaction, params)
-    case params[:status]&.upcase
-    when 'SUCCESS'
+    status = params["status"]&.upcase
+
+    case status
+    when 'COMPLETED', 'SUCCESS'
       handle_success(transaction, params)
     when 'FAILED'
       handle_failure(transaction, params)
     else
-      Rails.logger.warn "Pawapay Callback: Unrecognized status='#{params[:status]}' for deposit_id=#{params[:depositId]}"
+      Rails.logger.warn "Pawapay Callback: Unrecognized status='#{status}' for deposit_id=#{params["depositId"]}"
     end
   end
 
@@ -70,7 +76,7 @@ class PawapayController < ApplicationController
     ActiveRecord::Base.transaction do
       transaction.update!(
         status:            :completed,
-        pawapay_reference: params[:transactionId],
+        pawapay_reference: params["transactionId"] || params["paymentReference"],
         processed_at:      Time.current
       )
 
@@ -89,9 +95,10 @@ class PawapayController < ApplicationController
 
     transaction.update!(
       status:        :failed,
-      error_message: params[:failureReason] || 'Pawapay reported failure'
+      error_message: params["failureReason"] || 'Pawapay reported failure'
     )
     TransactionNotificationJob.perform_later(transaction.id)
+
     Rails.logger.info "Pawapay: deposit_id=#{transaction.deposit_id} failed; " \
                       "reason=#{transaction.error_message}"
   end
