@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @wallets           = current_user.wallets.order(created_at: :asc)
+    @wallets = Wallet.where(user_id: current_user).order('created_at ASC')
     @orders_as_buyer   = current_user.orders.order(created_at: :desc)
     @orders_as_seller  = Order.where(seller: current_user).order(created_at: :desc)
   end
