@@ -36,6 +36,8 @@ end
 resources :wallets, only: [:show] do
   member do
     get  :deposit
+    get  :withdrawal  # Withdrawal form
+    post :withdraw 
     post :process_deposit
   end
 end

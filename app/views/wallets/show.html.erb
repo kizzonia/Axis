@@ -33,6 +33,13 @@
                       Deposit / Top Up <% end %>
                     </div>
                   </div>
+                  <div class="col-sm-6 col-lg-3">
+                    <div class="dashboard_page_add_listing text-center text-lg-end mb30 mb15-520 d-grid">
+
+                      <%= link_to withdrawal_wallet_path, class: "btn btn-new btn-lg btn-thm" do %>
+                      Withdrawal <% end %>
+                    </div>
+                  </div>
                 </div>
                 <div class="order_table table-responsive">
                   <table class="table">
@@ -43,6 +50,7 @@
                      <th>Amount</th>
                      <th>Status</th>
                      <th>Method</th>
+                     <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -55,6 +63,20 @@
                                     <td><%= number_to_currency(transaction.amounts, unit: 'XAF', precision: 0) %></td>
                                     <td><span class="badge bg-<%= transaction_status_class(transaction.status) %>"><%= transaction.status.titleize %></span></td>
                                     <td><%= transaction.payment_method.titleize %></td>
+                                    <td><%= button_tag type: "button",
+               class: "btn btn-sm btn-outline-primary",
+               data: {
+                 bs_toggle: "modal",
+                 bs_target: "#receiptModal",
+                 transaction_id: transaction.withdrawal_id || transaction.id,
+                 transaction_type: transaction.transaction_type,
+                 status: transaction.status,
+                 amount: number_to_currency(transaction.amounts, unit: "XAF"),
+                 phone_number: transaction.phone_number,
+                 created_at: transaction.created_at.strftime("%B %d, %Y %I:%M %p")
+               } do %>
+  <i class="bi bi-receipt me-1"></i> View Receipt
+<% end %></td>
                                   </tr>
                                 <% end %>
 
@@ -101,3 +123,118 @@
 
 </div>
 </div>
+<!-- Advanced Transaction Receipt Modal -->
+<div class="modal fade" id="receiptModal" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 shadow-lg border-0">
+      <div class="modal-header bg-gradient text-white rounded-top-4" style="background: linear-gradient(135deg, #007bff, #6610f2);">
+        <h5 class="modal-title" id="receiptModalLabel">
+          <i class="bi bi-receipt-cutoff me-2"></i> Digital Transaction Receipt
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body bg-light">
+        <div class="p-4 bg-white rounded shadow-sm">
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <p class="text-muted small mb-1">Transaction ID</p>
+              <h6 id="receiptTransactionId" class="fw-bold text-dark"></h6>
+            </div>
+            <div class="col-md-6 text-md-end">
+              <p class="text-muted small mb-1">Date & Time</p>
+              <h6 id="receiptDate" class="fw-bold text-dark"></h6>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <p class="text-muted small mb-1">Transaction Type</p>
+              <span id="receiptType" class="badge bg-info text-dark px-3 py-2 fw-semibold text-uppercase"></span>
+            </div>
+            <div class="col-md-6 text-md-end">
+              <p class="text-muted small mb-1">Status</p>
+              <span id="receiptStatus" class="badge bg-success px-3 py-2 fw-semibold text-uppercase"></span>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <p class="text-muted small mb-1">Amount</p>
+              <h4 id="receiptAmount" class="fw-bold text-success"></h4>
+            </div>
+            <div class="col-md-6 text-md-end">
+              <p class="text-muted small mb-1">Phone Number</p>
+              <h6 id="receiptPhone" class="fw-bold text-dark"></h6>
+            </div>
+          </div>
+
+          <div class="text-center mt-4">
+            <small class="text-muted">
+              <i class="bi bi-shield-check me-2"></i>
+              This receipt is digitally generated and recorded for your security.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer bg-white rounded-bottom-4">
+        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle me-1"></i> Close
+        </button>
+        <button type="button" class="btn btn-primary" onclick="window.print();">
+          <i class="bi bi-printer me-1"></i> Print Receipt
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const receiptModal = document.getElementById('receiptModal');
+
+  receiptModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+
+    const transactionId = button.getAttribute('data-transaction-id');
+    const transactionType = button.getAttribute('data-transaction-type');
+    const status = button.getAttribute('data-status');
+    const amount = button.getAttribute('data-amount');
+    const phone = button.getAttribute('data-phone-number');
+    const date = button.getAttribute('data-created-at');
+
+    document.getElementById('receiptTransactionId').textContent = transactionId;
+    document.getElementById('receiptType').textContent = transactionType;
+    document.getElementById('receiptStatus').textContent = status.charAt(0).toUpperCase() + status.slice(1);
+    document.getElementById('receiptAmount').textContent = amount;
+    document.getElementById('receiptPhone').textContent = '+237 ' + phone;
+    document.getElementById('receiptDate').textContent = date;
+
+    // Optional: Color-coded status badge
+    const statusBadge = document.getElementById('receiptStatus');
+    statusBadge.className = 'badge px-3 py-2 fw-semibold text-uppercase';
+    if (status === 'successful') {
+      statusBadge.classList.add('bg-success');
+    } else if (status === 'pending') {
+      statusBadge.classList.add('bg-warning', 'text-dark');
+    } else {
+      statusBadge.classList.add('bg-danger');
+    }
+  });
+});
+</script>
+<style>
+  .modal-content {
+    border-radius: 1rem;
+  }
+
+  .badge {
+    font-size: 0.85rem;
+  }
+
+  .modal-body h6, .modal-body h4 {
+    margin-bottom: 0;
+  }
+</style>
