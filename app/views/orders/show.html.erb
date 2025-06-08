@@ -1,266 +1,183 @@
-  <!-- app/views/orders/new.html.erb -->
-  <section class="shop-checkouts pt30">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-6 col-lg-4 m-auto">
-          <div class="main-title text-center mb50">
-            <h2 class="title">Payment And Communication</h2>
+<!-- app/views/orders/show.html.erb -->
+<section class="shop-checkouts pt30">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-lg-4 m-auto">
+        <div class="main-title text-center mb50">
+          <h2 class="title">Payment And Communication</h2>
+        </div>
+      </div>
+    </div>
+      <!-- ─── LEFT: Chat & Order Details ─────────────────────────────────── -->
+      <div class="col-lg-8 col-xl-8">
+        <!-- (Your existing chat markup goes here) -->
+        <div class="checkout_form style2">
+          <!-- ... -->
+        </div>
+      </div>
+
+      <!-- ─── RIGHT: Order Sidebar & Actions ────────────────────────────── -->
+      <div class="col-lg-4">
+        <div class="order_sidebar_widget checkout_page mb30">
+          <h4 class="title">Your Order</h4>
+          <ul>
+            <% @order.order_items.each do |item| %>
+              <li class="subtitle">
+                <p>
+                  <%= item.product.name %>
+                  <span class="float-end"><%= item.quantity %>×<%= number_to_currency(item.price) %></span>
+                </p>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="order_sidebar_widget checkout_page mb30">
+          <h4 class="title">Delivery Details</h4>
+          <ul>
+            <li class="subtitle">
+              <p>Name: <span class="float-end"><%= @order.first_name %> <%= @order.last_name %></span></p>
+            </li>
+            <li class="subtitle">
+              <p>Address: <span class="float-end"><%= [@order.street_address, @order.city, @order.state, @order.zip_code].join(", ") %></span></p>
+            </li>
+            <li class="subtitle">
+              <p>Country: <span class="float-end"><%= @order.country %></span></p>
+            </li>
+            <li class="subtitle">
+              <p>Contact: <span class="float-end"><%= @order.email %> / <%= @order.phone %></span></p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="order_sidebar_widget checkout_page mb30">
+          <h4 class="title">Order Summary</h4>
+          <ul>
+            <li class="subtitle">
+              <p>Subtotal: <span class="float-end"><%= number_to_currency(@order.total_amount, unit: 'XAF') %></span></p>
+            </li>
+            <li class="subtitle">
+              <p>Total: <span class="float-end"><%= number_to_currency(@order.total_amount, unit: 'XAF') %></span></p>
+            </li>
+          </ul>
+
+          <!-- ─── Action Buttons ─────────────────────────────────────── -->
+          <div class="mt-3 text-center">
+
+            <%# 1) Pending → Pay Holding Escrow %>
+            <% if current_user == @order.user && @order.pending? %>
+              <%= button_to "Pay & Hold (#{number_to_currency(@order.total_amount, unit: 'XAF')})",
+                   pay_escrow_order_path(@order),
+                   method: :post,
+                   class: "btn btn-success mb-2 w-100",
+                   data: { confirm: "Confirm payment from your wallet?" } %>
+            <% end %>
+
+            <%# 2) Paid → Seller Uploads Proof %>
+            <% if current_user == @order.seller && @order.paid? %>
+              <%= form_with model: @order, url: upload_shipment_order_path(@order),
+                            method: :post, local: true, html: { multipart: true } do |f| %>
+                <div class="mb-2">
+                  <%= f.file_field :shipment_proof, class: "form-control", required: true %>
+                </div>
+                <%= f.submit "Upload Shipment Proof", class: "btn btn-warning w-100" %>
+              <% end %>
+            <% end %>
+
+            <%# 3) Shipped → Buyer Releases Funds %>
+            <% if current_user == @order.user && @order.shipped? %>
+              <%= button_to "Release Funds to Seller",
+                   release_escrow_order_path(@order),
+                   method: :post,
+                   class: "btn btn-primary w-100",
+                   data: { confirm: "Are you sure you want to release funds?" } %>
+            <% end %>
+
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-lg-8 col-xl-8">
-          <div class="checkout_form style2">
-            <div class="main-title mb50">
-              <p>Message Chat Box <br>
-                <a class="signin-filter-btn" href="#"> <br>Discuss with the seller to make sure you get everything you need </a></p>
-            </div>
-            <div class="dashboard__content bgc-gmart-gray">
-
-              <div class="row">
-                <div class="col-lg-6 col-xxl-4">
-                  <div class="message_container">
-                    <div class="inbox_user_list">
-                      <div class="iu_heading">
-                        <div class="candidate_revew_search_box">
-                          <form class="row-cols-lg-auto g-3 align-items-center">
-                            <button class="btn" type="submit"><span class="flaticon-magnifiying-glass"></span></button>
-                            <input class="form-control" type="search" placeholder="Serach" aria-label="Search">
-                          </form>
-                        </div>
-                      </div>
-                      <ul>
-                        <li class="contact pt3">
-                          <a href="#">
-                            <div class="wrap">
-                              <img class="img-fluid" src="<%= asset_path "team/ms1.jpg"%>" alt="ms1.jpg"/>
-                              <div class="child-wrap df">
-                                <div class="meta">
-                                  <h5 class="name">Darlene Robertson</h5>
-                                  <p class="preview">Buyer</p>
-                                </div>
-                                <div class="iul_notific">
-                                  <small class="body-color">35 mins</small>
-                                </div>
-                              </div>
-                            </div>
-                          </a>
-                        </li>
-                        <li class="contact">
-                          <a href="#">
-                            <div class="wrap">
-                              <img class="img-fluid" src="<%= asset_path "team/ms1.jpg"%>" alt="ms2.jpg"/>
-                              <div class="child-wrap df">
-                                <div class="meta">
-                                  <h5 class="name">Jane Cooper</h5>
-                                  <p class="preview">Seller</p>
-                                </div>
-                                <div class="iul_notific">
-                                  <small class="body-color">35 mins</small>
-                                  <div class="m_notif">2</div>
-                                </div>
-                              </div>
-                            </div>
-                          </a>
-                        </li>
-
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 col-xxl-8">
-                  <div class="message_container mt30-md">
-                    <div class="user_heading">
-                      <div class="wrap">
-                        <span class="contact-status online"></span>
-                        <img class="img-fluid mr10" src="<%= asset_path "team/ms1.jpg"%>" alt="mm1.jpg"/>
-                        <div class="meta">
-                          <a class="text-thm3 tdu float-end fz14" href="#">Delete Conversation</a>
-                          <h5 class="name">Arlene McCoy</h5>
-                          <p class="preview">Active</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="inbox_chatting_box">
-                      <ul class="chatting_content">
-                        <li class="sent">
-                          <div class="df">
-                            <img class="img-fluid align-self-start me-3" src="images/team/mm2.jpg" alt="mm2.jpg"/>
-                            <h5 class="title">Albert Flores <small class="body-color ml15">35 mins</small></h5>
-                          </div>
-                          <p>How likely are you to recommend our company to your friends and family?</p>
-                        </li>
-                        <li class="reply first">
-                          <div class="df justify-content-end">
-                            <h5 class="title"><small class="body-color mr15">35 mins</small> You</h5>
-                            <img class="img-fluid align-self-end ms-3" src="images/team/mm3.jpg" alt="mm3.jpg"/>
-                          </div>
-                          <p>Hey there, we’re just writing to let you know that you’ve been subscribed to a repository on GitHub.</p>
-                        </li>
-                        <li class="sent">
-                          <div class="df">
-                            <img class="img-fluid align-self-start me-3" src="images/team/mm3.jpg" alt="mm3.jpg"/>
-                            <h5 class="title">Albert Flores <small class="body-color ml15">35 mins</small></h5>
-                          </div>
-                          <p>Ok, Understood!</p>
-                        </li>
-                        <li class="reply first">
-                          <div class="df justify-content-end">
-                            <h5 class="title"><small class="body-color mr15">35 mins</small> You</h5>
-                            <img class="img-fluid align-self-end ms-3" src="images/team/mm3.jpg" alt="mm3.jpg"/>
-                          </div>
-                          <p>The project finally complete! Let's go to!.</p>
-                        </li>
-                        <li class="sent">
-                          <div class="df">
-                            <img class="img-fluid align-self-start me-3" src="images/team/mm2.jpg" alt="mm2.jpg"/>
-                            <h5 class="title">Albert Flores <small class="body-color ml15">35 mins</small></h5>
-                          </div>
-                          <p>Let's go!</p>
-                        </li>
-                        <li class="sent">
-                          <div class="df">
-                            <img class="img-fluid align-self-start me-3" src="images/team/mm2.jpg" alt="mm2.jpg"/>
-                            <h5 class="title">Albert Flores <small class="body-color ml15">35 mins</small></h5>
-                          </div>
-                          <p>simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
-                        </li>
-                        <li class="sent">
-                          <div class="df">
-                            <img class="img-fluid align-self-start me-3" src="images/team/mm2.jpg" alt="mm2.jpg"/>
-                            <h5 class="title">Albert Flores <small class="body-color ml15">35 mins</small></h5>
-                          </div>
-                          <p>Hello, John!</p>
-                        </li>
-                        <li class="reply first">
-                          <div class="df justify-content-end">
-                            <h5 class="title"><small class="body-color mr15">35 mins</small> You</h5>
-                            <img class="img-fluid align-self-end ms-3" src="images/team/mm3.jpg" alt="mm3.jpg"/>
-                          </div>
-                          <p>simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
-                        </li>
-                        <li class="reply first">
-                          <div class="df justify-content-end">
-                            <h5 class="title"><small class="body-color mr15">35 mins</small> You</h5>
-                            <img class="img-fluid align-self-end ms-3" src="images/team/mm3.jpg" alt="mm3.jpg"/>
-                          </div>
-                          <p>Are we meeting today?</p>
-                        </li>
-                        <li class="reply first">
-                          <div class="df justify-content-end">
-                            <h5 class="title"><small class="body-color mr15">35 mins</small> You</h5>
-                            <img class="img-fluid align-self-end ms-3" src="images/team/mm3.jpg" alt="mm3.jpg"/>
-                          </div>
-                          <p>The project finally complete! Let's go to!</p>
-                        </li>
-                        <li class="sent">
-                          <div class="df">
-                            <img class="img-fluid align-self-start me-3" src="images/team/mm2.jpg" alt="mm2.jpg"/>
-                            <h5 class="title">Albert Flores <small class="body-color ml15">35 mins</small></h5>
-                          </div>
-                          <p>Let's go!</p>
-                        </li>
-                        <li class="sent">
-                          <div class="df">
-                            <img class="img-fluid align-self-start me-3" src="images/team/mm2.jpg" alt="mm2.jpg"/>
-                            <h5 class="title">Albert Flores <small class="body-color ml15">35 mins</small></h5>
-                          </div>
-                          <p>simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
-                        </li>
-                        <li class="reply first">
-                          <div class="df justify-content-end">
-                            <h5 class="title"><small class="body-color mr15">35 mins</small> You</h5>
-                            <img class="img-fluid align-self-end ms-3" src="images/team/mm3.jpg" alt="mm3.jpg"/>
-                          </div>
-                          <p>Are we meeting today?</p>
-                        </li>
-                        <li class="reply first">
-                          <div class="df justify-content-end">
-                            <h5 class="title"><small class="body-color mr15">35 mins</small> You</h5>
-                            <img class="img-fluid align-self-end ms-3" src="images/team/mm3.jpg" alt="mm3.jpg"/>
-                          </div>
-                          <p>The project finally complete! Let's go to!</p>
-                        </li>
-                        <li class="sent">
-                          <div class="df">
-                            <img class="img-fluid align-self-start me-3" src="images/team/mm2.jpg" alt="mm2.jpg"/>
-                            <h5 class="title">Albert Flores <small class="body-color ml15">35 mins</small></h5>
-                          </div>
-                          <p>Let's go!</p>
-                        </li>
-                        <li class="sent">
-                          <div class="df">
-                            <img class="img-fluid align-self-start me-3" src="images/team/mm2.jpg" alt="mm2.jpg"/>
-                            <h5 class="title">Albert Flores <small class="body-color ml15">35 mins</small></h5>
-                          </div>
-                          <p>simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="mi_text">
-                      <div class="message_input">
-                        <form class="row-cols-lg-auto g-3 align-items-center">
-                          <input class="form-control" type="search" placeholder="Type a Message" aria-label="Search">
-                          <button class="btn" type="submit">Send</button>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            </div>
-            </div>
-
-            <div class="col-lg-4">
-              <div class="order_sidebar_widget checkout_page mb30 mb30">
-                <h4 class="title">Your Order</h4>
-                <ul>
-
-                  <% @order.order_items.each do |order_item| %>
-
-                  <li class="subtitle"><p>Name: <span class="float-end totals"><%= order_item.product.name %></span> </p></li>
-                  <li class="subtitle"><p>Quantity <span class="float-end totals"><%= order_item.quantity %></span></p></li>
-                  <li class="subtitle"><p>Price <span class="float-end totals"><%= number_to_currency(order_item.price) %></span></p></li>
-                  <li class="subtitle"><p>Total <span class="float-end totals"><%= number_to_currency(order_item.quantity * order_item.price) %></span></p></li>
-                  <% end %>
-
-                  </ul>
-              </div>
-              <!-- Billing Details -->
-              <div class="order_sidebar_widget checkout_page mb30 mb30">
-                <h4 class="title">Delivery Details</h4>
-                <ul>
-                  <li class="subtitle"><p >Name: <span class="float-end totals"><%= @order.first_name %> <%= @order.last_name %></span> </p></li>
-                  <li class="subtitle"><p>Address:<span class="float-end totals"><%= @order.street_address %>, <%= @order.city %>, <%= @order.state %>, <%= @order.zip_code %></span></p></li>
-                  <li class="subtitle"><p>Country:<span class="float-end totals"><%= @order.country %></span></p></li>
-                  <li class="subtitle"><p>Delivery Contacts: <span class="float-end totals"><%= @order.email %> & <br> Phone:<%= @order.phone %> </span></p></li>
-
-                </ul>
-                </div>
-                <div class="order_sidebar_widget checkout_page mb30 mb30">
-                  <h4 class="title">Order Summary</h4>
-                  <ul>
-                    <li class="subtitle"><p >Subtotal: <span class="float-end totals"><%= number_to_currency(@order.total_price) %></span> </p></li>
-                    <li class="subtitle"><p>Shipping <span class="float-end totals">Communicate with your seller For shipping Details </span></p>
-                  </li>
-                    <li class="subtitle"><p>  Total:<span class="float-end totals"><%= number_to_currency(@order.total_price ) %></span></p></li>
-
-                  </ul>
-                  <div class="ui_kit_button payment_widget_btn">
-      <%= button_to 'Pay with Wallet',
-          pay_with_wallet_order_path(@order),
-          method: :post,
-          class: 'btn btn-thm btn-block mb0',
-          data: { confirm: 'Confirm payment from your wallet?' } %>
     </div>
-                </div>
+
+    <!-- ─── ESCROW TIMELINE ───────────────────────────────────────────── -->
+    <div class="row mt-5">
+      <div class="col-lg-8 m-auto">
+        <h4 class="mb-4">Escrow Progress</h4>
+        <ul class="timeline list-unstyled">
+          <li class="timeline-item completed">
+            <span class="timeline-icon bg-secondary"><i class="bi bi-file-earmark-text"></i></span>
+            <div class="timeline-content">
+              <h6>Order Created</h6>
+              <p class="text-muted"><%= @order.created_at.strftime("%d %b %Y, %I:%M %p") %></p>
             </div>
+          </li>
 
+          <li class="timeline-item <%= 'completed' if @order.paid? %>">
+            <span class="timeline-icon bg-info"><i class="bi bi-wallet2"></i></span>
+            <div class="timeline-content">
+              <h6>Payment Escrowed</h6>
+              <% if @order.paid_at %>
+                <p class="text-muted"><%= @order.paid_at.strftime("%d %b %Y, %I:%M %p") %></p>
+              <% end %>
+            </div>
+          </li>
 
-    <!-- Order Summary -->
+          <li class="timeline-item <%= 'completed' if @order.shipped? %>">
+            <span class="timeline-icon bg-warning"><i class="bi bi-truck"></i></span>
+            <div class="timeline-content">
+              <h6>Shipment Proof Uploaded</h6>
+              <% if @order.shipped_at %>
+                <p class="text-muted"><%= @order.shipped_at.strftime("%d %b %Y, %I:%M %p") %></p>
+              <% end %>
+            </div>
+          </li>
 
+          <li class="timeline-item <%= 'completed' if @order.completed? %>">
+            <span class="timeline-icon bg-success"><i class="bi bi-check-circle"></i></span>
+            <div class="timeline-content">
+              <h6>Funds Released</h6>
+              <% if @order.completed_at %>
+                <p class="text-muted"><%= @order.completed_at.strftime("%d %b %Y, %I:%M %p") %></p>
+              <% end %>
+            </div>
+          </li>
+        </ul>
       </div>
-  </section>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STYLES ─────────────────────────────────────────────────────── -->
+<style>
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+    border-left: 2px solid #dee2e6;
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+  }
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+  .timeline-icon {
+    position: absolute;
+    left: -28px;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background: #ced4da;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 18px;
+  }
+  .timeline-item.completed .timeline-icon {
+    background-color: #0d6efd;
+  }
+  .timeline-item.completed h6,
+  .timeline-item.completed p {
+    color: #0d6efd;
+  }
+</style>

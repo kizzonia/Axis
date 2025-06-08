@@ -29,56 +29,69 @@ class OrdersController < ApplicationController
     @order = Order.new
     @cart = current_user.cart
   end
-
   def create
-    @cart = current_user.cart
-   if @cart.nil? || @cart.cart_items.empty?
-     redirect_to cart_path, alert: 'Your cart is empty.' and return
-   end
-
-   if @cart.cart_items.first.product.user.nil?
-     redirect_to cart_path, alert: 'Invalid product or seller.' and return
-   end
-
-   @order = current_user.orders.build(order_params)
-   @order.status = :pending
-   @order.seller = @cart.cart_items.first.product.user # Assign the seller
-
-   if @order.save
-     @cart.cart_items.each do |cart_item|
-       @order.order_items.create(
-         product: cart_item.product,
-         quantity: cart_item.quantity,
-         price: cart_item.product.price
-       )
+     @cart  = current_user.cart
+     if @cart.nil? || @cart.cart_items.empty?
+       return redirect_to cart_path, alert: 'Your cart is empty.'
      end
-     @cart.destroy
-     redirect_to @order, notice: 'Order placed successfully.'
-   else
-     render :new
-   end
-  end
-  # def pay_with_wallet
-  #     if current_user.wallet.balance >= @order.total_amount
-  #       @order.pay_with_wallet(current_user.wallet)
-  #       redirect_to @order, notice: 'Order paid successfully with wallet balance.'
-  #     else
-  #       redirect_to @order, alert: 'Insufficient wallet balance.'
-  #     end
-  #   end
 
-  def pay_with_wallet
-  begin
-    if current_user.wallet.balance >= @order.total_amount
-      @order.pay_with_wallet(current_user.wallet)
-      redirect_to @order, notice: 'Payment successful! Funds transferred to seller.'
-    else
-      redirect_to @order, alert: 'Insufficient wallet balance.'
-    end
-  rescue => e
-    redirect_to @order, alert: "Payment failed: #{e.message}"
-  end
-end
+     seller = @cart.cart_items.first.product.user
+     @order = current_user.orders.build(order_params.merge(
+       status:      :pending,
+       seller:      seller,
+       total_amount: @cart.total_amount
+     ))
+
+     if @order.save
+       @cart.cart_items.each do |item|
+         @order.order_items.create!(
+           product:  item.product,
+           quantity: item.quantity,
+           price:    item.product.price
+         )
+       end
+       @cart.destroy
+       redirect_to @order, notice: 'Order placed successfully.'
+     else
+       render :new
+     end
+   end
+
+   # POST /orders/:id/pay_escrow
+   def pay_escrow
+     authorize_buyer!(@order)
+     if current_user.wallet.balance < @order.total_amount
+       return redirect_to @order, alert: 'Insufficient wallet balance.'
+     end
+
+     @order.hold_in_escrow!(current_user.wallet)
+     redirect_to @order, success: 'Payment held in escrow. Awaiting shipment.'
+   rescue => e
+     redirect_to @order, danger: "Payment failed: #{e.message}"
+   end
+
+   # POST /orders/:id/upload_shipment
+   def upload_shipment
+     authorize_seller!(@order)
+     unless params[:order] && params[:order][:shipment_proof]
+       return redirect_to @order, alert: 'Please attach a shipment proof file.'
+     end
+
+     @order.shipment_proof.attach(params[:order][:shipment_proof])
+     @order.mark_shipped!
+     redirect_to @order, success: 'Shipment proof uploaded.'
+   rescue => e
+     redirect_to @order, danger: "Upload failed: #{e.message}"
+   end
+
+   # POST /orders/:id/release_escrow
+   def release_escrow
+     authorize_buyer!(@order)
+     @order.release_escrow!
+     redirect_to @order, success: 'Funds released to seller.'
+   rescue => e
+     redirect_to @order, danger: "Release failed: #{e.message}"
+   end
 
   private
 

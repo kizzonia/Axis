@@ -18,8 +18,13 @@ post "transactions/initiate_pawapay", to: "transactions#initiate_pawapay"
 
   resources :cart_items, only: [:create, :destroy]
   resource :cart, only: [:show]
-resources :orders
-  resources :products
+  resources :orders do
+    post :pay_escrow,      on: :member
+    post :upload_shipment, on: :member
+    post :release_escrow,  on: :member
+  end
+
+    resources :products
   resources :categories do
     member do
         get :sub_categories
@@ -37,7 +42,7 @@ resources :wallets, only: [:show] do
   member do
     get  :deposit
     get  :withdrawal  # Withdrawal form
-    post :withdraw 
+    post :withdraw
     post :process_deposit
   end
 end
