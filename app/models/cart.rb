@@ -9,5 +9,7 @@ class Cart < ApplicationRecord
    def total_price
      cart_items.sum { |cart_item| cart_item.quantity * cart_item.product.price }
    end
-
+   def total_amount
+     cart_items.sum { |cart_item| cart_item.quantity * cart_item.product.price }
+   end
 end
