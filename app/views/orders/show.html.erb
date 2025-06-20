@@ -73,6 +73,32 @@
             </span>
           </div>
           <div class="timeline-content shadow-sm">
+                  <% if current_user == @order.seller && !@order.shipment_proof.attached? %>
+          <h5>Upload Shipment Proof</h5>
+          <%= form_with model: @order, url: upload_shipment_proof_order_path(@order), method: :patch, local: true, html: { multipart: true } do |f| %>
+            <div class="mb-3">
+              <%= f.label :shipment_proof, "Select Image" %>
+              <%= f.file_field :shipment_proof, accept: "image/*", class: "form-control" %>
+            </div>
+            <%= f.submit "Upload Proof", class: "btn btn-success" %>
+          <% end %>
+        <% end %>
+
+        </div>
+        <div class="timeline-content shadow-sm">
+
+        <% if @order.shipment_proof.attached? %>
+  <div class="shipment-proof mt-4">
+    <h5>Shipment Proof:</h5>
+    <%= image_tag @order.shipment_proof, class: "img-fluid rounded border" if @order.shipment_proof.image? %>
+
+    <% if current_user == @order.buyer && @order.shipped? %>
+      <%= button_to "Release Funds to Seller", release_escrow_order_path(@order), method: :post, class: "btn btn-primary mt-3" %>
+    <% end %>
+  </div>
+<% end %>
+        </div>
+          <div class="timeline-content shadow-sm">
             <h6 class="fw-bold">Shipment Proof Uploaded</h6>
             <% if @order.shipped_at %>
               <p class="text-muted mb-0">
