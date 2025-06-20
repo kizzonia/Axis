@@ -20,7 +20,15 @@ class Order < ApplicationRecord
     completed: 'completed',  # buyer released funds to seller
     cancelled: 'cancelled'   # refunded or voided
   }
-
+  def progress_percentage
+    case status
+    when 'pending' then 25
+    when 'paid' then 50
+    when 'shipped' then 75
+    when 'completed' then 100
+    else 0
+    end
+  end
   has_many :transactions, as: :transactionable, dependent: :destroy
 
   validates :total_amount, numericality: { greater_than: 0 }

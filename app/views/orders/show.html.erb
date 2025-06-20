@@ -12,55 +12,120 @@
 
 
 <div class="row">
-      <div class="col-lg-8 col-xl-8">
-        <!-- (Your existing chat markup goes here) -->
-        <div class="checkout_form style2">
-          <div class="row mt-5">
-            <div class=" m-auto">
-              <h4 class="mb-4">Escrow Progress</h4>
-              <ul class="timeline list-unstyled">
-                <li class="timeline-item completed">
-                  <span class="timeline-icon bg-secondary"><i class="bi bi-file-earmark-text"></i></span>
-                  <div class="timeline-content">
-                    <h6>Order Created</h6>
-                    <p class="text-muted"><%= @order.created_at.strftime("%d %b %Y, %I:%M %p") %></p>
-                  </div>
-                </li>
+  <div class="col-lg-8 col-xl-8">
+<div class="checkout_form style2">
+  <div class="row mt-5">
+    <div class="m-auto">
+      <h4 class="mb-4">Escrow Progress</h4>
 
-                <li class="timeline-item <%= 'completed' if @order.paid? %>">
-                  <span class="timeline-icon bg-info"><i class="bi bi-wallet2"></i></span>
-                  <div class="timeline-content">
-                    <h6>Payment Escrowed</h6>
-                    <% if @order.paid_at %>
-                      <p class="text-muted"><%= @order.paid_at.strftime("%d %b %Y, %I:%M %p") %></p>
-                    <% end %>
-                  </div>
-                </li>
-
-                <li class="timeline-item <%= 'completed' if @order.shipped? %>">
-                  <span class="timeline-icon bg-warning"><i class="bi bi-truck"></i></span>
-                  <div class="timeline-content">
-                    <h6>Shipment Proof Uploaded</h6>
-                    <% if @order.shipped_at %>
-                      <p class="text-muted"><%= @order.shipped_at.strftime("%d %b %Y, %I:%M %p") %></p>
-                    <% end %>
-                  </div>
-                </li>
-
-                <li class="timeline-item <%= 'completed' if @order.completed? %>">
-                  <span class="timeline-icon bg-success"><i class="bi bi-check-circle"></i></span>
-                  <div class="timeline-content">
-                    <h6>Funds Released</h6>
-                    <% if @order.completed_at %>
-                      <p class="text-muted"><%= @order.completed_at.strftime("%d %b %Y, %I:%M %p") %></p>
-                    <% end %>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
+      <!-- Enhanced Timeline -->
+      <div class="timeline-progress mb-4">
+        <div class="progress-bar" role="progressbar"
+             style="width: <%= @order.progress_percentage %>%"
+             aria-valuenow="<%= @order.progress_percentage %>"
+             aria-valuemin="0"
+             aria-valuemax="100">
         </div>
       </div>
+
+      <ul class="timeline list-unstyled">
+        <li class="timeline-item completed">
+          <div class="timeline-marker">
+            <span class="timeline-icon bg-primary">
+              <i class="fas fa-file-invoice"></i>
+            </span>
+          </div>
+          <div class="timeline-content shadow-sm">
+            <h6 class="fw-bold">Order Created</h6>
+            <p class="text-muted mb-0">
+              <i class="fas fa-clock me-1"></i>
+              <%= @order.created_at.strftime("%d %b %Y, %I:%M %p") %>
+            </p>
+          </div>
+        </li>
+
+        <li class="timeline-item <%= 'completed' if @order.paid? %>">
+          <div class="timeline-marker">
+            <span class="timeline-icon bg-info">
+              <i class="fas fa-lock"></i>
+            </span>
+          </div>
+          <div class="timeline-content shadow-sm">
+            <h6 class="fw-bold">Payment Escrowed</h6>
+            <% if @order.paid_at %>
+              <p class="text-muted mb-0">
+                <i class="fas fa-clock me-1"></i>
+                <%= @order.paid_at.strftime("%d %b %Y, %I:%M %p") %>
+              </p>
+            <% else %>
+              <div class="alert alert-warning py-1 px-2 mt-2 d-inline-block">
+                <i class="fas fa-exclamation-circle me-1"></i>
+                Awaiting payment
+              </div>
+            <% end %>
+          </div>
+        </li>
+
+        <li class="timeline-item <%= 'completed' if @order.shipped? %>">
+          <div class="timeline-marker">
+            <span class="timeline-icon bg-warning">
+              <i class="fas fa-shipping-fast"></i>
+            </span>
+          </div>
+          <div class="timeline-content shadow-sm">
+            <h6 class="fw-bold">Shipment Proof Uploaded</h6>
+            <% if @order.shipped_at %>
+              <p class="text-muted mb-0">
+                <i class="fas fa-clock me-1"></i>
+                <%= @order.shipped_at.strftime("%d %b %Y, %I:%M %p") %>
+              </p>
+              <% if @order.shipment_proof.attached? %>
+                <a href="<%= url_for(@order.shipment_proof) %>"
+                   class="btn btn-sm btn-outline-primary mt-2"
+                   target="_blank">
+                  <i class="fas fa-eye me-1"></i>View Proof
+                </a>
+              <% end %>
+            <% else %>
+              <div class="alert alert-warning py-1 px-2 mt-2 d-inline-block">
+                <i class="fas fa-exclamation-circle me-1"></i>
+                Awaiting shipment
+              </div>
+            <% end %>
+          </div>
+        </li>
+
+        <li class="timeline-item <%= 'completed' if @order.completed? %>">
+          <div class="timeline-marker">
+            <span class="timeline-icon bg-success">
+              <i class="fas fa-check-circle"></i>
+            </span>
+          </div>
+          <div class="timeline-content shadow-sm">
+            <h6 class="fw-bold">Funds Released</h6>
+            <% if @order.completed_at %>
+              <p class="text-muted mb-0">
+                <i class="fas fa-clock me-1"></i>
+                <%= @order.completed_at.strftime("%d %b %Y, %I:%M %p") %>
+              </p>
+              <div class="alert alert-success py-1 px-2 mt-2 d-inline-block">
+                <i class="fas fa-check-circle me-1"></i>
+                Transaction completed
+              </div>
+            <% else %>
+              <div class="alert alert-light py-1 px-2 mt-2 d-inline-block">
+                <i class="fas fa-ellipsis-h me-1"></i>
+                Pending release
+              </div>
+            <% end %>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
 
       <!-- ─── RIGHT: Order Sidebar & Actions ────────────────────────────── -->
       <div class="col-lg-4">
@@ -151,36 +216,77 @@
 
 <!-- ─── STYLES ─────────────────────────────────────────────────────── -->
 <style>
+  /* Timeline Styling */
   .timeline {
     position: relative;
-    padding-left: 40px;
-    border-left: 2px solid #dee2e6;
+    padding-left: 3rem;
   }
+
+  .timeline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e9ecef;
+    left: 1.5rem;
+    z-index: 0;
+  }
+
   .timeline-item {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 2.5rem;
   }
-  .timeline-item:last-child {
-    margin-bottom: 0;
-  }
-  .timeline-icon {
+
+  .timeline-marker {
     position: absolute;
-    left: -28px;
+    left: -3rem;
     top: 0;
-    width: 40px;
-    height: 40px;
-    background: #ced4da;
-    color: white;
+    z-index: 2;
+  }
+
+  .timeline-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
-    text-align: center;
-    line-height: 40px;
-    font-size: 18px;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 0 0 5px white;
   }
+
+  .timeline-content {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    position: relative;
+    border-left: 3px solid #0d6efd;
+    transition: transform 0.3s ease;
+  }
+
+  .timeline-item:hover .timeline-content {
+    transform: translateX(5px);
+  }
+
+  /* Progress bar styling */
+  .timeline-progress {
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #0d6efd, #00c9a7);
+    transition: width 0.5s ease;
+  }
+
+  /* Status colors */
   .timeline-item.completed .timeline-icon {
-    background-color: #0d6efd;
-  }
-  .timeline-item.completed h6,
-  .timeline-item.completed p {
-    color: #0d6efd;
+    box-shadow: 0 0 0 5px white, 0 0 0 8px rgba(13, 110, 253, 0.2);
   }
 </style>
