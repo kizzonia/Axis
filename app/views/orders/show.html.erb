@@ -13,145 +13,189 @@
 
 <div class="row">
   <div class="col-lg-8 col-xl-8">
-<div class="checkout_form style2">
-  <div class="row mt-5">
-    <div class="m-auto">
-      <h4 class="mb-4">Escrow Progress</h4>
+    <div class="checkout_form style2">
+      <div class="row mt-5">
+        <div class="m-auto">
+          <!-- Timeline Header -->
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <h4 class="mb-0">Escrow Progress</h4>
+            <span class="badge bg-warning text-dark py-2 px-3">
+              <i class="fas fa-lock me-1"></i>Payment Holding
+            </span>
+          </div>
 
-      <!-- Enhanced Timeline -->
-      <div class="timeline-progress mb-4">
-        <div class="progress-bar" role="progressbar"
-             style="width: <%= @order.progress_percentage %>%"
-             aria-valuenow="<%= @order.progress_percentage %>"
-             aria-valuemin="0"
-             aria-valuemax="100">
+          <!-- Progress Bar -->
+          <div class="timeline-progress mb-4">
+            <div class="progress-bar" role="progressbar"
+                 style="width: <%= @order.progress_percentage %>%"
+                 aria-valuenow="<%= @order.progress_percentage %>"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+            </div>
+          </div>
+
+          <ul class="timeline list-unstyled">
+            <!-- Order Created -->
+            <li class="timeline-item completed">
+              <div class="timeline-marker">
+                <span class="timeline-icon bg-primary">
+                  <i class="fas fa-file-invoice"></i>
+                </span>
+              </div>
+              <div class="timeline-content shadow-sm">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h6 class="fw-bold">Order Created</h6>
+                    <p class="text-muted mb-0">
+                      <i class="fas fa-clock me-1"></i>
+                      <%= @order.created_at.strftime("%d %b %Y, %I:%M %p") %>
+                    </p>
+                  </div>
+                  <span class="badge bg-success">Completed</span>
+                </div>
+              </div>
+            </li>
+
+            <!-- Payment Escrowed -->
+            <li class="timeline-item <%= 'completed' if @order.paid? %>">
+              <div class="timeline-marker">
+                <span class="timeline-icon bg-info">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </div>
+              <div class="timeline-content shadow-sm">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h6 class="fw-bold">Payment Escrowed</h6>
+                    <% if @order.paid_at %>
+                      <p class="text-muted mb-0">
+                        <i class="fas fa-clock me-1"></i>
+                        <%= @order.paid_at.strftime("%d %b %Y, %I:%M %p") %>
+                      </p>
+                    <% else %>
+                      <div class="alert alert-warning py-2 px-3 mt-2">
+                        <i class="fas fa-exclamation-circle me-1"></i>
+                        Awaiting payment
+                      </div>
+                    <% end %>
+                  </div>
+                  <% if @order.paid? %>
+                    <span class="badge bg-success">Completed</span>
+                  <% end %>
+                </div>
+              </div>
+            </li>
+
+            <!-- Shipment Proof Uploaded -->
+            <li class="timeline-item <%= 'completed' if @order.shipped? %>">
+              <div class="timeline-marker">
+                <span class="timeline-icon bg-warning">
+                  <i class="fas fa-shipping-fast"></i>
+                </span>
+              </div>
+              <div class="timeline-content shadow-sm">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h6 class="fw-bold">Shipment Proof Uploaded</h6>
+                    <% if @order.shipped_at %>
+                      <p class="text-muted mb-0">
+                        <i class="fas fa-clock me-1"></i>
+                        <%= @order.shipped_at.strftime("%d %b %Y, %I:%M %p") %>
+                      </p>
+                    <% else %>
+                      <div class="alert alert-warning py-2 px-3 mt-2">
+                        <i class="fas fa-exclamation-circle me-1"></i>
+                        Awaiting shipment
+                      </div>
+                    <% end %>
+                  </div>
+                  <% if @order.shipped? %>
+                    <span class="badge bg-success">Completed</span>
+                  <% end %>
+                </div>
+
+                <!-- Shipment Proof Actions -->
+                <div class="mt-3">
+                  <% if @order.shipment_proof.attached? %>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <a href="<%= url_for(@order.shipment_proof) %>"
+                         class="btn btn-sm btn-outline-primary"
+                         target="_blank">
+                        <i class="fas fa-eye me-1"></i>View Proof
+                      </a>
+
+                      <% if current_user == @order.buyer && @order.shipped? %>
+                        <%= button_to "Release Funds to Seller",
+                             release_escrow_order_path(@order),
+                             method: :post,
+                             class: "btn btn-sm btn-primary" %>
+                      <% end %>
+                    </div>
+                  <% end %>
+
+                  <!-- Upload Form -->
+                  <% if current_user == @order.seller && !@order.shipment_proof.attached? %>
+                    <div class="upload-container mt-3 p-3 border rounded">
+                      <h5 class="d-flex align-items-center">
+                        <i class="fas fa-cloud-upload-alt me-2 text-warning"></i>
+                        Upload Shipment Proof
+                      </h5>
+                      <%= form_with model: @order,
+                                    url: upload_shipment_order_path(@order),
+                                    method: :patch,
+                                    local: true,
+                                    html: { multipart: true, class: "mt-2" } do |f| %>
+                        <div class="mb-3">
+                          <%= f.label :shipment_proof, "Select an image of your shipment receipt", class: "form-label small text-muted" %>
+                          <%= f.file_field :shipment_proof, accept: "image/*", class: "form-control" %>
+                        </div>
+                        <%= f.submit "Upload Proof", class: "btn btn-warning w-100" %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </li>
+
+            <!-- Funds Released -->
+            <li class="timeline-item <%= 'completed' if @order.completed? %>">
+              <div class="timeline-marker">
+                <span class="timeline-icon bg-success">
+                  <i class="fas fa-check-circle"></i>
+                </span>
+              </div>
+              <div class="timeline-content shadow-sm">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h6 class="fw-bold">Funds Released</h6>
+                    <% if @order.completed_at %>
+                      <p class="text-muted mb-0">
+                        <i class="fas fa-clock me-1"></i>
+                        <%= @order.completed_at.strftime("%d %b %Y, %I:%M %p") %>
+                      </p>
+                      <div class="alert alert-success py-2 px-3 mt-2">
+                        <i class="fas fa-check-circle me-1"></i>
+                        Transaction completed
+                      </div>
+                    <% else %>
+                      <div class="alert alert-light py-2 px-3 mt-2">
+                        <i class="fas fa-ellipsis-h me-1"></i>
+                        Pending release
+                      </div>
+                    <% end %>
+                  </div>
+                  <% if @order.completed? %>
+                    <span class="badge bg-success">Completed</span>
+                  <% end %>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
-
-      <ul class="timeline list-unstyled">
-        <li class="timeline-item completed">
-          <div class="timeline-marker">
-            <span class="timeline-icon bg-primary">
-              <i class="fas fa-file-invoice"></i>
-            </span>
-          </div>
-          <div class="timeline-content shadow-sm">
-            <h6 class="fw-bold">Order Created</h6>
-            <p class="text-muted mb-0">
-              <i class="fas fa-clock me-1"></i>
-              <%= @order.created_at.strftime("%d %b %Y, %I:%M %p") %>
-            </p>
-          </div>
-        </li>
-
-        <li class="timeline-item <%= 'completed' if @order.paid? %>">
-          <div class="timeline-marker">
-            <span class="timeline-icon bg-info">
-              <i class="fas fa-lock"></i>
-            </span>
-          </div>
-          <div class="timeline-content shadow-sm">
-            <h6 class="fw-bold">Payment Escrowed</h6>
-            <% if @order.paid_at %>
-              <p class="text-muted mb-0">
-                <i class="fas fa-clock me-1"></i>
-                <%= @order.paid_at.strftime("%d %b %Y, %I:%M %p") %>
-              </p>
-            <% else %>
-              <div class="alert alert-warning py-1 px-2 mt-2 d-inline-block">
-                <i class="fas fa-exclamation-circle me-1"></i>
-                Awaiting payment
-              </div>
-            <% end %>
-          </div>
-        </li>
-
-        <li class="timeline-item <%= 'completed' if @order.shipped? %>">
-          <div class="timeline-marker">
-            <span class="timeline-icon bg-warning">
-              <i class="fas fa-shipping-fast"></i>
-            </span>
-          </div>
-          <div class="timeline-content shadow-sm">
-                  <% if current_user == @order.seller && !@order.shipment_proof.attached? %>
-          <h5>Upload Shipment Proof</h5>
-          <%= form_with model: @order, url: upload_shipment_order_path(@order), method: :patch, local: true, html: { multipart: true } do |f| %>
-            <div class="mb-3">
-              <%= f.label :shipment_proof, "Select Image" %>
-              <%= f.file_field :shipment_proof, accept: "image/*", class: "form-control" %>
-            </div>
-            <%= f.submit "Upload Proof", class: "btn btn-success" %>
-          <% end %>
-        <% end %>
-
-        </div>
-
-          <div class="timeline-content shadow-sm">
-            <h6 class="fw-bold">Shipment Proof Uploaded</h6>
-            <% if @order.shipped_at %>
-              <p class="text-muted mb-0">
-                <i class="fas fa-clock me-1"></i>
-                <%= @order.shipped_at.strftime("%d %b %Y, %I:%M %p") %>
-              </p>
-              <% if @order.shipment_proof.attached? %>
-                <a href="<%= url_for(@order.shipment_proof) %>"
-                   class="btn btn-sm btn-outline-primary mt-2"
-                   target="_blank">
-                  <i class="fas fa-eye me-1"></i>View Proof
-                </a>
-              <% end %>
-            <% else %>
-              <div class="alert alert-warning py-1 px-2 mt-2 d-inline-block">
-                <i class="fas fa-exclamation-circle me-1"></i>
-                Awaiting shipment
-              </div>
-            <% end %>
-          </div>
-          <div class="timeline-content shadow-sm">
-
-          <% if @order.shipment_proof.attached? %>
-    <div class="shipment-proof mt-4">
-      <h5>Shipment Proof:</h5>
-      <%= image_tag @order.shipment_proof, class: "img-fluid rounded border" if @order.shipment_proof.image? %>
-
-      <% if current_user == @order.buyer && @order.shipped? %>
-        <%= button_to "Release Funds to Seller", release_escrow_order_path(@order), method: :post, class: "btn btn-primary mt-3" %>
-      <% end %>
-    </div>
-  <% end %>
-          </div>
-        </li>
-
-        <li class="timeline-item <%= 'completed' if @order.completed? %>">
-          <div class="timeline-marker">
-            <span class="timeline-icon bg-success">
-              <i class="fas fa-check-circle"></i>
-            </span>
-          </div>
-          <div class="timeline-content shadow-sm">
-            <h6 class="fw-bold">Funds Released</h6>
-            <% if @order.completed_at %>
-              <p class="text-muted mb-0">
-                <i class="fas fa-clock me-1"></i>
-                <%= @order.completed_at.strftime("%d %b %Y, %I:%M %p") %>
-              </p>
-              <div class="alert alert-success py-1 px-2 mt-2 d-inline-block">
-                <i class="fas fa-check-circle me-1"></i>
-                Transaction completed
-              </div>
-            <% else %>
-              <div class="alert alert-light py-1 px-2 mt-2 d-inline-block">
-                <i class="fas fa-ellipsis-h me-1"></i>
-                Pending release
-              </div>
-            <% end %>
-          </div>
-        </li>
-      </ul>
     </div>
   </div>
-</div>
-</div>
+
 
 
       <!-- ─── RIGHT: Order Sidebar & Actions ────────────────────────────── -->
@@ -242,6 +286,7 @@
 </section>
 
 <!-- ─── STYLES ─────────────────────────────────────────────────────── -->
+
 <style>
   /* Timeline Styling */
   .timeline {
@@ -254,10 +299,10 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 2px;
-    background: #e9ecef;
+    width: 3px;
+    background: linear-gradient(to bottom, #4361ee, #e9ecef);
     left: 1.5rem;
-    z-index: 0;
+    z-index: 1;
   }
 
   .timeline-item {
@@ -282,19 +327,27 @@
     color: white;
     font-size: 1.2rem;
     box-shadow: 0 0 0 5px white;
+    transition: all 0.3s ease;
+  }
+
+  .timeline-item:hover .timeline-icon {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 5px white, 0 0 0 8px rgba(67, 97, 238, 0.2);
   }
 
   .timeline-content {
     background: white;
-    border-radius: 0.5rem;
-    padding: 1.25rem;
+    border-radius: 12px;
+    padding: 1.5rem;
     position: relative;
-    border-left: 3px solid #0d6efd;
-    transition: transform 0.3s ease;
+    border-left: 3px solid #4361ee;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
   }
 
   .timeline-item:hover .timeline-content {
     transform: translateX(5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   }
 
   /* Progress bar styling */
@@ -308,12 +361,46 @@
 
   .progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, #0d6efd, #00c9a7);
+    background: linear-gradient(90deg, #4361ee, #4cc9f0);
     transition: width 0.5s ease;
   }
 
-  /* Status colors */
-  .timeline-item.completed .timeline-icon {
-    box-shadow: 0 0 0 5px white, 0 0 0 8px rgba(13, 110, 253, 0.2);
+  /* Status badges */
+  .badge {
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+  }
+
+  /* Upload container */
+  .upload-container {
+    background: #f8f9ff;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .timeline {
+      padding-left: 2rem;
+    }
+
+    .timeline-marker {
+      left: -2rem;
+    }
+
+    .timeline:before {
+      left: 1rem;
+    }
+
+    .d-flex.justify-content-between.align-items-start {
+      flex-direction: column;
+    }
+
+    .badge {
+      margin-top: 10px;
+      align-self: flex-start;
+    }
   }
 </style>
